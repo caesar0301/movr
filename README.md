@@ -1,6 +1,6 @@
-# rmov
+# movr
 
-Visualizing human mobility data [(t, x, y)], from both spatio-temporal and graph perspectives.
+Human MObility data Visualization in R, from both spatio-temporal and graph perspectives.
 
 **Still under development**
 
@@ -9,12 +9,12 @@ Visualizing human mobility data [(t, x, y)], from both spatio-temporal and graph
 
     > install.packages("devtools")
     > library(devtools)
-    > install_github("caesar0301/rmov")
+    > install_github("caesar0301/movr")
 
 
 ## Bug Report
 
-* https://github.com/caesar0301/rmov/issues
+* https://github.com/caesar0301/movr/issues
 
 ## Author
 
