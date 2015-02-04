@@ -1,12 +1,12 @@
-
 Package: movr
 Type: Package
-Title: Visualizing human mobility data in R
+Title: Inspecting and visualizing human mobility
 Version: 0.1.0
 Date: 2015-01-01
 Author: Xiaming Chen <chenxm35@gmail.com>
 Maintainer: Xiaming Chen <chenxm35@gmail.com>
-Description: Human MObility data Visualization in R, from both spatiotemporal and graph perspectives.
+Description: Human MObility data Visualization in R, from both spatiotemporal
+and graphic perspectives.
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
 Depends: R (>= 3.0.0)
