@@ -7,9 +7,9 @@
 gcd(p1, p2, type = "slc")
 }
 \arguments{
-\item{p1}{Location of point 1 with (longitude, latitude) coordinates.}
+\item{p1}{Location of point 1 with (lat, long) coordinates.}
 
-\item{p2}{Location of point 2 with (longitude, latitude) coordinates.}
+\item{p2}{Location of point 2 with (lat, long) coordinates.}
 
 \item{type}{Specific algorithm to use, c('slc', 'hf', 'vif').}
 }
@@ -23,12 +23,16 @@ the Haversine formula (hf), or the Vincenty inverse formula for
 ellipsoids (vif).
 }
 \examples{
-# Point in (long, lat) format
-p1 <- c(120.0, 30.0)
-p2 <- c(120.5, 30.5)
+# Point in (lat, long) format
+p1 <- c(30.0, 120.0)
+p2 <- c(30.5, 120.5)
 
 gcd(p1, p2)
 gcd(p1, p2, type="hf")
 gcd(p1, p2, type="vif")
+}
+\references{
+\url{
+http://www.r-bloggers.com/great-circle-distance-calculations-in-r/}
 }
 

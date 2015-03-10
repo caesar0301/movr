@@ -8,31 +8,33 @@
 #' the Haversine formula (hf), or the Vincenty inverse formula for
 #' ellipsoids (vif).
 #' 
-#' @param p1 Location of point 1 with (longitude, latitude) coordinates.
-#' @param p2 Location of point 2 with (longitude, latitude) coordinates.
+#' @param p1 Location of point 1 with (lat, long) coordinates.
+#' @param p2 Location of point 2 with (lat, long) coordinates.
 #' @param type Specific algorithm to use, c('slc', 'hf', 'vif').
 #' @return Distance in kilometers (km).
+#' @references \url{
+#' http://www.r-bloggers.com/great-circle-distance-calculations-in-r/}
 #' @export
 #' @examples
-#' # Point in (long, lat) format
-#' p1 <- c(120.0, 30.0)
-#' p2 <- c(120.5, 30.5)
+#' # Point in (lat, long) format
+#' p1 <- c(30.0, 120.0)
+#' p2 <- c(30.5, 120.5)
 #' 
 #' gcd(p1, p2)
 #' gcd(p1, p2, type="hf")
 #' gcd(p1, p2, type="vif")
 gcd <- function(p1, p2, type="slc") {
-  lon1 = deg2rad(p1[1])
-  lat1 = deg2rad(p1[2])
-  lon2 = deg2rad(p2[1])
-  lat2 = deg2rad(p2[2])
+  lat1 = deg2rad(p1[1])
+  lon1 = deg2rad(p1[2])
+  lat2 = deg2rad(p2[1])
+  lon2 = deg2rad(p2[2])
   
   if (type == "slc") {
-    return(gcd.slc(lon1, lat1, lon2, lat2))
+    return(gcd.slc(lat1, lon1, lat2, lon2))
   } else if (type == "hf") {
-    return(gcd.hf(lon1, lat1, lon2, lat2))
+    return(gcd.hf(lat1, lon1, lat2, lon2))
   } else if (type == "vif") {
-    return(gcd.vif(lon1, lat1, lon2, lat2))
+    return(gcd.vif(lat1, lon1, lat2, lon2))
   } else {
     stop("Unknown type argument: supporting one of 'slc', 'hf', 'vif'.")
   }
@@ -40,7 +42,7 @@ gcd <- function(p1, p2, type="slc") {
 
 # Calculates the geodesic distance between two points specified by radian
 # latitude/longitude using the Spherical Law of Cosines (slc).
-gcd.slc <- function(long1, lat1, long2, lat2) {
+gcd.slc <- function(lat1, long1, lat2, long2) {
   # Earth mean radius [km]
   R <- 6371
   t <- acos(sin(lat1)*sin(lat2)
@@ -50,7 +52,7 @@ gcd.slc <- function(long1, lat1, long2, lat2) {
 
 # Calculates the geodesic distance between two points specified by radian
 # latitude/longitude using the Haversine formula (hf).
-gcd.hf <- function(long1, lat1, long2, lat2) {
+gcd.hf <- function(lat1, long1, lat2, long2) {
   # Earth mean radius [km]
   R <- 6371
   delta.long <- (long2 - long1)
@@ -62,7 +64,7 @@ gcd.hf <- function(long1, lat1, long2, lat2) {
 
 # Calculates the geodesic distance between two points specified by radian
 # latitude/longitude using Vincenty inverse formula for ellipsoids (vif).
-gcd.vif <- function(long1, lat1, long2, lat2) {
+gcd.vif <- function(lat1, long1, lat2, long2) {
   # WGS-84 ellipsoid parameters:
   # length of major axis of the ellipsoid (radius at equator)
   a <- 6378137

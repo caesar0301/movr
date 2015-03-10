@@ -29,4 +29,7 @@ midpoint(lat, lon)
 w <- c(1, 2, 1)
 midpoint(lat, lon, w)
 }
+\references{
+\url{http://www.geomidpoint.com/calculation.html}
+}
 

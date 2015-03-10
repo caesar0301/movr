@@ -1,6 +1,3 @@
-# Calculate geographic midpoint.
-# Ref: http://www.geomidpoint.com/calculation.html
-
 #' Geographic midpoint calculation
 #' 
 #' Calculate the midpoint given a list of locations denoted by
@@ -10,6 +7,7 @@
 #' @param w The weighted value for each point
 #' @return The geographic midpoint in lat/lon
 #' @export
+#' @references \url{http://www.geomidpoint.com/calculation.html}
 #' @examples
 #' lat <- c(30.2, 30, 30.5)
 #' lon <- c(120, 120.4, 120.5)
@@ -21,11 +19,11 @@
 #' w <- c(1, 2, 1)
 #' midpoint(lat, lon, w)
 midpoint <- function(lat, lon, w=rep(1, length(lat))) {
-  if (length(lat) != length(lon) || length(lat) != length(weight)) {
+  if (length(lat) != length(lon) || length(lat) != length(w)) {
     stop("The lat, lon and weight vectors should be the same length")
   }
   
-  df <- data.frame(lat=deg2rad(lat), lon=deg2rad(lon), w=weight)
+  df <- data.frame(lat=deg2rad(lat), lon=deg2rad(lon), w=w)
   
   # convert geographic to cartesian points
   df$x <- cos(df$lat) * cos(df$lon)
