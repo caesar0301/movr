@@ -5,5 +5,4 @@
 #'
 #' @name movr
 #' @docType package
-#' @import dplyr OpenStreetMap rgl
 NULL

@@ -27,8 +27,13 @@
 #' region.lon2 <- max(u1$lon) + 0.005
 #' 
 #' rgl.clear()
+#' rgl.clear("lights")
+#' rgl.bg(color="lightgray")
+#' rgl.viewpoint(theta=30, phi=45)
+#' rgl.light(theta = 45, phi = 45, viewpoint.rel=TRUE)
+#' 
 #' map3d(c(region.lat2, region.lon1), c(region.lat1, region.lon2),
-#'       min(u1$time), 12, "esri")
+#'       min(u1$time), 10, "esri")
 #' 
 #' axes3d(edges = "bbox", labels = TRUE, tick = TRUE, nticks = 5, box=FALSE,
 #'        expand = 1.03, col="black", lwd=0.8)
