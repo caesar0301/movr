@@ -25,7 +25,7 @@ of map tiles is greater than or equal to this number.}
 \item{mergeTiles}{should map tiles be merged into one tile}
 }
 \description{
-This method add a 3D map surface to RGL plot. The backend map service is
+This method add a 3D map surface to the RGL plot. The backend map service is
 supported by OpenStreetMap package. All parameters except for h are
 consistent with the 'openmap' function in OSM.
 }

@@ -10,7 +10,5 @@ Description: Human MObility data Visualization in R, from both spatiotemporal
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
 Depends: R (>= 3.0.0)
-Imports: dplyr,
-  OpenStreetMap,
-  rgl
+Imports: dplyr,OpenStreetMap,rgl
 License: Apache v2
