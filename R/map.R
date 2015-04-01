@@ -4,18 +4,13 @@
 #' supported by OpenStreetMap package. All parameters except for h are
 #' consistent with the 'openmap' function in OSM.
 #' 
-#' @usage map3d(upperLeft, lowerRight, h = 0, zoom = NULL,
-#' type = c("osm", "osm-bw", "maptoolkit-topo", "waze", "mapquest", "mapquest-aerial", "bing", "stamen-toner", "stamen-terrain", "stamen-watercolor", "osm-german", "osm-wanderreitkarte", "mapbox", "esri", "esri-topo", "nps", "apple-iphoto", "skobbler", "cloudmade-<id>", "hillshade", "opencyclemap", "osm-transport", "osm-public-transport", "osm-bbike", "osm-bbike-german"),
-#' minNumTiles = 9L, mergeTiles = TRUE)
+#' @usage map3d(upperLeft, lowerRight, h = 0, ...)
 #' @param upperLeft the upper left lat and long
 #' @param lowerRight the lower right lat and long
 #' @param h the horizontal plane to locate the map surface
-#' @param zoom the zoom level. If null, it is determined automatically
-#' @param type the tile server from which to get the map
-#' @param minNumTiles If zoom is null, zoom will be chosen such that the number
-#'     of map tiles is greater than or equal to this number.
-#' @param mergeTiles should map tiles be merged into one tile
+#' @param ... all other parameters of \code{\link[OpenStreetMap]{openmap}}
 #' @export
+#' @seealso \code{\link[OpenStreetMap]{openmap}}
 #' @examples
 #' data(movement)
 #' u1 <- subset(movement, id==3)
@@ -26,20 +21,20 @@
 #' region.lon1 <- min(u1$lon) - 0.005
 #' region.lon2 <- max(u1$lon) + 0.005
 #' 
+#' \dontrun{
 #' rgl.clear()
 #' rgl.clear("lights")
 #' rgl.bg(color="lightgray")
 #' rgl.viewpoint(theta=30, phi=45)
 #' rgl.light(theta = 45, phi = 45, viewpoint.rel=TRUE)
-#' 
 #' map3d(c(region.lat2, region.lon1), c(region.lat1, region.lon2),
 #'       min(u1$time), 10, "esri")
 #' 
 #' axes3d(edges = "bbox", labels = TRUE, tick = TRUE, nticks = 5, box=FALSE,
 #'        expand = 1.03, col="black", lwd=0.8)
-map3d <- function(upperLeft, lowerRight, h=0, zoom = NULL, type="osm",
-                  minNumTiles = 9L, mergeTiles = TRUE) {
-  map <- openmap(upperLeft, lowerRight, zoom, type, minNumTiles, mergeTiles)
+#' }
+map3d <- function(upperLeft, lowerRight, h=0, ...) {
+  map <- openmap(upperLeft, lowerRight, ...)
   map <- openproj(map)
   
   if(length(map$tiles)!=1){
