@@ -1,6 +1,5 @@
 # History files
 .Rhistory
-.Rbuildignore
 .RData
 
 # Example code in package build process
