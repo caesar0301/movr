@@ -33,7 +33,7 @@ compress_mov <- function(x, y=NULL, t=NULL) {
 
 # calculate edge stat of flowmap
 # TODO: this can be optimized with C implementation
-.edge.stat <- function(loc, stime, etime, gap) {
+.edge_stat <- function(loc, stime, etime, gap) {
   stopifnot(length(loc) == length(stime) &&
               length(loc) == length(etime))
   df <- data.frame(loc=loc, stime=stime, etime=etime)
@@ -80,7 +80,7 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
   # calculate the edge stat
   fmap <- compressed %>%
     group_by(uid) %>%
-    dplyr::do( .edge.stat(.$loc, .$stime, .$etime, gap)) %>%
+    dplyr::do( .edge_stat(.$loc, .$stime, .$etime, gap)) %>%
     group_by(edge) %>%
     dplyr::summarise(
       total = sum(Freq),
