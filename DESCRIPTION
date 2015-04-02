@@ -9,7 +9,7 @@ Description: Human MObility data Visualization in R, from both spatiotemporal
         and graphic perspectives.
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
-Depends: R (>= 3.0.0), OpenStreetMap, rgl, dplyr, tidyr
-Suggests: ggplot2, knitr
+Depends: R (>= 3.0.0), dplyr, tidyr
+Suggests: ggplot2, knitr, OpenStreetMap, rgl
 License: Apache v2
 VignetteBuilder: knitr
