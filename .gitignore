@@ -1,5 +1,4 @@
 # building
-Makefile
 _builds
 _install
 src/*.so
