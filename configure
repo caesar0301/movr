@@ -1,0 +1,19 @@
+set -x
+set -e
+
+which cmake
+
+rm -rf _builds
+
+cmake -H. -B_builds -Wno-dev \
+    -DCMAKE_VERBOSE_MAKEFILE=OFF \
+    -DCMAKE_INSTALL_PREFIX=_install
+
+cmake --build _builds --target install
+
+if [ "$(uname)" = "Darwin" ]; then
+  cp _install/lib/libmovr.dylib src/libmovr.dylib || echo "Failed: libmovr.dylib -> src"
+elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
+  cp _install/lib/libmovr.so src/libmovr.so || echo "Failed: libmovr.so -> src"
+  cp _install/lib/libmovr.so src/movr.so # for the use of run_example()
+fi

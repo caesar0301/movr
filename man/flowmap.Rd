@@ -25,6 +25,6 @@ statistics between two locations 'from' and 'to'.
 \examples{
 data(movement)
 
-with(movement[1:2000, ], flowmap(id, loc, time))
+with(movement, flowmap(id, loc, time))
 }
 

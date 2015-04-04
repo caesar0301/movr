@@ -32,27 +32,16 @@ compress_mov <- function(x, y=NULL, t=NULL) {
 }
 
 # calculate edge stat of flowmap
-# TODO: this can be optimized with C implementation
 .edge_stat <- function(loc, stime, etime, gap) {
-  stopifnot(length(loc) == length(stime) &&
-              length(loc) == length(etime))
-  df <- data.frame(loc=loc, stime=stime, etime=etime)
-  edge <- c()
+  stopifnot(length(loc) == length(stime) && length(loc) == length(etime))
+  stopifnot(is.numeric(stime))
+  stopifnot(is.numeric(etime))
   
-  i = 2
-  rlen = nrow(df)
-  last_record = df[i-1, ]
-  while ( i <= rlen) {
-    current_record = df[i, ]
-    # add a new edge when temporal contraint is met
-    if (current_record[2] - last_record[3] <= gap) {
-      edge = c(edge, sprintf("%s->%s", last_record[1], current_record[1]))
-    }
-    last_record = current_record
-    i = i + 1
-  }
-  
-  as.data.frame(table(edge))
+  loc = as.character(loc)
+  fstat = .Call("_flow_stat", loc, stime, etime, gap)
+  df = as.data.frame(fstat)
+  colnames(df) = c("edge", "Freq")
+  df
 }
 
 #' Generate flowmap from movement data
@@ -69,7 +58,7 @@ compress_mov <- function(x, y=NULL, t=NULL) {
 #' @examples
 #' data(movement)
 #' 
-#' with(movement[1:2000, ], flowmap(id, loc, time))
+#' with(movement, flowmap(id, loc, time))
 flowmap <- function(uid, loc, time, gap=8*3600) {
   
   # remove duplicated info in user movement hisotry
@@ -86,6 +75,6 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
       total = sum(Freq),
       unique = length(unique(uid))) %>%
     separate(edge, c("from", "to"), sep="->")
-  
+
   fmap
 }
