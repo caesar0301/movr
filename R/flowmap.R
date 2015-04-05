@@ -31,8 +31,10 @@ compress_mov <- function(x, y=NULL, t=NULL) {
   compressed
 }
 
-# calculate edge stat of flowmap
-.edge_stat <- function(loc, stime, etime, gap) {
+#' Calculate flow stat between locations
+#' 
+#' @export
+flowmap_stat <- function(loc, stime, etime, gap=8*3600) {
   stopifnot(length(loc) == length(stime) && length(loc) == length(etime))
   stopifnot(is.numeric(stime))
   stopifnot(is.numeric(etime))
@@ -40,7 +42,7 @@ compress_mov <- function(x, y=NULL, t=NULL) {
   loc = as.character(loc)
   fstat = .Call("_flow_stat", loc, stime, etime, gap)
   df = as.data.frame(fstat)
-  colnames(df) = c("edge", "Freq")
+  colnames(df) = c("edge", "freq")
   df
 }
 
@@ -50,11 +52,12 @@ compress_mov <- function(x, y=NULL, t=NULL) {
 #' statistics between two locations 'from' and 'to'.
 #' 
 #' @param uid a vector to record user identities
-#' @param loc 1D vector to record locations of movement history
+#' @param loc a 1D vector to record locations of movement history
 #' @param time the timestamp (SECONDS) vector of movement history
 #' @param gap the maximum dwelling time to consider a valid move between locations.
 #' @return a data frame with four columns: from, to, total, unique (users)
 #' @export
+#' @seealso \code{\link{flowmap2}}
 #' @examples
 #' data(movement)
 #' 
@@ -66,15 +69,33 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
     group_by(uid) %>%
     dplyr::do(compress_mov(x=.$loc, t=.$time))
   
-  # calculate the edge stat
+  with(compressed, flowmap2(uid, loc, stime, etime, gap))
+}
+
+#' Generate flowmap from movement data
+#' 
+#' Use historical movement data to generate flowmap, which records mobility
+#' statistics between two locations 'from' and 'to'.
+#' 
+#' Different from \code{flowmap}, compressed movement history is used to
+#' generate flow statistics.
+#'
+#' @param uid a vector to record user identities
+#' @param loc a 1D vector to record locations of movement history
+#' @param stime,etime compressed session time at each location
+#' @param gap the maximum dwelling time to consider a valid move between locations
+#' @return a data frame with four columns: from, to, total, unique (users)
+#' @export
+#' @seealso \code{\link{flowmap}}
+flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
+  compressed <- data.frame(uid=uid, loc=loc, stime=stime, etime=etime)
   fmap <- compressed %>%
     group_by(uid) %>%
-    dplyr::do( .edge_stat(.$loc, .$stime, .$etime, gap)) %>%
+    dplyr::do( flowmap_stat(.$loc, .$stime, .$etime, gap)) %>%
     group_by(edge) %>%
     dplyr::summarise(
-      total = sum(Freq),
+      total = sum(freq),
       unique = length(unique(uid))) %>%
     separate(edge, c("from", "to"), sep="->")
-
   fmap
 }

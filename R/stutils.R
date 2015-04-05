@@ -23,3 +23,32 @@ euc_dist <- function(x1, x2) sqrt(sum((x1 - x2) ^ 2))
 .pseudo_movement <- function() {
   data.frame(x=rep(1:10, 5), y=rep_each(1:10, 5), t=1:50)
 }
+
+#' Melt time into parts
+#' 
+#' @param epoch the UNIX epoch timestamp in seconds
+#' @param tz the time zone string
+#' @return several fields (indexed by order) of given timestamp:
+#'  year, month, day, hour, minute, second,
+#'  day of week (dow),
+#'  day of year (doy),
+#'  week of month (wom),
+#'  week of year (woy),
+#'  quarter of year (qoy)
+#' @export
+melt_time <- function(epoch, tz='Asia/Shanghai') {
+  pt <- as.POSIXct(epoch, origin="1970-01-01", tz=tz)
+  year = format(pt, "%Y")
+  month = format(pt, "%m")
+  day = format(pt, "%d")
+  hour = format(pt, "%H")
+  minute = format(pt, "%m")
+  second = format(pt, "%S")
+  dow = format(pt, "%a")
+  doy = format(pt, "%j")
+  wom = ceiling(as.numeric(day) / 7)
+  woy = format(pt, "%V")
+  qoy = quarters(pt, abbr=T)
+  list(year=year, month=month, day=day, hour=hour, minute=minute, second=second,
+       dow=dow, doy=doy, wom=wom, woy=woy, qoy=qoy)
+}
