@@ -12,7 +12,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 
 # source files of this project
-set(movr_SRCS src/flowmap.c)
+set(movr_SRCS
+  src/flowmap.c
+
+  src/order.c
+  src/order.h
+)
 set(SOURCES ${movr_SRCS})
 
 # find external libraries

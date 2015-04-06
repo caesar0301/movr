@@ -4,7 +4,7 @@
 \alias{compress_mov}
 \title{Compress movement history}
 \usage{
-compress_mov(x, y = NULL, t = NULL)
+compress_mov(x, y = NULL, t = NULL, gap = 6 * 3600)
 }
 \arguments{
 \item{x,y,t}{see params of \code{\link{stcoords}}}

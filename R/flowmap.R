@@ -14,19 +14,14 @@
 #' compress_mov(user_move[,c("loc", "time")])
 #' ## 2D location
 #' compress_mov(user_move[,c("lat", "lon", "time")])
-compress_mov <- function(x, y=NULL, t=NULL) {
+compress_mov <- function(x, y=NULL, t=NULL, gap=6*3600) {
   st = stcoords_1d(x, y, t)
+  sx = as.character(st$sx)
+  tt = as.numeric(st$t)
   
-  compressed <- data.frame(loc=st$sx, time=st$t) %>%
-    dplyr::arrange(time) %>%
-    dplyr::mutate(segment = seq_collapsed(loc)) %>%
-    group_by(segment) %>%
-    dplyr::summarise(
-      loc = unique(loc),
-      stime = min(time),
-      etime = max(time)
-    ) %>%
-    dplyr::select(-segment)
+  compressed <- as.data.frame(.Call("_compress_mov", sx, tt, gap))
+  colnames(compressed) <- c("loc", "stime", "etime")
+  compressed <- subset(compressed, loc != "")
   
   compressed
 }
@@ -66,7 +61,7 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
   
   # remove duplicated info in user movement hisotry
   compressed <- data.frame(uid=uid, loc=loc, time=time) %>%
-    group_by(uid) %>%
+    dplyr::group_by(uid) %>%
     dplyr::do(compress_mov(x=.$loc, t=.$time))
   
   with(compressed, flowmap2(uid, loc, stime, etime, gap))
