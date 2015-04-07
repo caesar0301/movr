@@ -21,41 +21,38 @@ _compress_mov(SEXP loc, SEXP time, SEXP gap) {
   // convert R objects to C data structure
   const size_t NLEN = LENGTH(time);
   double *time_ = REAL(time);
-  size_t *ordered, i, j, idx;
-  double last_time, cur_time;
-  char *last_loc, *cur_loc;
-  SEXP out_df, loc_v, stime_v, etime_v;
   double gap_ = asReal(gap);
+  SEXP out_df, loc_v, stime_v, etime_v;
+  
+  size_t *ordered, idx, i, j, k;
+  double *last_time, *cur_time;
+  char *last_loc, *cur_loc;
+  char *loc_arr[NLEN];
+  double *stime_arr[NLEN], *etime_arr[NLEN];
   
   // sort observations in time
   ordered = malloc(sizeof(size_t) * NLEN);
   order(time_, NLEN, sizeof(double), cmpDouble, ordered);
   
-  // compress movement
-  PROTECT(out_df = NEW_LIST(3));
-  PROTECT(loc_v = NEW_CHARACTER(NLEN));
-  PROTECT(stime_v = NEW_NUMERIC(NLEN));
-  PROTECT(etime_v = NEW_NUMERIC(NLEN));
-  
   for ( i = 0, j = 0; i < NLEN; i++) {
     idx = ordered[i];
     cur_loc = CHAR(STRING_ELT(loc, idx));
-    cur_time = time_[idx];
+    cur_time = &time_[idx];
     
     if ( i == 0 ){
-      SET_STRING_ELT(loc_v, j, mkChar(cur_loc));
-      REAL(stime_v)[j] = cur_time;
-      REAL(etime_v)[j] = cur_time;
+      loc_arr[j] = cur_loc;
+      stime_arr[j] = cur_time;
+      etime_arr[j] = cur_time;
       j++;
     } else {
-      if (strcmp(cur_loc, last_loc) == 0 && cur_time - last_time <= gap_) {
+      if (strcmp(cur_loc, last_loc) == 0 && *cur_time - *last_time <= gap_) {
         // the same session, update last session
-        REAL(etime_v)[j-1] = cur_time;
+        etime_arr[j-1] = cur_time;
       } else {
         // a new session
-        SET_STRING_ELT(loc_v, j, mkChar(cur_loc));
-        REAL(stime_v)[j] = cur_time;
-        REAL(etime_v)[j] = cur_time;
+        loc_arr[j] = cur_loc;
+        stime_arr[j] = cur_time;
+        etime_arr[j] = cur_time;
         j++;
       }
     }
@@ -63,8 +60,22 @@ _compress_mov(SEXP loc, SEXP time, SEXP gap) {
     last_loc = cur_loc;
     last_time = cur_time;
   }
+  
+  free(ordered);
+  
+  // convert C data structure into R objects
+  const size_t MLEN = j;
+  PROTECT(out_df = NEW_LIST(3));
+  PROTECT(loc_v = NEW_CHARACTER(MLEN));
+  PROTECT(stime_v = NEW_NUMERIC(MLEN));
+  PROTECT(etime_v = NEW_NUMERIC(MLEN));
+  
+  for ( k = 0; k < MLEN; k++ ) {
+    SET_STRING_ELT(loc_v, k, mkChar(loc_arr[k]));
+    REAL(stime_v)[k] = *stime_arr[k];
+    REAL(etime_v)[k] = *etime_arr[k];
+  }
 
-  // a R data frame to store results
   SET_VECTOR_ELT(out_df, 0, loc_v);
   SET_VECTOR_ELT(out_df, 1, stime_v);
   SET_VECTOR_ELT(out_df, 2, etime_v);

@@ -4,7 +4,7 @@
 \alias{compress_mov}
 \title{Compress movement history}
 \usage{
-compress_mov(x, y = NULL, t = NULL, gap = 6 * 3600)
+compress_mov(x, y = NULL, t = NULL)
 }
 \arguments{
 \item{x,y,t}{see params of \code{\link{stcoords}}}
@@ -17,10 +17,16 @@ recording the starting and ending times.
 \examples{
 data(movement)
 user_move <- subset(movement, id==1)
+
 ## 1D location
 compress_mov(user_move[,c("loc", "time")])
+
 ## 2D location
 compress_mov(user_move[,c("lat", "lon", "time")])
+
+## TEST dplyr
+data(u10)
+u10 \%>\% group_by(usr) \%>\% do(compress_mov(x=.$site, t=.$time)) \%>\% filter(usr==10)
 }
 \seealso{
 \code{\link{seq_collapsed}}
