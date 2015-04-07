@@ -1,3 +1,5 @@
+*.bke
+
 # building
 _builds
 _install

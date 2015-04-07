@@ -30,7 +30,8 @@ compress_mov <- function(x, y=NULL, t=NULL) {
     dplyr::summarise(
       loc = unique(loc),
       stime = min(time),
-      etime = max(time)
+      etime = max(time),
+      n = length(loc)
     ) %>%
     dplyr::select(-segment)
   
@@ -38,10 +39,10 @@ compress_mov <- function(x, y=NULL, t=NULL) {
 }
 
 #' TODO: there are fault when integrating with dplyr:
-#' 
+#'
 #' data(u10)
-#' u10 %>% group_by(usr) %>% do(compress_mov2(x=.$site, t=.$time)) %>% filter(usr==10)
-compress_mov2 <- function(x, y=NULL, t=NULL, gap=6*3600) {
+#' u10 %>% group_by(usr) %>% do(compress_mov_debug(x=.$site, t=.$time)) %>% filter(usr==10)
+compress_mov2_todo <- function(x, y=NULL, t=NULL, gap=6*3600) {
   st = stcoords_1d(x, y, t)
   sx = as.character(st$sx)
   tt = as.numeric(st$t)
@@ -110,6 +111,7 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
 #' @seealso \code{\link{flowmap}}
 flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
   compressed <- data.frame(uid=uid, loc=loc, stime=stime, etime=etime)
+  
   fmap <- compressed %>%
     group_by(uid) %>%
     dplyr::do( flowmap_stat(.$loc, .$stime, .$etime, gap)) %>%
@@ -118,5 +120,6 @@ flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
       total = sum(freq),
       unique = length(unique(uid))) %>%
     separate(edge, c("from", "to"), sep="->")
+  
   fmap
 }
