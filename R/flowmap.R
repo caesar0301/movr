@@ -9,42 +9,16 @@
 #' @seealso \code{\link{seq_collapsed}}
 #' @examples
 #' data(movement)
-#' user_move <- subset(movement, id==1)
 #' 
-#' ## 1D location
+#' user_move <- subset(movement, id==1)
 #' compress_mov(user_move[,c("loc", "time")])
 #' 
-#' ## 2D location
-#' compress_mov(user_move[,c("lat", "lon", "time")])
-#' 
-#' ## TEST dplyr
+#' ## With dplyr
 #' data(u10)
 #' u10 %>% group_by(usr) %>% do(compress_mov(x=.$site, t=.$time)) %>% filter(usr==10)
-compress_mov <- function(x, y=NULL, t=NULL) {
+compress_mov <- function(x, y=NULL, t=NULL, gap=6*3600) {
   st = stcoords_1d(x, y, t)
-  
-  compressed <- data.frame(loc=st$sx, time=st$t) %>%
-    dplyr::arrange(time) %>%
-    dplyr::mutate(segment = seq_collapsed(loc)) %>%
-    group_by(segment) %>%
-    dplyr::summarise(
-      loc = unique(loc),
-      stime = min(time),
-      etime = max(time),
-      n = length(loc)
-    ) %>%
-    dplyr::select(-segment)
-  
-  compressed
-}
-
-#' TODO: there are fault when integrating with dplyr:
-#'
-#' data(u10)
-#' u10 %>% group_by(usr) %>% do(compress_mov_debug(x=.$site, t=.$time)) %>% filter(usr==10)
-compress_mov2_todo <- function(x, y=NULL, t=NULL, gap=6*3600) {
-  st = stcoords_1d(x, y, t)
-  sx = as.character(st$sx)
+  sx = as.integer(st$sx)
   tt = as.numeric(st$t)
   
   compressed <- as.data.frame(.Call("_compress_mov", sx, tt, gap))

@@ -19,15 +19,17 @@
 SEXP
 _compress_mov(SEXP loc, SEXP time, SEXP gap) {
   // convert R objects to C data structure
-  const size_t NLEN = LENGTH(time);
-  double *time_ = REAL(time);
-  double gap_ = asReal(gap);
+  size_t NLEN, MLEN, *ordered, idx, i, j, k;
+  double *time_, gap_, *last_time, *cur_time;
+  int *loc_;
   SEXP out_df, loc_v, stime_v, etime_v;
   
-  size_t *ordered, idx, i, j, k;
-  double *last_time, *cur_time;
-  char *last_loc, *cur_loc;
-  char *loc_arr[NLEN];
+  NLEN = LENGTH(loc);
+  loc_ = INTEGER(loc);
+  time_ = REAL(time);
+  gap_ = asReal(gap);
+  
+  int *last_loc, *cur_loc, *loc_arr[NLEN];
   double *stime_arr[NLEN], *etime_arr[NLEN];
   
   // sort observations in time
@@ -36,7 +38,7 @@ _compress_mov(SEXP loc, SEXP time, SEXP gap) {
   
   for ( i = 0, j = 0; i < NLEN; i++) {
     idx = ordered[i];
-    cur_loc = CHAR(STRING_ELT(loc, idx));
+    cur_loc = &loc_[idx];
     cur_time = &time_[idx];
     
     if ( i == 0 ){
@@ -45,7 +47,7 @@ _compress_mov(SEXP loc, SEXP time, SEXP gap) {
       etime_arr[j] = cur_time;
       j++;
     } else {
-      if (strcmp(cur_loc, last_loc) == 0 && *cur_time - *last_time <= gap_) {
+      if (*cur_loc == *last_loc && *cur_time - *last_time <= gap_) {
         // the same session, update last session
         etime_arr[j-1] = cur_time;
       } else {
@@ -64,14 +66,14 @@ _compress_mov(SEXP loc, SEXP time, SEXP gap) {
   free(ordered);
   
   // convert C data structure into R objects
-  const size_t MLEN = j;
+  MLEN = j;
   PROTECT(out_df = NEW_LIST(3));
-  PROTECT(loc_v = NEW_CHARACTER(MLEN));
+  PROTECT(loc_v = NEW_INTEGER(MLEN));
   PROTECT(stime_v = NEW_NUMERIC(MLEN));
   PROTECT(etime_v = NEW_NUMERIC(MLEN));
   
   for ( k = 0; k < MLEN; k++ ) {
-    SET_STRING_ELT(loc_v, k, mkChar(loc_arr[k]));
+    INTEGER(loc_v)[k] = *loc_arr[k];
     REAL(stime_v)[k] = *stime_arr[k];
     REAL(etime_v)[k] = *etime_arr[k];
   }
