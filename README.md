@@ -2,15 +2,18 @@
 
 [![Build Status](https://travis-ci.org/caesar0301/movr.svg)](https://travis-ci.org/caesar0301/movr)
 
-Human MObility data Visualization in R, from both spatio-temporal and graph perspectives.
-
-**Still under development**
+Human mobility data analysis and visualization in R.
 
 ## Install
 
     > install.packages("devtools")
-    > library(devtools)
-    > install_github("caesar0301/movr")
+    > devtools::install_github("caesar0301/movr")
+    
+## Manual
+
+This package provides a suit of very useful utilities to analyze human
+spatio-temporal mobility data. These include:
+
 
 ## Bug Report
 
