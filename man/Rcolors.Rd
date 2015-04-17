@@ -2,13 +2,17 @@
 % Please edit documentation in R/misc.R
 \name{Rcolors}
 \alias{Rcolors}
+\alias{Rcolours}
 \title{R Colors}
 \usage{
-Rcolors()
+Rcolors(huesort=TRUE)
 }
 \description{
 Plot matrix of R colors, in index order, 25 per row.
-This is for convenient reference when programming.
+This is for quick reference when programming.
+}
+\details{
+Copyright: Earl F. Glynn
 }
 \references{
 \link{http://research.stowers-institute.org/efg/R/Color/Chart/}
