@@ -24,7 +24,6 @@ statistics between two locations 'from' and 'to'.
 }
 \examples{
 data(movement)
-
 with(movement, flowmap(id, loc, time))
 }
 \seealso{

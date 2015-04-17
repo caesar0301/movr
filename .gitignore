@@ -1,4 +1,7 @@
+Makefile
 *.bke
+test
+test.c
 
 # building
 _builds
