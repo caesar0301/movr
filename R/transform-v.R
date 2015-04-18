@@ -44,17 +44,19 @@ seq_distinct <- function(v) {
 #' @examples
 #' seq_collapsed(c(1,2,2,3,2,2))
 seq_collapsed <- function(v) {
+  len = length(v)
+  stopifnot(len > 0)
   last_index = 1
   res = c(last_index)
-
-  len = length(v)
-  last_value = v[1]
-  for (p in v[2:len]) {
-    if ( last_value != p) {
-      last_index = last_index + 1
+  if ( len >= 2) {
+    last_value = v[1]
+    for (p in v[2:len]) {
+      if ( last_value != p) {
+        last_index = last_index + 1
+      }
+      res = c(res, last_index)
+      last_value = p
     }
-    res = c(res, last_index)
-    last_value = p
   }
   res
 }
