@@ -4,6 +4,10 @@
 
 Human mobility data analysis and visualization in R.
 
+## Dependencies
+
+    > sudo apt-get install cmake pkg-config libglib2.0-dev
+
 ## Install
 
     > install.packages("devtools")

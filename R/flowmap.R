@@ -27,6 +27,7 @@ flowmap_stat <- function(loc, stime, etime, gap=8*3600) {
 #' @seealso \code{\link{flowmap2}}
 #' @examples
 #' data(movement)
+#' 
 #' with(movement, flowmap(id, loc, time))
 flowmap <- function(uid, loc, time, gap=8*3600) {
   
@@ -34,6 +35,27 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
   compressed <- data.frame(uid=uid, loc=loc, time=time) %>%
     dplyr::group_by(uid) %>%
     dplyr::do(compress_mov(x=.$loc, t=.$time))
+  
+  with(compressed, flowmap2(uid, loc, stime, etime, gap))
+}
+
+#' Generate flowmap from movement data
+#' 
+#' Use historical movement data to generate flowmap, which records mobility
+#' statistics between two locations 'from' and 'to'.
+#' 
+#' Different from \code{flowmap}, compressed movement history is used to
+#' generate flow statistics.
+#'
+#' @param uid a vector to record user identities
+#' @param loc a 1D vector to record locations of movement history
+#' @param stime,etime compressed session time at each location
+#' @param gap the maximum dwelling time to consider a valid move between locations
+#' @return a data frame with four columns: from, to, total, unique (users)
+#' @export
+#' @seealso \code{\link{flowmap}}
+flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
+  compressed <- data.frame(uid=uid, loc=loc, stime=stime, etime=etime)
   
   fmap <- compressed %>%
     group_by(uid) %>%
