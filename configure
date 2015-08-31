@@ -1,6 +1,3 @@
-set -x
-set -e
-
 which cmake
 
 rm -rf _builds
@@ -12,10 +9,13 @@ cmake -H. -B_builds -Wno-dev \
 
 cmake --build _builds --target install
 
-if [ "$(uname)" = "Darwin" ]; then
-  cp _install/lib/libmovr.dylib src/movr.dylib
+DYLIB=_install/lib/libmovr.dylib
+SOLIB=_install/lib/libmovr.so
+
+if [ -e $DYLIB ]; then
   cp _install/lib/libmovr.dylib src/libmovr.dylib
-elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
-  cp _install/lib/libmovr.so src/movr.so    # for the use of run_example()
+  cp _install/lib/libmovr.dylib src/libmovr.so
+elif [ -e $SOLIB ]; then
   cp _install/lib/libmovr.so src/libmovr.so
+  cp _install/lib/libmovr.so src/libmovr.dylib
 fi

@@ -5,6 +5,5 @@
 #'
 #' @name movr
 #' @docType package
-#' @useDynLib movr
 #' @useDynLib libmovr
 NULL

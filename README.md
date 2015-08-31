@@ -12,7 +12,7 @@ Human mobility data analysis and visualization in R.
 
     > install.packages("devtools")
     > devtools::install_github("caesar0301/movr")
-    
+
 ## Manual
 
 This package provides a suit of very useful utilities to analyze human
