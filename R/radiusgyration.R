@@ -7,9 +7,9 @@
 #' @param w The weight value for each location
 #' @return The radius of gyration (km)
 #' @export
-#' @references M. C. González, C. A. Hidalgo, and A.-L. Barabási,
+#' @references M. C. Gonzalez, C. A. Hidalgo, and A.-L. Barabasi,
 #' "Understanding individual human mobility patterns,"
-#' Nature, vol. 453, no. 7196, pp. 779–782, Jun. 2008.
+#' Nature, vol. 453, no. 7196, pp. 779-782, Jun. 2008.
 #' @examples
 #' lat <- c(30.2, 30, 30.5)
 #' lon <- c(120, 120.4, 120.5)

@@ -16,7 +16,7 @@ You can install the library from CRAN
 install.packages('movr')
 ```
 
-Or install the development version from Github
+Or install the development version from GitHub
 
 ```R
 install.packages("devtools")
