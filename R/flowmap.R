@@ -27,10 +27,10 @@ flowmap_stat <- function(loc, stime, etime, gap=8*3600) {
 #' @seealso \code{\link{flowmap2}}
 #' @examples
 #' data(movement)
-#' 
+#' \dontrun{
 #' with(movement, flowmap(id, loc, time))
+#' }
 flowmap <- function(uid, loc, time, gap=8*3600) {
-  
   # remove duplicated info in user movement hisotry
   compressed <- data.frame(uid=uid, loc=loc, time=time) %>%
     dplyr::group_by(uid) %>%

@@ -24,8 +24,8 @@ lon <- c(120, 120.4, 120.5)
 radius_gyration(lat, lon)
 }
 \references{
-M. C. González, C. A. Hidalgo, and A.-L. Barabási,
+M. C. Gonzalez, C. A. Hidalgo, and A.-L. Barabasi,
 "Understanding individual human mobility patterns,"
-Nature, vol. 453, no. 7196, pp. 779–782, Jun. 2008.
+Nature, vol. 453, no. 7196, pp. 779-782, Jun. 2008.
 }
 

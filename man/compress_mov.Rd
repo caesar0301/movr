@@ -23,8 +23,8 @@ user_move <- subset(movement, id==1)
 compress_mov(user_move[,c("loc", "time")])
 
 ## With dplyr
-data(u10)
-u10 \%>\% group_by(usr) \%>\% do(compress_mov(x=.$site, t=.$time)) \%>\% filter(usr==10)
+library(dplyr)
+movement \%>\% filter(id<10) \%>\% group_by(id) \%>\% do(compress_mov(x=.$loc, t=.$time))
 }
 \seealso{
 \code{\link{seq_collapsed}}
