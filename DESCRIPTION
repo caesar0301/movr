@@ -11,4 +11,5 @@ Depends: R (>= 3.0.0), dplyr, tidyr, data.table
 Suggests: ggplot2, knitr
 LazyData: yes
 License: MIT + file LICENSE
+SystemRequirements: GNU CMake
 VignetteBuilder: knitr
