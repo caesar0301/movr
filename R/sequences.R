@@ -40,6 +40,7 @@ seq_distinct <- function(v) {
 #' Generate integer sequence by assigning the same adjacent values to the same
 #' level.
 #' 
+#' @param v The input vector.
 #' @export
 #' @examples
 #' seq_collapsed(c(1,2,2,3,2,2))

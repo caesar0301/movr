@@ -1,6 +1,3 @@
-# Funcitons about coordinates' conversion used by movr package
-# By Xiaming Chen <chenxm35@gmail.com>
-
 #' Spatiotemporal data formatting
 #' 
 #' Format spatiotemporal series in a unified manner for both 1D and 2D locations.
@@ -19,6 +16,9 @@
 #' If \code{x} is a vector, dimensions of space coordinates are determined
 #' by both \code{x} and \code{y}, and the time dimension by \code{t}.
 #' 
+#' @param x A vector, data frame or matrix.
+#' @param y A vector.
+#' @param t A vector.
 #' @export
 #' @examples
 #' ## One data frame with columes x, y, t
@@ -88,6 +88,7 @@ stcoords <- function(x, y=NULL, t=NULL) {
   coords
 }
 
+
 #' Spatiotemporal data formatting (1D)
 #' 
 #' Similar to \code{\link{stcoords}}, return location instead of x, y coordinates.
@@ -109,11 +110,14 @@ stcoords_1d <- function(x, y=NULL, t=NULL) {
   st
 }
 
+
 #' @export
 deg2rad <- function(deg) { deg * pi / 180 }
 
+
 #' @export
 rad2deg <- function(rad) { rad * 180 / pi }
+
 
 #' Geopoint and Cartesian conversion
 #' 
@@ -133,6 +137,7 @@ geo2cart <- function(x) {
   geo2cart.radian(c(lat, lon))
 }
 
+
 #' @export
 geo2cart.radian <- function(x) {
   p.x <- cos(x[1]) * cos(x[2])
@@ -140,6 +145,7 @@ geo2cart.radian <- function(x) {
   p.z <- sin(x[1])
   c(p.x, p.y, p.z)
 }
+
 
 #' Cartesian and geopoint conversion
 #' 
@@ -154,6 +160,7 @@ cart2geo <- function(x) {
   p <- cart2geo.radian(x)
   c(rad2deg(p[1]), rad2deg(p[2]))
 }
+
 
 #' @export
 cart2geo.radian <- function(x) {

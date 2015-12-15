@@ -6,10 +6,12 @@
 #' Copyright: Earl F. Glynn
 #' @usage
 #'   Rcolors(huesort=TRUE)
+#' @param huesort Boolean value to control ordering by HUE.
 #' @references \link{http://research.stowers-institute.org/efg/R/Color/Chart/}
 #' @aliases Rcolours
 #' @export
 Rcolors <- function(huesort=TRUE) {
+  
   # This example plots each row of rectangles one at a time.
   SetTextContrastColor <- function(color){
     ifelse( mean(col2rgb(color)) > 127, "black", "white")

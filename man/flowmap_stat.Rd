@@ -6,6 +6,15 @@
 \usage{
 flowmap_stat(loc, stime, etime, gap = 8 * 3600)
 }
+\arguments{
+\item{loc}{A 1D vector to record locations of movement history}
+
+\item{stime}{The starting timestamp (SECONDS) vector of movement history}
+
+\item{etime}{The ending timestamp (SECONDS) vector of movement history}
+
+\item{gap}{The temporal idle interval}
+}
 \description{
 Calculate flow stat between locations
 }
