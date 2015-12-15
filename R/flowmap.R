@@ -6,8 +6,8 @@
 #' 
 #' @param x,y,t see params of \code{\link{stcoords}}
 #' @param gap the time tolerance (sec) to conbime two continuous observations
-#' @export
 #' @seealso \code{\link{seq_collapsed}}
+#' @export
 #' @examples
 #' data(movement)
 #' 
@@ -111,6 +111,7 @@ flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
 #' 
 #' @param from_lat, from_lon The latitude/longitude coordinates of departing point for mobile transitions.
 #' @param to_lat, to_lon The latitude/longitude coordinates of arriving point for mobile transitions.
+#' @param weight The user-defined weight for line color. Larger weight corresponds to lefter color of col.pal.
 #' @param bg The background color for output figure.
 #' @param gc.breaks The number of intermediate points (excluding two ends) to draw a great circle path.
 #' @param col.pal A color vector used by \code{colorRampPalette}; must be a valid argument to \code{col2rgb}.
@@ -121,38 +122,49 @@ flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
 #'
 #' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flowmap_stat}}
 #' @export
-draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, bg="black", gc.breaks=5,
+draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, weight=NULL,
+                         dist.log=TRUE, weight.log=TRUE, bg="black", gc.breaks=5,
                          col.pal=c("white", "blue", "black"), col.pal.bias=0.3, col.pal.grad=200) {  
   df <- data.frame(from_lat=from_lat, from_lon=from_lon, to_lat=to_lat, to_lon=to_lon)
   
   # add great circle distances
   dist = apply(df, 1, function(x)
     distGeo(x[c('from_lon', 'from_lat')], x[c('to_lon', 'to_lat')]))
-  maxdist = max(dist)
-  mindist = min(dist)
-  df <- df %>% mutate(dist_ord = movr::vbin(log(dist + 0.001), col.pal.grad)) %>%
-    mutate(dist_perc=(dist-mindist)/(maxdist - mindist))
+  dist[is.na(dist)] <- 0
+  
+  if (is.null(weight)) {
+    # longest dist takes black color
+    col_ord = vbin(ifelse(rep(dist.log, length(dist)), log(dist+0.001), dist), col.pal.grad)
+  } else {
+    # smallest weight takes black color
+    wgh = vbin(ifelse(rep(weight.log, length(dist)), log(weight), weight), col.pal.grad)
+    col_ord = max(wgh) - wgh + 1
+  }  
+  
+  df <- df %>% mutate(col_ord = col_ord)
   
   x_axis = seq(min(c(df$from_lon, df$to_lon)), max(c(df$from_lon, df$to_lon)), length.out = 100)
   y_axis = seq(min(c(df$from_lat, df$to_lat)), max(c(df$from_lat, df$to_lat)), length.out = 100)
   
   opar <- par()
-  par(bg="black")
+  par(bg=bg)
   plot(x_axis, y_axis, type="n", axes=F, xlab="", ylab="")
   
+  # create color palette
   pal.1 <- colorRampPalette(col.pal, bias=col.pal.bias)(col.pal.grad)
   
   apply(df, 1, function(x) {
     p1 = as.numeric(c(x['from_lon'], x['from_lat']))
     p2 = as.numeric(c(x['to_lon'], x['to_lat']))
-    
-    # use geosphere to generate intermediate points of great circles
-    cps = gcIntermediate(p1, p2, n=gc.breaks, addStartEnd=T)
-    
-    # col = scales::alpha('blue', 1-x['dist_perc'])
-    col = pal.1[x['dist_ord']] # longest dist takes black color
-    
-    lines(cps, col=col)
+
+    if (sum(is.na(p1)) == 0 && sum(is.na(p2)) == 0) {
+      # use geosphere to generate intermediate points of great circles
+      cps = gcIntermediate(p1, p2, n=gc.breaks, addStartEnd=T)
+      
+      col = pal.1[x['col_ord']]
+      
+      lines(cps, col=col)
+    }
   })
   
   par(opar)

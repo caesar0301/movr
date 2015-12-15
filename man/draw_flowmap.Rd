@@ -4,14 +4,17 @@
 \alias{draw_flowmap}
 \title{Visualize flowmap.}
 \usage{
-draw_flowmap(from_lat, from_lon, to_lat, to_lon, bg = "black",
-  gc.breaks = 5, col.pal = c("white", "blue", "black"),
-  col.pal.bias = 0.3, col.pal.grad = 200)
+draw_flowmap(from_lat, from_lon, to_lat, to_lon, weight = NULL,
+  dist.log = TRUE, weight.log = TRUE, bg = "black", gc.breaks = 5,
+  col.pal = c("white", "blue", "black"), col.pal.bias = 0.3,
+  col.pal.grad = 200)
 }
 \arguments{
 \item{from_lat,}{from_lon The latitude/longitude coordinates of departing point for mobile transitions.}
 
 \item{to_lat,}{to_lon The latitude/longitude coordinates of arriving point for mobile transitions.}
+
+\item{weight}{The user-defined weight for line color. Larger weight corresponds to lefter color of col.pal.}
 
 \item{bg}{The background color for output figure.}
 
