@@ -45,4 +45,7 @@ x <- data.frame(loc=rep(1:10, 2), time=1:20)
 ## With vectors
 stcoords(x=rep(1:10, 2), t=1:20)
 }
+\seealso{
+\code{\link{stcoords_1d}}
+}
 

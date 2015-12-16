@@ -22,6 +22,7 @@ library(tidyr)
 seq_range(c(1,2,3,2), 3)
 }
 \seealso{
-\code{\link{seq_along}}, \code{seq_collapsed}
+\code{\link{seq_along}}, \code{\link{seq_collapsed}},
+   \code{\link{vbin}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
 }
 

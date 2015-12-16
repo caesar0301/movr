@@ -16,4 +16,7 @@ Similar to \code{\link{stcoords}}, return location instead of x, y coordinates.
 x <- data.frame(rep(1:10, 2), rep_each(1:10, 2), 1:20)
 stcoords_1d(x)
 }
+\seealso{
+\code{\link{stcoords}}
+}
 

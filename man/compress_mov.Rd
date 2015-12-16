@@ -24,9 +24,11 @@ compress_mov(user_move[,c("loc", "time")])
 
 ## With dplyr
 library(dplyr)
-movement \%>\% filter(id<10) \%>\% group_by(id) \%>\% do(compress_mov(x=.$loc, t=.$time))
+movement \%>\% dplyr::filter(id<10) \%>\%
+ group_by(id) \%>\% do(compress_mov(x=.$loc, t=.$time))
 }
 \seealso{
-\code{\link{seq_collapsed}}
+\code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},
+   \code{\link{draw_flowmap}}, \code{\link{stcoords}}
 }
 

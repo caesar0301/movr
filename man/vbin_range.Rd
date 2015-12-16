@@ -21,6 +21,6 @@ Bin the range of given vector into n itervals.
 vbin_range(10:20, 3)
 }
 \seealso{
-\code{\link{vbin}}
+\code{\link{match_as}}, \code{\link{vbin}}, \code{\link{vbin_grid}}
 }
 

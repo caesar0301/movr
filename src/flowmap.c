@@ -7,8 +7,8 @@
 /**
  * Compress individual's movement history
  * 
- * The compression indicates removing duplicate records at the location with
- * two consecutive records and compressing the duplicate into a single session.
+ * The compression procedure removes duplicate consecutive records at the same location
+ * and compresses then into a single session with start and end time.
  * 
  * @param loc character vector
  * @param time real vector of timestamps in seconds
@@ -104,7 +104,7 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   double last_et;
   int i;
   
-  GHashTable * stat = g_hash_table_new(g_str_hash, g_int_equal);
+  GHashTable *stat = g_hash_table_new(g_str_hash, g_int_equal);
   last_loc = CHAR(STRING_ELT(loc, 0));
   last_et = etime_[0];
   
@@ -112,16 +112,15 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
     if ( stime_[i] - last_et <= gap_ ) {
       // assemble new link name   
       char *link;
-      link = malloc(sizeof(char) * (strlen(last_loc) + strlen(cur_loc) + 3));
       cur_loc = CHAR(STRING_ELT(loc, i));
+      link = malloc(sizeof(char) * (strlen(last_loc) + strlen(cur_loc) + 3));
       sprintf(link, "%s->%s", last_loc, cur_loc);
       
       // update flow stat
       if ( ! g_hash_table_contains(stat, link) ) {
         g_hash_table_insert(stat, link, 0);
       }
-      g_hash_table_insert(stat, link,
-        GPOINTER_TO_INT(g_hash_table_lookup(stat, link)) + 1 );
+      g_hash_table_insert(stat, link, GPOINTER_TO_INT(g_hash_table_lookup(stat, link)) + 1 );
     }
     
     last_loc = CHAR(STRING_ELT(loc, i));

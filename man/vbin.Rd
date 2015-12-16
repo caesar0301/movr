@@ -27,4 +27,7 @@ into which data points in x fall.
 vbin(1:10, 3)
 vbin(1:10, 3, TRUE)
 }
+\seealso{
+\code{\link{match_as}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+}
 

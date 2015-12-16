@@ -32,4 +32,7 @@ midpoint(lat, lon, w)
 \references{
 \url{http://www.geomidpoint.com/calculation.html}
 }
+\seealso{
+\code{\link{radius_gyration}}
+}
 

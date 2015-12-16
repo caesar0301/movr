@@ -16,4 +16,8 @@ level.
 \examples{
 seq_collapsed(c(1,2,2,3,2,2))
 }
+\seealso{
+\code{\link{seq_along}}, \code{\link{seq_distinct}},
+   \code{\link{vbin}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+}
 

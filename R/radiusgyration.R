@@ -14,7 +14,8 @@
 #' lat <- c(30.2, 30, 30.5)
 #' lon <- c(120, 120.4, 120.5)
 #' radius_gyration(lat, lon)
-#' 
+#'
+#' @seealso \code{\link{midpoint}}
 radius_gyration <- function(lat, lon, w=rep(1, length(lat))) {
   # get the midpoint of given locations
   mp <- midpoint(lat, lon, w)

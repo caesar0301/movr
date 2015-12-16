@@ -19,6 +19,7 @@
 #' @param x A vector, data frame or matrix.
 #' @param y A vector.
 #' @param t A vector.
+#' @seealso \code{\link{stcoords_1d}}
 #' @export
 #' @examples
 #' ## One data frame with columes x, y, t
@@ -94,6 +95,8 @@ stcoords <- function(x, y=NULL, t=NULL) {
 #' Similar to \code{\link{stcoords}}, return location instead of x, y coordinates.
 #' 
 #' @param x,y,t params of \code{stcoords}
+#' 
+#' @seealso \code{\link{stcoords}}
 #' @export
 #' @examples
 #' x <- data.frame(rep(1:10, 2), rep_each(1:10, 2), 1:20)
@@ -125,6 +128,7 @@ rad2deg <- function(rad) { rad * 180 / pi }
 #' 
 #' @param x A 2D vector (lat, long) representing the geo-point in degree.
 #' @return A unit-length 3D vector (x, y, z) in Cartesian system.
+#' @seealso \code{\link{geo2cart.radian}}, \code{\link{cart2geo}}, \code{\link{cart2geo.radian}}
 #' @export
 #' @examples
 #' geo2cart(c(30, 120))
@@ -153,6 +157,7 @@ geo2cart.radian <- function(x) {
 #' 
 #' @param x A unit-length 3D vector (x, y, z) in Cartesian system.
 #' @return A 2D vector (lat, long) representing the geo-point in degree.
+#' @seealso \code{\link{geo2cart}}, \code{\link{geo2cart.radian}}, \code{\link{cart2geo.radian}}
 #' @export
 #' @examples
 #' cart2geo(c(-0.4330127, 0.7500000, 0.5000000))

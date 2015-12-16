@@ -26,4 +26,7 @@ Generate a bined matrix given a 2D random field.
 \examples{
 vbin_grid(1:20, 20:1, runif(20), nx=5, ny=5)
 }
+\seealso{
+\code{\link{match_as}}, \code{\link{vbin}}, \code{\link{vbin_range}}
+}
 

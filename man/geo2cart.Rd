@@ -18,4 +18,7 @@ Converting geo-points in lat/long into Cartesian coordinates.
 \examples{
 geo2cart(c(30, 120))
 }
+\seealso{
+\code{\link{geo2cart.radian}}, \code{\link{cart2geo}}, \code{\link{cart2geo.radian}}
+}
 

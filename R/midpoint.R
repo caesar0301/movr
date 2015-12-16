@@ -18,6 +18,8 @@
 #' # custom weight
 #' w <- c(1, 2, 1)
 #' midpoint(lat, lon, w)
+#'
+#' @seealso \code{\link{radius_gyration}}
 midpoint <- function(lat, lon, w=rep(1, length(lat))) {
   if (length(lat) != length(lon) || length(lat) != length(w)) {
     stop("The lat, lon and weight vectors should be the same length")

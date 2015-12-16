@@ -4,7 +4,7 @@
 \alias{flowmap2}
 \title{Generate flowmap from movement data}
 \usage{
-flowmap2(uid, loc, stime, etime, gap = 8 * 3600)
+flowmap2(uid, loc, stime, etime, gap = 86400)
 }
 \arguments{
 \item{uid}{a vector to record user identities}
@@ -27,6 +27,7 @@ Different from \code{flowmap}, compressed movement history is used to
 generate flow statistics.
 }
 \seealso{
-\code{\link{flowmap}}
+\code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flow_stat}},
+   \code{\link{draw_flowmap}}
 }
 

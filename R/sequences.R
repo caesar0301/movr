@@ -1,89 +1,9 @@
-#' Approximately match
-#' 
-#' Match x to y approximately, and return the index of y,
-#' which is mostly near to each value in x.
-#' A variate of match() or %in%
-#' 
-#' @param x A given vector to be matched
-#' @param y A target vector to calculate absolute approximation
-#' @export
-#' @examples
-#' a <- c(1,2,3)
-#' b <- c(0.1, 0.2, 0.5)
-#' match_as(a, b)
-match_as <- function(x, y){
-  sapply(x, function(i) which.min(abs(y-i)))
-}
-
-#' Sequencing by distinct values
-#' 
-#' Generate a new (integer) sequence according to distinct value levels.
-#' The same value takes a unique order number.
-#' 
-#' @param v A vector to generate integer sequence
-#' @export
-#' @seealso \code{\link{seq_along}}, \code{seq_collapsed}
-#' @examples
-#' seq_along(c(1,2,3,2))
-#' seq_distinct(c(1,2,3,2))
-#' 
-#' ## See also
-#' library(tidyr)
-#' seq_range(c(1,2,3,2), 3)
-seq_distinct <- function(v) {
-  v.u <- unique(v)
-  sapply(v, match, v.u)
-}
-
-#' Sequencing by collapsing adjacent same values
-#' 
-#' Generate integer sequence by assigning the same adjacent values to the same
-#' level.
-#' 
-#' @param v The input vector.
-#' @export
-#' @examples
-#' seq_collapsed(c(1,2,2,3,2,2))
-seq_collapsed <- function(v) {
-  len = length(v)
-  stopifnot(len > 0)
-  last_index = 1
-  res = c(last_index)
-  if ( len >= 2) {
-    last_value = v[1]
-    for (p in v[2:len]) {
-      if ( last_value != p) {
-        last_index = last_index + 1
-      }
-      res = c(res, last_index)
-      last_value = p
-    }
-  }
-  res
-}
-
-#' Replicate elements of vector
-#' 
-#' This is a slight modification of \code{rep} in basic package. It replicates
-#' each element of a vector one by one to construct a new vector.
-#' 
-#' @param x a vector
-#' @param times the number of replication times of each element.
-#' @export
-#' @examples
-#' rep(1:10, 2)
-#' rep_each(1:10, 2)
-rep_each <- function(x, times=2) {
-  if (!is.vector(x))
-    stop("Param x should be a vector.")
-  as.vector(sapply(x, rep, times))
-}
-
 #' Vector Normalization
 #' 
 #' Normalize a given vector.
 #' 
 #' @param x A vector to be normalized.
+#' @seealso \code{\link{standardize_v}}, \code{\link{standardize_st}}
 #' @export
 #' @examples
 #' standardize(c(1,2,3,4,5,6))
@@ -128,6 +48,92 @@ standardize_st <- function(scoord, tcoord, value, alpha=0.5){
   df2$z
 }
 
+#' Approximately match
+#' 
+#' Match x to y approximately, and return the index of y,
+#' which is mostly near to each value in x.
+#' A variate of match() or %in%
+#' 
+#' @param x A given vector to be matched
+#' @param y A target vector to calculate absolute approximation
+#' @seealso \code{\link{seq_along}}, \code{\link{rep_each}}
+#' @export
+#' @examples
+#' a <- c(1,2,3)
+#' b <- c(0.1, 0.2, 0.5)
+#' match_as(a, b)
+match_as <- function(x, y){
+  sapply(x, function(i) which.min(abs(y-i)))
+}
+
+#' Sequencing by distinct values
+#' 
+#' Generate a new (integer) sequence according to distinct value levels.
+#' The same value takes a unique order number.
+#' 
+#' @param v A vector to generate integer sequence
+#' @export
+#' @seealso \code{\link{seq_along}}, \code{\link{seq_collapsed}},
+#'    \code{\link{vbin}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+#' @examples
+#' seq_along(c(1,2,3,2))
+#' seq_distinct(c(1,2,3,2))
+#' 
+#' ## See also
+#' library(tidyr)
+#' seq_range(c(1,2,3,2), 3)
+seq_distinct <- function(v) {
+  v.u <- unique(v)
+  sapply(v, match, v.u)
+}
+
+#' Sequencing by collapsing adjacent same values
+#' 
+#' Generate integer sequence by assigning the same adjacent values to the same
+#' level.
+#' 
+#' @param v The input vector.
+#' @seealso \code{\link{seq_along}}, \code{\link{seq_distinct}},
+#'    \code{\link{vbin}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+#' @export
+#' @examples
+#' seq_collapsed(c(1,2,2,3,2,2))
+seq_collapsed <- function(v) {
+  len = length(v)
+  stopifnot(len > 0)
+  last_index = 1
+  res = c(last_index)
+  if ( len >= 2) {
+    last_value = v[1]
+    for (p in v[2:len]) {
+      if ( last_value != p) {
+        last_index = last_index + 1
+      }
+      res = c(res, last_index)
+      last_value = p
+    }
+  }
+  res
+}
+
+#' Replicate elements of vector
+#' 
+#' This is a slight modification of \code{rep} in basic package. It replicates
+#' each element of a vector one by one to construct a new vector.
+#' 
+#' @param x a vector
+#' @param times the number of replication times of each element.
+#' @seealso \code{\link{match_as}}, 
+#' @export
+#' @examples
+#' rep(1:10, 2)
+#' rep_each(1:10, 2)
+rep_each <- function(x, times=2) {
+  if (!is.vector(x))
+    stop("Param x should be a vector.")
+  as.vector(sapply(x, rep, times))
+}
+
 #' Vector binning
 #' 
 #' Bin a vector into `n` intervals in regard with its value range.
@@ -142,6 +148,7 @@ standardize_st <- function(scoord, tcoord, value, alpha=0.5){
 #' @param center indication of representing intervals as index (default) or
 #' center points.
 #' @return Sequence with interval index or center points.
+#' @seealso \code{\link{match_as}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
 #' @export
 #' @examples
 #' vbin(1:10, 3)
@@ -163,7 +170,7 @@ vbin <- function(x, n, center=FALSE){
 #' @param n the number of bins
 #' @return the center of each interval
 #' @export
-#' @seealso \code{\link{vbin}}
+#' @seealso \code{\link{match_as}}, \code{\link{vbin}}, \code{\link{vbin_grid}}
 #' @examples
 #' vbin_range(10:20, 3)
 vbin_range <- function(x, n){
@@ -182,6 +189,7 @@ vbin_range <- function(x, n){
 #' @param na Replacemnet for NA value in matrix bins.
 #' @return a matrix with row (column) names being the center points of x (y) dim,
 #' and with cell value being the aggregate statistics calculated by FUN.
+#' @seealso \code{\link{match_as}}, \code{\link{vbin}}, \code{\link{vbin_range}}
 #' @export
 #' @examples
 #' vbin_grid(1:20, 20:1, runif(20), nx=5, ny=5)

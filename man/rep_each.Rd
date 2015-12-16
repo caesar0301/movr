@@ -19,4 +19,7 @@ each element of a vector one by one to construct a new vector.
 rep(1:10, 2)
 rep_each(1:10, 2)
 }
+\seealso{
+\code{\link{match_as}},
+}
 

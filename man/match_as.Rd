@@ -21,4 +21,7 @@ a <- c(1,2,3)
 b <- c(0.1, 0.2, 0.5)
 match_as(a, b)
 }
+\seealso{
+\code{\link{seq_along}}, \code{\link{rep_each}}
+}
 

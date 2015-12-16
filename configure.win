@@ -9,4 +9,4 @@ cmake -H. -B_builds \
 
 cmake --build _builds --target install --config Release
 
-cp _install/lib/foocpp.dll src/ || echo "Failed: foocpp.dll -> src"
+cp _install/lib/movr.dll src/ || echo "Failed: movr.dll -> src"

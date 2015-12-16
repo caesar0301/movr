@@ -24,11 +24,11 @@ statistics between two locations 'from' and 'to'.
 }
 \examples{
 data(movement)
-\dontrun{
+
 with(movement, flowmap(id, loc, time))
 }
-}
 \seealso{
-\code{\link{flowmap2}}
+\code{\link{compress_mov}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},
+   \code{\link{draw_flowmap}}
 }
 

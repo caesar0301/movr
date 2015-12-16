@@ -13,9 +13,9 @@ DYLIB=_install/lib/libmovr.dylib
 SOLIB=_install/lib/libmovr.so
 
 if [ -e $DYLIB ]; then
-  cp _install/lib/libmovr.dylib src/libmovr.dylib
-  cp _install/lib/libmovr.dylib src/libmovr.so
+  cp $DYLIB src/libmovr.dylib
+  cp $DYLIB src/libmovr.so
 elif [ -e $SOLIB ]; then
-  cp _install/lib/libmovr.so src/libmovr.so
-  cp _install/lib/libmovr.so src/libmovr.dylib
+  cp $SOLIB src/libmovr.so
+  cp $SOLIB src/libmovr.dylib
 fi

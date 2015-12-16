@@ -45,6 +45,7 @@ Visualize the mobility statistics (flowmap) from data. Each row in the data
 will generate a line on the map.
 }
 \seealso{
-\code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flowmap_stat}}
+\code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
+   \code{\link{flow_stat}}
 }
 
