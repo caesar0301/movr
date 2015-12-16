@@ -124,12 +124,13 @@ flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
 #' @param col.pal.grad The number of color grades to diffeciate distance.
 #' @param new.device Whether creating a new device for current plot.
 #' @param bg The background color for current plot when new.device is TRUE.
+#' @param ... Extra parameters for basic plot() function.
 #'
 #' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flowmap_stat}}
 #' @export
 draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
                          gc.breaks=5, col.pal=c("white", "blue", "black"), col.pal.bias=0.3,
-                         col.pal.grad=200, new.device=FALSE, bg="black") {  
+                         col.pal.grad=200, new.device=FALSE, bg="black", ...) {  
   df <- data.frame(from_lat=from_lat, from_lon=from_lon, to_lat=to_lat, to_lon=to_lon)
   
   # add great circle distances
@@ -151,14 +152,12 @@ draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weig
   x_axis = seq(min(c(df$from_lon, df$to_lon)), max(c(df$from_lon, df$to_lon)), length.out = 100)
   y_axis = seq(min(c(df$from_lat, df$to_lat)), max(c(df$from_lat, df$to_lat)), length.out = 100)
   
-  print(dev.cur())
-  
   if (new.device) {
     opar <- par()
     par(bg=bg)
   }
   
-  plot(x_axis, y_axis, type="n", axes=F, xlab="", ylab="")
+  plot(x_axis, y_axis, type="n", axes=F, xlab="", ylab="", ...)
   
   # create color palette
   pal.1 <- colorRampPalette(col.pal, bias=col.pal.bias)(col.pal.grad)

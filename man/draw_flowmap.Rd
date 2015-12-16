@@ -7,7 +7,7 @@
 draw_flowmap(from_lat, from_lon, to_lat, to_lon, dist.log = TRUE,
   weight = NULL, weight.log = TRUE, gc.breaks = 5, col.pal = c("white",
   "blue", "black"), col.pal.bias = 0.3, col.pal.grad = 200,
-  new.device = FALSE, bg = "black")
+  new.device = FALSE, bg = "black", ...)
 }
 \arguments{
 \item{from_lat}{The latitude coordinates of departing point for mobile transitions.}
@@ -35,6 +35,8 @@ spaced colors at the high end.}
 \item{new.device}{Whether creating a new device for current plot.}
 
 \item{bg}{The background color for current plot when new.device is TRUE.}
+
+\item{...}{Extra parameters for basic plot() function.}
 
 \item{dist_log}{Whether using log-scale distance for line color.}
 }
