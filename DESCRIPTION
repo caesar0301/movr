@@ -1,6 +1,6 @@
 Package: movr
 Type: Package
-Version: 0.1.2
+Version: 0.1.3
 Title: Analyzing and Visualizing Human Mobility Data
 Description: A set of tools to analyze and visualize spatio-temporal mobility data.
 Author: Xiaming Chen <chen@xiaming.me>
