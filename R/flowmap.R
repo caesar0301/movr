@@ -109,22 +109,27 @@ flowmap2 <- function(uid, loc, stime, etime, gap=8*3600) {
 #' Visualize the mobility statistics (flowmap) from data. Each row in the data
 #' will generate a line on the map.
 #' 
-#' @param from_lat, from_lon The latitude/longitude coordinates of departing point for mobile transitions.
-#' @param to_lat, to_lon The latitude/longitude coordinates of arriving point for mobile transitions.
+#' @param from_lat The latitude coordinates of departing point for mobile transitions.
+#' @param from_lon The longitude coordinates of departing point for mobile transitions.
+#' @param to_lat The latitude coordinates of arriving point for mobile transitions.
+#' @param to_lon The longitude coordinates of arriving point for mobile transitions.
+#' @param dist_log Whether using log-scale distance for line color.
 #' @param weight The user-defined weight for line color. Larger weight corresponds to lefter color of col.pal.
-#' @param bg The background color for output figure.
+#' @param weight.log Whether using log-scale weight for line color.
 #' @param gc.breaks The number of intermediate points (excluding two ends) to draw a great circle path.
 #' @param col.pal A color vector used by \code{colorRampPalette}; must be a valid argument to \code{col2rgb}.
 #'        Refer to \url{colorbrewer2.org} to derive more palettes.
 #' @param col.pal.bias The bias coefficient used by \code{colorRampPalette}. Higher values give more widely
 #'        spaced colors at the high end.
 #' @param col.pal.grad The number of color grades to diffeciate distance.
+#' @param new.device Whether creating a new device for current plot.
+#' @param bg The background color for current plot when new.device is TRUE.
 #'
 #' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flowmap_stat}}
 #' @export
-draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, weight=NULL,
-                         dist.log=TRUE, weight.log=TRUE, bg="black", gc.breaks=5,
-                         col.pal=c("white", "blue", "black"), col.pal.bias=0.3, col.pal.grad=200) {  
+draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
+                         gc.breaks=5, col.pal=c("white", "blue", "black"), col.pal.bias=0.3,
+                         col.pal.grad=200, new.device=FALSE, bg="black") {  
   df <- data.frame(from_lat=from_lat, from_lon=from_lon, to_lat=to_lat, to_lon=to_lon)
   
   # add great circle distances
@@ -146,8 +151,13 @@ draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, weight=NULL,
   x_axis = seq(min(c(df$from_lon, df$to_lon)), max(c(df$from_lon, df$to_lon)), length.out = 100)
   y_axis = seq(min(c(df$from_lat, df$to_lat)), max(c(df$from_lat, df$to_lat)), length.out = 100)
   
-  opar <- par()
-  par(bg=bg)
+  print(dev.cur())
+  
+  if (new.device) {
+    opar <- par()
+    par(bg=bg)
+  }
+  
   plot(x_axis, y_axis, type="n", axes=F, xlab="", ylab="")
   
   # create color palette
@@ -156,7 +166,7 @@ draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, weight=NULL,
   apply(df, 1, function(x) {
     p1 = as.numeric(c(x['from_lon'], x['from_lat']))
     p2 = as.numeric(c(x['to_lon'], x['to_lat']))
-
+    
     if (sum(is.na(p1)) == 0 && sum(is.na(p2)) == 0) {
       # use geosphere to generate intermediate points of great circles
       cps = gcIntermediate(p1, p2, n=gc.breaks, addStartEnd=T)
@@ -167,5 +177,8 @@ draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, weight=NULL,
     }
   })
   
-  par(opar)
+  if (new.device) {
+    par(opar)
+  }
+  
 }
