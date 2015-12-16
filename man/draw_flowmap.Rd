@@ -7,7 +7,7 @@
 draw_flowmap(from_lat, from_lon, to_lat, to_lon, dist.log = TRUE,
   weight = NULL, weight.log = TRUE, gc.breaks = 5, col.pal = c("white",
   "blue", "black"), col.pal.bias = 0.3, col.pal.grad = 200,
-  new.device = FALSE, bg = "black", ...)
+  new.device = TRUE, bg = "black", ...)
 }
 \arguments{
 \item{from_lat}{The latitude coordinates of departing point for mobile transitions.}
@@ -17,6 +17,8 @@ draw_flowmap(from_lat, from_lon, to_lat, to_lon, dist.log = TRUE,
 \item{to_lat}{The latitude coordinates of arriving point for mobile transitions.}
 
 \item{to_lon}{The longitude coordinates of arriving point for mobile transitions.}
+
+\item{dist.log}{Whether using log-scale distance for line color.}
 
 \item{weight}{The user-defined weight for line color. Larger weight corresponds to lefter color of col.pal.}
 
@@ -32,13 +34,12 @@ spaced colors at the high end.}
 
 \item{col.pal.grad}{The number of color grades to diffeciate distance.}
 
-\item{new.device}{Whether creating a new device for current plot.}
+\item{new.device}{Whether creating a new device for current plot. Set this parameter as FALSE when
+trying to plot multiple flowmaps in one figure.}
 
-\item{bg}{The background color for current plot when new.device is TRUE.}
+\item{bg}{The background color for current plot. It is working when new.device is TRUE.}
 
 \item{...}{Extra parameters for basic plot() function.}
-
-\item{dist_log}{Whether using log-scale distance for line color.}
 }
 \description{
 Visualize the mobility statistics (flowmap) from data. Each row in the data

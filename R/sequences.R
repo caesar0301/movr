@@ -3,7 +3,7 @@
 #' Normalize a given vector.
 #' 
 #' @param x A vector to be normalized.
-#' @seealso \code{\link{standardize_v}}, \code{\link{standardize_st}}
+#' @seealso \code{\link{standardize_st}}
 #' @export
 #' @examples
 #' standardize(c(1,2,3,4,5,6))

@@ -18,6 +18,6 @@ This is for quick reference when programming.
 Copyright: Earl F. Glynn
 }
 \references{
-\link{http://research.stowers-institute.org/efg/R/Color/Chart/}
+http://research.stowers-institute.org/efg/R/Color/Chart/
 }
 

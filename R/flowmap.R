@@ -126,7 +126,7 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #' @param from_lon The longitude coordinates of departing point for mobile transitions.
 #' @param to_lat The latitude coordinates of arriving point for mobile transitions.
 #' @param to_lon The longitude coordinates of arriving point for mobile transitions.
-#' @param dist_log Whether using log-scale distance for line color.
+#' @param dist.log Whether using log-scale distance for line color.
 #' @param weight The user-defined weight for line color. Larger weight corresponds to lefter color of col.pal.
 #' @param weight.log Whether using log-scale weight for line color.
 #' @param gc.breaks The number of intermediate points (excluding two ends) to draw a great circle path.
@@ -135,8 +135,9 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #' @param col.pal.bias The bias coefficient used by \code{colorRampPalette}. Higher values give more widely
 #'        spaced colors at the high end.
 #' @param col.pal.grad The number of color grades to diffeciate distance.
-#' @param new.device Whether creating a new device for current plot.
-#' @param bg The background color for current plot when new.device is TRUE.
+#' @param new.device Whether creating a new device for current plot. Set this parameter as FALSE when
+#'  trying to plot multiple flowmaps in one figure.
+#' @param bg The background color for current plot. It is working when new.device is TRUE.
 #' @param ... Extra parameters for basic plot() function.
 #'
 #' @seealso \code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
@@ -144,7 +145,7 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #' @export
 draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
                          gc.breaks=5, col.pal=c("white", "blue", "black"), col.pal.bias=0.3,
-                         col.pal.grad=200, new.device=FALSE, bg="black", ...) {  
+                         col.pal.grad=200, new.device=TRUE, bg="black", ...) {  
   df <- data.frame(from_lat=from_lat, from_lon=from_lon, to_lat=to_lat, to_lon=to_lon)
   
   # add great circle distances

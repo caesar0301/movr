@@ -7,7 +7,7 @@
 geo2cart(x)
 }
 \arguments{
-\item{x}{A 2D vector (lat, long) representing the geo-point in degree.}
+\item{x}{A 2D vector (lat, long) representing the geo-point in degrees.}
 }
 \value{
 A unit-length 3D vector (x, y, z) in Cartesian system.
@@ -19,6 +19,6 @@ Converting geo-points in lat/long into Cartesian coordinates.
 geo2cart(c(30, 120))
 }
 \seealso{
-\code{\link{geo2cart.radian}}, \code{\link{cart2geo}}, \code{\link{cart2geo.radian}}
+\code{\link{geo2cart.radian}}, \code{\link{cart2geo}}
 }
 

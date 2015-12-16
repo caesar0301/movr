@@ -7,7 +7,7 @@
 #' @usage
 #'   Rcolors(huesort=TRUE)
 #' @param huesort Boolean value to control ordering by HUE.
-#' @references \link{http://research.stowers-institute.org/efg/R/Color/Chart/}
+#' @references http://research.stowers-institute.org/efg/R/Color/Chart/
 #' @aliases Rcolours
 #' @export
 Rcolors <- function(huesort=TRUE) {

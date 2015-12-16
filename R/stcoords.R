@@ -114,10 +114,16 @@ stcoords_1d <- function(x, y=NULL, t=NULL) {
 }
 
 
+#' Convert degrees to radians.
+#' @param deg A number or vector of degrees.
+#' @seealso \code{\link{rad2deg}}
 #' @export
 deg2rad <- function(deg) { deg * pi / 180 }
 
 
+#' Convert radians to degrees.
+#' @param rad A number or vector of radians
+#' @seealso \code{\link{deg2rad}}
 #' @export
 rad2deg <- function(rad) { rad * 180 / pi }
 
@@ -126,9 +132,9 @@ rad2deg <- function(rad) { rad * 180 / pi }
 #' 
 #' Converting geo-points in lat/long into Cartesian coordinates.
 #' 
-#' @param x A 2D vector (lat, long) representing the geo-point in degree.
+#' @param x A 2D vector (lat, long) representing the geo-point in degrees.
 #' @return A unit-length 3D vector (x, y, z) in Cartesian system.
-#' @seealso \code{\link{geo2cart.radian}}, \code{\link{cart2geo}}, \code{\link{cart2geo.radian}}
+#' @seealso \code{\link{geo2cart.radian}}, \code{\link{cart2geo}}
 #' @export
 #' @examples
 #' geo2cart(c(30, 120))
@@ -142,6 +148,9 @@ geo2cart <- function(x) {
 }
 
 
+#' Convert geopoints in radians to Cartesian coordinates.
+#' @param x A 2D vector (lat, long) representing the geo-point in radians.
+#' @seealso \code{\link{cart2geo.radian}}
 #' @export
 geo2cart.radian <- function(x) {
   p.x <- cos(x[1]) * cos(x[2])
@@ -157,7 +166,7 @@ geo2cart.radian <- function(x) {
 #' 
 #' @param x A unit-length 3D vector (x, y, z) in Cartesian system.
 #' @return A 2D vector (lat, long) representing the geo-point in degree.
-#' @seealso \code{\link{geo2cart}}, \code{\link{geo2cart.radian}}, \code{\link{cart2geo.radian}}
+#' @seealso \code{\link{geo2cart}}, \code{\link{cart2geo.radian}}
 #' @export
 #' @examples
 #' cart2geo(c(-0.4330127, 0.7500000, 0.5000000))
@@ -167,6 +176,9 @@ cart2geo <- function(x) {
 }
 
 
+#' Convert Cartesian coordinates to geopoints in radians.
+#' @param x A 2D vector (lat, long) representing the geo-point in radians.
+#' @seealso \code{\link{geo2cart.radian}}
 #' @export
 cart2geo.radian <- function(x) {
   lon = atan2(x[2], x[1])
