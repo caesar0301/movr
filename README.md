@@ -7,9 +7,9 @@ Human mobility data analysis and visualization in R.
 ## Dependencies
 
     > sudo apt-get install cmake pkg-config libglib2.0-dev
-    
+
 On Mac OS X
-    
+
     > brew install cmake pkg-config glib
 
 ## Install
@@ -30,8 +30,7 @@ devtools::install_github("caesar0301/movr")
 ## Manual
 
 This package provides a suit of very useful utilities to analyze human
-spatio-temporal mobility data. (*Docs are coming*)
-
+spatio-temporal mobility data.
 
 ## Bug Report
 
