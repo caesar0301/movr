@@ -27,10 +27,18 @@ install.packages("devtools")
 devtools::install_github("caesar0301/movr")
 ```
 
-## Manual
+## Visualization
 
 This package provides a suit of very useful utilities to analyze human
 spatio-temporal mobility data.
+
+* `draw_mobility3d`
+
+![draw_mobility3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/mobility3d.png)
+
+* `draw_flowmap`
+
+![draw_flowmap_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/flowmap.png)
 
 ## Bug Report
 
