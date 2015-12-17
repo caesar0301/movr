@@ -22,6 +22,8 @@ consistent with the 'openmap' function in OSM.
 }
 \examples{
 data(movement)
+library(OpenStreetMap)
+
 u1 <- subset(movement, id==3)
 u1$time <- (u1$time - min(u1$time)) / 3600
 region.lat1 <- min(u1$lat) - 0.005

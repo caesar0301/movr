@@ -1,14 +1,14 @@
 Package: movr
 Type: Package
-Version: 0.1.3
+Version: 0.1.4
 Title: Analyzing and Visualizing Human Mobility Data
 Description: A set of tools to analyze and visualize spatio-temporal mobility data.
 Author: Xiaming Chen <chen@xiaming.me>
 Maintainer: Xiaming Chen <chen@xiaming.me>
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
-Depends: R (>= 3.0.0), dplyr, tidyr, data.table, geosphere
-Suggests: ggplot2, knitr
+Depends: R (>= 3.0.0), dplyr, tidyr, data.table, geosphere, deldir
+Suggests: knitr, rgl, OpenStreetMap
 LazyData: yes
 License: MIT + file LICENSE
 SystemRequirements: GNU CMake
