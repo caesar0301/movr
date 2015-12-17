@@ -8,7 +8,7 @@ Maintainer: Xiaming Chen <chen@xiaming.me>
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
 Depends: R (>= 3.0.0), dplyr, tidyr, data.table, geosphere, deldir
-Suggests: knitr, rgl
+Suggests: knitr
 LazyData: yes
 License: MIT + file LICENSE
 SystemRequirements: GNU CMake
