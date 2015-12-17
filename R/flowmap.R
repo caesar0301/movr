@@ -12,13 +12,10 @@
 #' @examples
 #' data(movement)
 #' 
-#' user_move <- subset(movement, id==1)
-#' compress_mov(user_move[,c("loc", "time")])
-#' 
-#' ## With dplyr
 #' library(dplyr)
-#' movement %>% dplyr::filter(id<10) %>%
+#' cmov <- movement %>% dplyr::filter(id<10) %>%
 #'  group_by(id) %>% do(compress_mov(x=.$loc, t=.$time))
+#' head(cmov)
 compress_mov <- function(x, y=NULL, t=NULL, gap=0.5 * 3600) {
   st = stcoords_1d(x, y, t)
   sx = as.integer(st$sx)
@@ -45,7 +42,8 @@ compress_mov <- function(x, y=NULL, t=NULL, gap=0.5 * 3600) {
 #' user_move <- subset(movement, id==1)
 #' sessions <- compress_mov(user_move[,c("loc", "time")])
 #' 
-#' with(sessions, flow_stat(loc, stime, etime))
+#' res <- with(sessions, flow_stat(loc, stime, etime))
+#' head(res)
 flow_stat <- function(loc, stime, etime, gap=86400) {
   stopifnot(length(loc) > 0
             && length(loc) == length(stime)
@@ -76,7 +74,8 @@ flow_stat <- function(loc, stime, etime, gap=86400) {
 #' @examples
 #' data(movement)
 #' 
-#' with(movement, flowmap(id, loc, time))
+#' res <- with(movement, flowmap(id, loc, time))
+#' head(res)
 flowmap <- function(uid, loc, time, gap=8*3600) {
   # remove duplicated info in user movement hisotry
   compressed <- data.frame(uid=uid, loc=loc, time=time) %>%

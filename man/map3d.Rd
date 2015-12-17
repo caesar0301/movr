@@ -22,7 +22,6 @@ consistent with the 'openmap' function in OSM.
 }
 \examples{
 data(movement)
-library(OpenStreetMap)
 
 u1 <- subset(movement, id==3)
 u1$time <- (u1$time - min(u1$time)) / 3600
@@ -38,7 +37,7 @@ rgl.bg(color="lightgray")
 rgl.viewpoint(theta=30, phi=45)
 rgl.light(theta = 45, phi = 45, viewpoint.rel=TRUE)
 map3d(c(region.lat2, region.lon1), c(region.lat1, region.lon2),
-      min(u1$time), 10, "esri")
+      h=min(u1$time), zoom=10, type="esri")
 
 axes3d(edges = "bbox", labels = TRUE, tick = TRUE, nticks = 5, box=FALSE,
        expand = 1.03, col="black", lwd=0.8)

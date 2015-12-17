@@ -25,7 +25,8 @@ statistics between two locations 'from' and 'to'.
 \examples{
 data(movement)
 
-with(movement, flowmap(id, loc, time))
+res <- with(movement, flowmap(id, loc, time))
+head(res)
 }
 \seealso{
 \code{\link{compress_mov}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},

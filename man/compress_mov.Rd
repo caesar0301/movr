@@ -19,13 +19,10 @@ Continuous records at the same location is merged into a single session
 \examples{
 data(movement)
 
-user_move <- subset(movement, id==1)
-compress_mov(user_move[,c("loc", "time")])
-
-## With dplyr
 library(dplyr)
-movement \%>\% dplyr::filter(id<10) \%>\%
+cmov <- movement \%>\% dplyr::filter(id<10) \%>\%
  group_by(id) \%>\% do(compress_mov(x=.$loc, t=.$time))
+head(cmov)
 }
 \seealso{
 \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},

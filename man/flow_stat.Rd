@@ -24,7 +24,8 @@ data(movement)
 user_move <- subset(movement, id==1)
 sessions <- compress_mov(user_move[,c("loc", "time")])
 
-with(sessions, flow_stat(loc, stime, etime))
+res <- with(sessions, flow_stat(loc, stime, etime))
+head(res)
 }
 \seealso{
 \code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
