@@ -40,6 +40,11 @@ spatio-temporal mobility data.
 
 ![draw_flowmap_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/flowmap.png)
 
+* `map3d` (3d map layer for `rgl` package)
+
+![map3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/map3d-rgl.png)
+
+
 ## Bug Report
 
 * https://github.com/caesar0301/movr/issues

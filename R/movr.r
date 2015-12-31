@@ -6,4 +6,5 @@
 #' @name movr
 #' @docType package
 #' @useDynLib libmovr
+#' @import dplyr tidyr data.table geosphere deldir
 NULL

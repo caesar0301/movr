@@ -48,7 +48,7 @@ standardize_st <- function(scoord, tcoord, value, alpha=0.5){
   df2$z
 }
 
-#' Approximately match
+#' Approximately matching sequence
 #' 
 #' Match x to y approximately, and return the index of y,
 #' which is mostly near to each value in x.
@@ -61,8 +61,8 @@ standardize_st <- function(scoord, tcoord, value, alpha=0.5){
 #' @examples
 #' a <- c(1,2,3)
 #' b <- c(0.1, 0.2, 0.5)
-#' match_as(a, b)
-match_as <- function(x, y){
+#' seq_approximate(a, b)
+seq_approximate <- function(x, y){
   sapply(x, function(i) which.min(abs(y-i)))
 }
 
@@ -123,7 +123,7 @@ seq_collapsed <- function(v) {
 #' 
 #' @param x a vector
 #' @param times the number of replication times of each element.
-#' @seealso \code{\link{match_as}}, 
+#' @seealso \code{\link{seq_approximate}}, 
 #' @export
 #' @examples
 #' rep(1:10, 2)
@@ -148,7 +148,7 @@ rep_each <- function(x, times=2) {
 #' @param center indication of representing intervals as index (default) or
 #' center points.
 #' @return Sequence with interval index or center points.
-#' @seealso \code{\link{match_as}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
 #' @export
 #' @examples
 #' vbin(1:10, 3)
@@ -170,7 +170,7 @@ vbin <- function(x, n, center=FALSE){
 #' @param n the number of bins
 #' @return the center of each interval
 #' @export
-#' @seealso \code{\link{match_as}}, \code{\link{vbin}}, \code{\link{vbin_grid}}
+#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin_grid}}
 #' @examples
 #' vbin_range(10:20, 3)
 vbin_range <- function(x, n){
@@ -189,7 +189,7 @@ vbin_range <- function(x, n){
 #' @param na Replacemnet for NA value in matrix bins.
 #' @return a matrix with row (column) names being the center points of x (y) dim,
 #' and with cell value being the aggregate statistics calculated by FUN.
-#' @seealso \code{\link{match_as}}, \code{\link{vbin}}, \code{\link{vbin_range}}
+#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin_range}}
 #' @export
 #' @examples
 #' vbin_grid(1:20, 20:1, runif(20), nx=5, ny=5)
