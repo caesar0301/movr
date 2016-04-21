@@ -24,7 +24,6 @@
 #' @examples
 #' user <- movement %>% dplyr::filter(id==1)
 #' Q.iovan(user$lon, user$lat, user$time/3600)
-#' 
 Q.iovan <- function(x, y, t) {
   dat <- stcoords(x, y, t)
   torder <- order(dat$t)
