@@ -13,6 +13,10 @@ standardize <- function(x) {
 
 #' @export
 standardize_v <- function(x){
+  if(length(x) == 1){
+    warning('standardize_v takes lenght-1 vector')
+    return(1)
+  }
   x.min = min(x);
   x.max = max(x)
   (x - x.min) / (x.max - x.min)
@@ -78,10 +82,6 @@ seq_approximate <- function(x, y){
 #' @examples
 #' seq_along(c(1,2,3,2))
 #' seq_distinct(c(1,2,3,2))
-#' 
-#' ## See also
-#' library(tidyr)
-#' seq_range(c(1,2,3,2), 3)
 seq_distinct <- function(v) {
   v.u <- unique(v)
   sapply(v, match, v.u)

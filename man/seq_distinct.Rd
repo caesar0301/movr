@@ -16,10 +16,6 @@ The same value takes a unique order number.
 \examples{
 seq_along(c(1,2,3,2))
 seq_distinct(c(1,2,3,2))
-
-## See also
-library(tidyr)
-seq_range(c(1,2,3,2), 3)
 }
 \seealso{
 \code{\link{seq_along}}, \code{\link{seq_collapsed}},

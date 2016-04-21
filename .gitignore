@@ -1,3 +1,5 @@
+*.DS_Store
+*.Rcheck
 Makefile
 *.bke
 test
@@ -11,9 +13,9 @@ src/*.o
 src/*.dylib
 
 # History files
-.Rhistory
-.RData
-.Rprofile
+*.Rhistory
+*.RData
+*.Rprofile
 
 # Example code in package build process
 *-Ex.R

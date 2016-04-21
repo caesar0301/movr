@@ -54,9 +54,9 @@ entropy_space <- function(probs) {
 #'  Song, C. et al., Limits of predictability in human mobility.
 #'  Science 2010, 1018. (doi:10.1126/science.1177170)
 #' @export
-# entropy_spacetime <- function(x, y=NULL) {
-#   coord = stcoords(x, y, t=seq_along(x))
-# }
+entropy_spacetime <- function(x, y=NULL) {
+  stop('Unsupported right now.')
+}
 
 # entropy_estimated <- function(x, y=NULL) {
 #   

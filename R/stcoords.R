@@ -77,7 +77,7 @@ stcoords <- function(x, y=NULL, t=NULL) {
     coords[['is_1d']] = TRUE
     
     if ( !is.null(y) ) {
-      stopifnot( length(y) != length(x) )
+      stopifnot( length(y) == length(x) )
       coords[['sy']] = y
       coords[['is_1d']] = FALSE
     }

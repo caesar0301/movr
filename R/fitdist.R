@@ -27,7 +27,7 @@ fit_truncated_power_law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, a
     curve(exp(-lambda * log(x) - x / k +  log(a)), add=add, ...)
   }
   
-  list(model='y ~ a * x^(-lambda) exp(-x/k)', a=a, lambda=lambda, k=k)
+  invisible(list(model='y ~ a * x^(-lambda) exp(-x/k)', a=a, lambda=lambda, k=k))
 }
 
 
@@ -59,7 +59,7 @@ fit_power_law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, .
     curve(exp(log(a) - lambda * log(x)), add=add, ...)
   }
   
-  list(model='y ~ a * x^(-lambda)', a=a, lambda=lambda)
+  invisible(list(model='y ~ a * x^(-lambda)', a=a, lambda=lambda))
 }
 
 #' Fit a poly-exponential distribution
@@ -91,5 +91,5 @@ fit_polyexp <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...
     curve(exp(a + b * x + c * x^2) * x^d, add=add, ...)
   }
   
-  list(model='y ~ exp(a*x^2 + b*x + c) * x^d', a=a, b=b, c=c, d=d)
+  invisible(list(model='y ~ exp(a*x^2 + b*x + c) * x^d', a=a, b=b, c=c, d=d))
 }

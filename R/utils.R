@@ -83,3 +83,41 @@ melt_time <- function(epoch, tz='Asia/Shanghai') {
   list(year=year, month=month, day=day, hour=hour, minute=minute, second=second,
        dow=dow, doy=doy, wom=wom, woy=woy, qoy=qoy)
 }
+
+#' Converting UNIX hour to Data object
+#' 
+#' Convert UNIX hour (calculated by dividing UNIX seconds with 3600)
+#' to date at local time zone.
+#' 
+#' @param hour Hours from UNIX epoch
+#' @param tz The time zone string
+#' @export
+hour2date <- function(hour, tz="Asia/Shanghai"){
+  as.Date(as.POSIXct(hour*3600, origin="1970-01-01"), tz=tz)
+}
+
+#' Converting UNIX hour to Time-of-Day
+#' 
+#' Convert UNIX hour (calculated by dividing UNIX seconds with 3600)
+#' to to Time-of-Day (TOD) at local time zone.
+#' 
+#' @param hour Hours from UNIX epoch
+#' @param tz The time zone string
+#' @export
+hour2tod <- function(hour, tz = 'Asia/Shanghai'){
+  pt <- as.POSIXct(hour*3600, origin="1970-01-01")
+  format(pt, "%H")
+}
+
+#' Converting UNIX hour to Time-of-Week
+#' 
+#' Convert UNIX hour (calculated by dividing UNIX seconds with 3600)
+#' to to Time-of-Week (TOW) at local time zone.
+#' 
+#' @param hour Hours from UNIX epoch
+#' @param tz The time zone string
+#' @export
+hour2tow <- function(hour, tz='Asia/Shanghai'){
+  pt <- as.POSIXct(hour*3600,origin="1970-01-01", tz=tz)
+  weekdays(pt, abbreviate = TRUE)
+}
