@@ -4,7 +4,7 @@
 \alias{stcoords}
 \title{Spatiotemporal data formatting}
 \usage{
-stcoords(x, y = NULL, t = NULL)
+stcoords(x, y = NULL, t = NULL, unite.xy = FALSE, unite.sep = "_")
 }
 \arguments{
 \item{x}{A vector, data frame or matrix.}
@@ -12,6 +12,18 @@ stcoords(x, y = NULL, t = NULL)
 \item{y}{A vector.}
 
 \item{t}{A vector.}
+
+\item{unite.xy}{A boolean indicates if merging x and y coordinates into
+a string to represent a unique location.}
+
+\item{unite.sep}{A separator to use between x and y coordinates.}
+}
+\value{
+A list of formatted location sequences:
+  is_1d: boolean, indicate the spatial coordinates are 1D or 2D.
+  sx: a vector of x coordinate.
+  sy: a vector of y coordinate, NULL if unite.xy is TRUE
+  t: a vector of timestamps.
 }
 \description{
 Format spatiotemporal series in a unified manner for both 1D and 2D locations.
@@ -44,8 +56,9 @@ x <- data.frame(loc=rep(1:10, 2), time=1:20)
 
 ## With vectors
 stcoords(x=rep(1:10, 2), t=1:20)
-}
-\seealso{
-\code{\link{stcoords_1d}}
+
+## Combine x and y coordinates
+x <- data.frame(rep(1:10, 2), rep_each(1:10, 2), 1:20)
+stcoords(x, unite.xy=TRUE)
 }
 

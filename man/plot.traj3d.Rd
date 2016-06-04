@@ -29,11 +29,12 @@ data(movement)
 users <- subset(movement, id \%in\% c(23, 20)) \%>\%
  mutate(time = time/86400 - min(time/86400)) \%>\%
  dplyr::filter(time <= 30)
- 
+\dontrun{
 plot.traj3d(users$lon, users$lat, users$time,
  group_by=users$id, col=c('royalblue', 'orangered'))
 
 invisible(readline(prompt="Press [enter] to continue"))
 traj3d.close()
+}
 }
 

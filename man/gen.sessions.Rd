@@ -4,12 +4,15 @@
 \alias{gen.sessions}
 \title{Merge individual ST points into sessions.}
 \usage{
-gen.sessions(x, y = NULL, t = NULL, gap = 0.5 * 3600)
+gen.sessions(x, y = NULL, t = NULL, gap = 0.5 * 3600, unite.sep = "_")
 }
 \arguments{
 \item{x, y, t}{see params of \code{\link{stcoords}}}
 
 \item{gap}{the time tolerance (sec) to conbime two continuous observations}
+
+\item{unite.sep}{a separator to combine x and y coordinators into one column,
+see also \code{\link{stcoords}}}
 }
 \description{
 Remove duplicate location records in user's movement history.
@@ -18,14 +21,15 @@ Continuous records at the same location is merged into a single session
 }
 \examples{
 data(movement)
-library(dplyr)
+u1 <- movement \%>\% dplyr::filter(id==2)
 
-cmov <- movement \%>\% dplyr::filter(id<10) \%>\%
- group_by(id) \%>\% do(gen.sessions(x=.$loc, t=.$time))
-head(cmov)
+## 1-colume location indicators
+head(gen.sessions(u1$loc, t=u1$time))
+
+## 2-columes location coordinates
+head(gen.sessions(u1$lon, u1$lat, u1$time))
 }
 \seealso{
-\code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
-   \code{\link{plot.flowmap}}, \code{\link{stcoords}}
+\code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}}
 }
 

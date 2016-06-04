@@ -2,36 +2,15 @@
 % Please edit documentation in R/data_quality.R
 \name{dq.point.dynamic}
 \alias{dq.point.dynamic}
-\title{Spatiotemporal data quality indicators of Iovan}
+\title{Spatiotemporal data quality indicator of dynamics}
 \usage{
 dq.point.dynamic(x, y, t)
 }
-\arguments{
-\item{x, y, t}{input for \code{\link{stcoords}}. If x and y represent longitude and
-latitude respectively, please make sure that longitude is located as the first param.}
-}
-\value{
-theta the speed index
-
-U the uncertainty
-
-Q the unified quality indicator for each data point
-
-H the entropic quality indicator for each user
-}
 \description{
-In the paper, Iovan et al.[1] addressed user sampling issues from local and global
-aspects, respectively. The local measures quantify the quality of each observation
-point for each individual, which include speed index (theta), uncertainty (U),
-and a unified quality indicator (Q) based of previous two metrics. The global measure (H)
-quantifies the data quality for a whole trajectory, by considering the information entropy
-of a vector of quality indicators (Q).
+Spatiotemporal data quality indicator of dynamics
 }
 \examples{
-user <- movement \%>\% dplyr::filter(id==1)
-dq.point.dynamic(user$lon, user$lat, user$time/3600)
-}
-\references{
-[1] https://doi.org/10.1007/978-3-319-00615-4_14
+u1 <- movement \%>\% dplyr::filter(id==1)
+head(dq.point.dynamic(u1$lon, u1$lat, u1$time))
 }
 

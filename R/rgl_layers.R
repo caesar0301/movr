@@ -21,7 +21,7 @@
 #' lat2 <- max(u1$lat) + 0.005
 #' lon1 <- min(u1$lon) - 0.005
 #' lon2 <- max(u1$lon) + 0.005
-#' 
+#' \dontrun{
 #' if(require(OpenStreetMap)){
 #'  library(rgl)
 #'  rgl.clear()
@@ -34,7 +34,7 @@
 #'         expand = 1.03, col="black", lwd=0.8)
 #'  invisible(readline(prompt="Press [enter] to continue"))
 #'  rgl.close()
-#' }
+#' }}
 map3d <- function(lowerLeft, upperRight, h=0, type='bing', ...) {
   library(OpenStreetMap)
   

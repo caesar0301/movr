@@ -29,7 +29,7 @@ lat1 <- min(u1$lat) - 0.005
 lat2 <- max(u1$lat) + 0.005
 lon1 <- min(u1$lon) - 0.005
 lon2 <- max(u1$lon) + 0.005
-
+\dontrun{
 if(require(OpenStreetMap)){
  library(rgl)
  rgl.clear()
@@ -42,7 +42,7 @@ if(require(OpenStreetMap)){
         expand = 1.03, col="black", lwd=0.8)
  invisible(readline(prompt="Press [enter] to continue"))
  rgl.close()
-}
+}}
 }
 \seealso{
 \code{\link[OpenStreetMap]{openmap}}
