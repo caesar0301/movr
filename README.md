@@ -11,16 +11,10 @@ Human mobility data analysis and visualization in R.
 On Mac OS X
 
     > brew install cmake pkg-config glib
-
+    
 ## Install
 
-You can install the library from CRAN
-
-```R
-install.packages('movr')
-```
-
-Or install the development version from GitHub
+Currently only support installation from Github:
 
 ```R
 install.packages("devtools")
@@ -32,7 +26,7 @@ devtools::install_github("caesar0301/movr")
 This package provides a suit of very useful utilities to analyze human
 spatio-temporal mobility data.
 
-* `plot.traj3d`
+* `plot.traj3d` (`voronoi3d`)
 
 ![draw_mobility3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/mobility3d.png)
 
