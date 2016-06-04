@@ -6,25 +6,47 @@
 #' 
 #' @param x,y,t see params of \code{\link{stcoords}}
 #' @param gap the time tolerance (sec) to conbime two continuous observations
+#' @param unite.sep a separator to combine x and y coordinators into one column,
+#'  see also \code{\link{stcoords}}
 #' @export
-#' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
-#'    \code{\link{plot.flowmap}}, \code{\link{stcoords}}
+#' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}}
 #' @examples
 #' data(movement)
-#' library(dplyr)
+#' u1 <- movement %>% dplyr::filter(id==2)
 #' 
-#' cmov <- movement %>% dplyr::filter(id<10) %>%
-#'  group_by(id) %>% do(gen.sessions(x=.$loc, t=.$time))
-#' head(cmov)
-gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5 * 3600) {
-  st = stcoords_1d(x, y, t)
-  sx = as.integer(st$sx)
-  tt = as.numeric(st$t)
+#' ## 1-colume location indicators
+#' head(gen.sessions(u1$loc, t=u1$time))
+#' 
+#' ## 2-columes location coordinates
+#' head(gen.sessions(u1$lon, u1$lat, u1$time))
+gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5*3600, unite.sep='_') {
+  stc = stcoords(x, y, t)
+  is_1d = stc$is_1d
   
-  merged <- as.data.frame(.Call("_compress_mov", sx, tt, gap))
-  colnames(merged) <- c("loc", "stime", "etime")
+  if (is_1d) {
+    ssdd = seq_distinct(as.character(stc$sx))
+  } else {
+    # Merge x and y coords into 1 colume
+    stc = stcoords(x, y, t, unite.xy=TRUE, unite.sep=unite.sep)
+    ssdd = seq_distinct(stc$sx)
+  }
   
-  merged
+  sx = as.vector(ssdd)
+  tt = as.numeric(stc$t)
+  sessions <- as.data.frame(.Call("_compress_mov", sx, tt, gap))
+  colnames(sessions) <- c("id", "stime", "etime")
+  
+  xy2id <- data.frame(xy=names(ssdd), id=as.vector(ssdd))
+  xy2id <- xy2id[!duplicated(xy2id), ]
+  if (!is_1d) {
+    xy2id <- xy2id %>% separate(xy, into=c("x", "y"), sep=unite.sep)
+  }
+  
+  sessions <- sessions %>% left_join(xy2id, by=c("id"="id")) %>% subset(select=-id)
+  if (is_1d) {
+    colnames(sessions) <-c('stime', 'etime', 'loc')
+  }
+  sessions
 }
 
 #' Calculate flow stat between locations

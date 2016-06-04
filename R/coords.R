@@ -93,7 +93,14 @@ cart2geo.radian <- function(x) {
 #' @param x A vector, data frame or matrix.
 #' @param y A vector.
 #' @param t A vector.
-#' @seealso \code{\link{stcoords_1d}}
+#' @param unite.xy A boolean indicates if merging x and y coordinates into
+#'  a string to represent a unique location.
+#' @param unite.sep A separator to use between x and y coordinates.
+#' @return A list of formatted location sequences:
+#'   is_1d: boolean, indicate the spatial coordinates are 1D or 2D.
+#'   sx: a vector of x coordinate.
+#'   sy: a vector of y coordinate, NULL if unite.xy is TRUE
+#'   t: a vector of timestamps.
 #' @export
 #' @examples
 #' ## One data frame with columes x, y, t
@@ -108,7 +115,11 @@ cart2geo.radian <- function(x) {
 #' 
 #' ## With vectors
 #' stcoords(x=rep(1:10, 2), t=1:20)
-stcoords <- function(x, y=NULL, t=NULL) {
+#' 
+#' ## Combine x and y coordinates
+#' x <- data.frame(rep(1:10, 2), rep_each(1:10, 2), 1:20)
+#' stcoords(x, unite.xy=TRUE)
+stcoords <- function(x, y=NULL, t=NULL, unite.xy=FALSE, unite.sep = "_") {
   coords <- list()
   coords[['is_1d']] = FALSE
   
@@ -159,30 +170,14 @@ stcoords <- function(x, y=NULL, t=NULL) {
     stop("Invalid spatiotemporal data to format.")
   }
   
+  if (!coords$is_1d && unite.xy) {
+    df <- data.frame(coords$sx, coords$sy) %>%
+      tidyr::unite(loc, c(1, 2), sep=unite.sep)
+    coords$sx <- df$loc
+    coords$sy <- NULL
+    coords$is_1d <- TRUE
+  }
+  
   # return formated coordinates
   coords
-}
-
-
-#' Spatiotemporal data formatting (1D)
-#' 
-#' Similar to \code{\link{stcoords}}, return location instead of x, y coordinates.
-#' 
-#' @param x,y,t params of \code{stcoords}
-#' 
-#' @seealso \code{\link{stcoords}}
-#' @export
-#' @examples
-#' x <- data.frame(rep(1:10, 2), rep_each(1:10, 2), 1:20)
-#' stcoords_1d(x)
-stcoords_1d <- function(x, y=NULL, t=NULL) {
-  st <- stcoords(x, y, t)
-  if ( ! st$is_1d ) {
-    df <- data.frame(st$sx, st$sy) %>%
-      tidyr::unite(loc, c(1, 2))
-    st$sx <- df$loc
-    st$sy <- NULL
-    st$is_1d <- TRUE
-  }
-  st
 }
