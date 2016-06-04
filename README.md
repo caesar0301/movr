@@ -32,11 +32,11 @@ devtools::install_github("caesar0301/movr")
 This package provides a suit of very useful utilities to analyze human
 spatio-temporal mobility data.
 
-* `draw_mobility3d`
+* `plot.traj3d`
 
 ![draw_mobility3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/mobility3d.png)
 
-* `draw_flowmap` (using mobile data from Senegal, [D4D challenge 2014](http://www.d4d.orange.com/en/Accueil))
+* `plog.flowmap` (using mobile data from Senegal, [D4D challenge 2014](http://www.d4d.orange.com/en/Accueil))
 
 ![draw_flowmap_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/flowmap.png)
 
