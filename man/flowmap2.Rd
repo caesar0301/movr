@@ -27,7 +27,7 @@ Different from \code{flowmap}, compressed movement history is used to
 generate flow statistics.
 }
 \seealso{
-\code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flow_stat}},
-   \code{\link{draw_flowmap}}
+\code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flow.stat}},
+   \code{\link{plot.flowmap}}
 }
 

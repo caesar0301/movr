@@ -10,9 +10,9 @@
 #' @param add Whether to add the fitted curve to current plot.
 #' @param ... Extra parameters to \code{\link{curve}}.
 #' @return A list of values for a, lambda and k.
-#' @seealso \code{\link{fit_power_law}}
+#' @seealso \code{\link{fit.power.law}}
 #' @export
-fit_truncated_power_law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...) {
+fit.truncated.power.law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...) {
   xtrunc <- (x>=xmin & x<=xmax)
   x = x[xtrunc]
   y = y[xtrunc]
@@ -43,9 +43,9 @@ fit_truncated_power_law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, a
 #' @param add Whether to add the fitted curve to current plot.
 #' @param ... Extra parameters to \code{\link{curve}}.
 #' @return A list of values for a and lambda.
-#' @seealso \code{\link[igraph]{fit_power_law}}, \code{\link{fit_truncated_power_law}}
+#' @seealso \code{\link[igraph]{fit_power_law}}, \code{\link{fit.truncated.power.law}}
 #' @export
-fit_power_law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...) {
+fit.power.law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...) {
   xtrunc <- (x>=xmin & x<=xmax)
   x = x[xtrunc]
   y = y[xtrunc]
@@ -75,7 +75,7 @@ fit_power_law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, .
 #' @return A list of values for a, b, c, and d.
 #' @param ... Extra parameters to \code{\link{curve}}.
 #' @export
-fit_polyexp <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...){
+fit.polyexp <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...){
   xtrunc <- (x>=xmin & x<=xmax)
   x = x[xtrunc]
   y = y[xtrunc]

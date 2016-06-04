@@ -1,4 +1,4 @@
-#' Compress movement history
+#' Merge individual ST points into sessions.
 #' 
 #' Remove duplicate location records in user's movement history.
 #' Continuous records at the same location is merged into a single session
@@ -7,24 +7,24 @@
 #' @param x,y,t see params of \code{\link{stcoords}}
 #' @param gap the time tolerance (sec) to conbime two continuous observations
 #' @export
-#' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},
-#'    \code{\link{draw_flowmap}}, \code{\link{stcoords}}
+#' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
+#'    \code{\link{plot.flowmap}}, \code{\link{stcoords}}
 #' @examples
 #' data(movement)
-#' 
 #' library(dplyr)
+#' 
 #' cmov <- movement %>% dplyr::filter(id<10) %>%
-#'  group_by(id) %>% do(compress_mov(x=.$loc, t=.$time))
+#'  group_by(id) %>% do(gen.sessions(x=.$loc, t=.$time))
 #' head(cmov)
-compress_mov <- function(x, y=NULL, t=NULL, gap=0.5 * 3600) {
+gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5 * 3600) {
   st = stcoords_1d(x, y, t)
   sx = as.integer(st$sx)
   tt = as.numeric(st$t)
   
-  compressed <- as.data.frame(.Call("_compress_mov", sx, tt, gap))
-  colnames(compressed) <- c("loc", "stime", "etime")
+  merged <- as.data.frame(.Call("_compress_mov", sx, tt, gap))
+  colnames(merged) <- c("loc", "stime", "etime")
   
-  compressed
+  merged
 }
 
 #' Calculate flow stat between locations
@@ -33,18 +33,18 @@ compress_mov <- function(x, y=NULL, t=NULL, gap=0.5 * 3600) {
 #' @param stime The starting timestamp (SECONDS) vector of movement history
 #' @param etime The ending timestamp (SECONDS) vector of movement history
 #' @param gap The temporal idle interval
-#' @seealso \code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
-#'    \code{\link{draw_flowmap}}
+#' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
+#'    \code{\link{plot.flowmap}}
 #' @export
 #' @examples
 #' data(movement)
 #' 
 #' user_move <- subset(movement, id==1)
-#' sessions <- compress_mov(user_move[,c("loc", "time")])
+#' sessions <- gen.sessions(user_move[,c("loc", "time")])
 #' 
-#' res <- with(sessions, flow_stat(loc, stime, etime))
+#' res <- with(sessions, flow.stat(loc, stime, etime))
 #' head(res)
-flow_stat <- function(loc, stime, etime, gap=86400) {
+flow.stat <- function(loc, stime, etime, gap=86400) {
   stopifnot(length(loc) > 0
             && length(loc) == length(stime)
             && length(loc) == length(etime))
@@ -68,8 +68,8 @@ flow_stat <- function(loc, stime, etime, gap=86400) {
 #' @param time the timestamp (SECONDS) vector of movement history
 #' @param gap the maximum dwelling time to consider a valid move between locations.
 #' @return a data frame with four columns: from, to, total, unique (users)
-#' @seealso \code{\link{compress_mov}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},
-#'    \code{\link{draw_flowmap}}
+#' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
+#'    \code{\link{plot.flowmap}}
 #' @export
 #' @examples
 #' data(movement)
@@ -80,7 +80,7 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
   # remove duplicated info in user movement hisotry
   compressed <- data.frame(uid=uid, loc=loc, time=time) %>%
     dplyr::group_by(uid) %>%
-    dplyr::do(compress_mov(x=.$loc, t=.$time))
+    dplyr::do(gen.sessions(x=.$loc, t=.$time))
   
   with(compressed, flowmap2(uid, loc, stime, etime, gap))
 }
@@ -98,15 +98,15 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
 #' @param stime,etime compressed session time at each location
 #' @param gap the maximum dwelling time to consider a valid move between locations
 #' @return a data frame with four columns: from, to, total, unique (users)
-#' @seealso \code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flow_stat}},
-#'    \code{\link{draw_flowmap}}
+#' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flow.stat}},
+#'    \code{\link{plot.flowmap}}
 #' @export
 flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
   compressed <- data.frame(uid=uid, loc=loc, stime=stime, etime=etime)
   
   fmap <- compressed %>%
     group_by(uid) %>%
-    dplyr::do(flow_stat(.$loc, .$stime, .$etime, gap)) %>%
+    dplyr::do(flow.stat(.$loc, .$stime, .$etime, gap)) %>%
     group_by(edge) %>%
     dplyr::summarise(total = sum(freq)) %>%
     separate(edge, c("from", "to"), sep="->")
@@ -137,10 +137,10 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #' @param bg The background color for current plot. It is working when new.device is TRUE.
 #' @param ... Extra parameters for basic plot() function.
 #'
-#' @seealso \code{\link{compress_mov}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
-#'    \code{\link{flow_stat}}
+#' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
+#'    \code{\link{flow.stat}}
 #' @export
-draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
+plot.flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
                          gc.breaks=5, col.pal=c("white", "blue", "black"), col.pal.bias=0.3,
                          col.pal.grad=200, new.device=TRUE, bg="black", ...) {  
   df <- data.frame(from_lat=from_lat, from_lon=from_lon, to_lat=to_lat, to_lon=to_lon)
@@ -188,8 +188,6 @@ draw_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weig
     }
   })
   
-  if (new.device) {
+  if (new.device)
     par(opar)
-  }
-  
 }

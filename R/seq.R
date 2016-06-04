@@ -78,7 +78,7 @@ seq_approximate <- function(x, y){
 #' @param v A vector to generate integer sequence
 #' @export
 #' @seealso \code{\link{seq_along}}, \code{\link{seq_collapsed}},
-#'    \code{\link{vbin}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+#'    \code{\link{vbin}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 #' @examples
 #' seq_along(c(1,2,3,2))
 #' seq_distinct(c(1,2,3,2))
@@ -94,7 +94,7 @@ seq_distinct <- function(v) {
 #' 
 #' @param v The input vector.
 #' @seealso \code{\link{seq_along}}, \code{\link{seq_distinct}},
-#'    \code{\link{vbin}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+#'    \code{\link{vbin}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 #' @export
 #' @examples
 #' seq_collapsed(c(1,2,2,3,2,2))
@@ -148,7 +148,7 @@ rep_each <- function(x, times=2) {
 #' @param center indication of representing intervals as index (default) or
 #' center points.
 #' @return Sequence with interval index or center points.
-#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin_range}}, \code{\link{vbin_grid}}
+#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 #' @export
 #' @examples
 #' vbin(1:10, 3)
@@ -170,10 +170,10 @@ vbin <- function(x, n, center=FALSE){
 #' @param n the number of bins
 #' @return the center of each interval
 #' @export
-#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin_grid}}
+#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin.grid}}
 #' @examples
-#' vbin_range(10:20, 3)
-vbin_range <- function(x, n){
+#' vbin.range(10:20, 3)
+vbin.range <- function(x, n){
   x.bin <- seq(floor(min(x)), ceiling(max(x)), length.out=n+1)
   vbin(x.bin, n, TRUE)[1:n]
 }
@@ -189,11 +189,11 @@ vbin_range <- function(x, n){
 #' @param na Replacemnet for NA value in matrix bins.
 #' @return a matrix with row (column) names being the center points of x (y) dim,
 #' and with cell value being the aggregate statistics calculated by FUN.
-#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin_range}}
+#' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin.range}}
 #' @export
 #' @examples
-#' vbin_grid(1:20, 20:1, runif(20), nx=5, ny=5)
-vbin_grid <- function(x, y, z, nx, ny, FUN=mean, na=NA){
+#' vbin.grid(1:20, 20:1, runif(20), nx=5, ny=5)
+vbin.grid <- function(x, y, z, nx, ny, FUN=mean, na=NA){
   if( length(x) != length(y) || length(x) != length(z))
     stop("Input x, y, z should be the same legnth.")
   
@@ -209,7 +209,7 @@ vbin_grid <- function(x, y, z, nx, ny, FUN=mean, na=NA){
   
   mat <- matrix(data=na, nrow=nx, ncol=ny)
   mat[cbind(dfg$x.int, dfg$y.int)] <- dfg$z
-  rownames(mat) <- vbin_range(x, nx)
-  colnames(mat) <- vbin_range(y, ny)
+  rownames(mat) <- vbin.range(x, nx)
+  colnames(mat) <- vbin.range(y, ny)
   mat
 }

@@ -7,24 +7,19 @@
 #' quantifies the data quality for a whole trajectory, by considering the information entropy
 #' of a vector of quality indicators (Q).
 #' 
-#' @export
-#' @param x,y,t input for \code{\link{stcoords}}. If x and y represent longitude and latitude respectively,
-#' please make sure that longitude is located as the first param.
-#' 
+#' @param x,y,t input for \code{\link{stcoords}}. If x and y represent longitude and
+#' latitude respectively, please make sure that longitude is located as the first param.
 #' @return theta the speed index
 #' @return U the uncertainty
 #' @return Q the unified quality indicator for each data point
 #' @return H the entropic quality indicator for each user
-#' 
+#' @export
 #' @references
-#' [1] C. Iovan, A.-M. Olteanu-Raimond, T. Couronne, and Z. Smoreda,
-#' "Moving and Calling: Mobile Phone Data Quality Measurements and Spatiotemporal Uncertainty in Human Mobility Studies," in
-#' Geographic Information Science at the Heart of Europe, 2013, pp. 247–265.
-#' 
+#' [1] https://doi.org/10.1007/978-3-319-00615-4_14
 #' @examples
 #' user <- movement %>% dplyr::filter(id==1)
-#' Q.iovan(user$lon, user$lat, user$time/3600)
-Q.iovan <- function(x, y, t) {
+#' dq.point.dynamic(user$lon, user$lat, user$time/3600)
+dq.point.dynamic <- function(x, y, t) {
   dat <- stcoords(x, y, t)
   torder <- order(dat$t)
   x <- dat$sx[torder]
@@ -49,4 +44,16 @@ Q.iovan <- function(x, y, t) {
   H <- -sum(Q * log2(Q)) / L
   
   invisible(list(theta=theta, U=U, Q=Q, H=H))
+}
+
+dq.point.static <- function(x, y, t, area.map) {
+  
+}
+
+dq.point <- function(x, y, t) {
+  
+}
+
+dq.traj <- function(x, y, t) {
+  
 }

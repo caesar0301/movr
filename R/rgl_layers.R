@@ -67,88 +67,8 @@ map3d <- function(lowerLeft, upperRight, h=0, type='bing', ...) {
   rgl.surface(slat, slon, t(h), col=col[xres:1,])
 }
 
-#' Visualize 3D mobility data with RGL.
-#' 
-#' @param x,y Numeric vectors of spatial coordinates
-#' @param t The temporal vector for each (x,y) point.
-#' @param group_by A group indicator when multiple users are visualized.
-#' @param col A vector of color strings. It must have the same length as unique(group_by).
-#' @param xlab,ylab,tlab The labels for each axis.
-#' @param ... Other parameters for \code{\link[rgl]{plot3d}} or \code{\link[rgl]{axes3d}}
+#' 3D voronoi canvas for RGL
 #' @export
-#' @examples
-#' data(movement)
-#' 
-#' users <- subset(movement, id %in% c(23, 20)) %>%
-#'  mutate(time = time/86400 - min(time/86400)) %>%
-#'  dplyr::filter(time <= 30)
-#'  
-#' draw_mobility3d(users$lon, users$lat, users$time,
-#'  group_by=users$id, col=c('royalblue', 'orangered'))
-#' 
-#' invisible(readline(prompt="Press [enter] to continue"))
-#' mobility3d.close()
-draw_mobility3d <- function(x, y, t, group_by=NULL, col=NULL, xlab="", ylab="", tlab="", ...) {
-  library(rgl)
-  library(deldir)
-  
-  stopifnot(length(x) == length(y) && length(x) == length(t))
-  
-  #t <- strftime(as.POSIXct(t, origin="1970-01-01"), format="%m%d-%H:%M")
-  
-  par3d(windowRect=c(20,40,800,800), cex='0.8')
-  rgl.clear()
-  rgl.clear("lights")
-  rgl.bg(color="white")
-  rgl.viewpoint(theta = 40, phi = 10)
-  rgl.light(theta = -15, phi = 30, viewpoint.rel=TRUE)
-  
-  if (is.null(group_by)) {
-    group_by = rep(1, length(x))
-    if (is.null(col)){
-      col = colors()[sample(1:600, 1)]
-    } else {
-      stopifnot(length(col) == 1)
-    }
-  } else {
-    stopifnot(length(x) == length(group_by))
-    group_by = seq_distinct(group_by)
-    glen = length(unique(group_by))
-    if (is.null(col)) {
-      col = colors()[sample(1:600, glen, replace = FALSE)]
-    } else {
-      stopifnot(length(col) == glen)
-    }
-  }
-  
-  plot3d(x, t, y, type='n', xlab=xlab, ylab=tlab, zlab=ylab, axes=FALSE, ...)
-  
-  for (g in unique(group_by)) {
-    x0 = x[group_by==g]
-    t0 = t[group_by==g]
-    y0 = y[group_by==g]
-    plot3d(x0, t0, y0, type='p', col=col[g], add=TRUE, ...)
-    lines3d(x0, t0, y0, color=col[g], ...)
-  }
-  
-  voronoi3d(x, y, group_by, col)
-  
-  # axes3d(edges=c("x--", "y--", "z"))
-  # axes3d(lwd=0.7, xlen=8, ylen=10, zlen=8, col='black', marklen=40)
-  
-  axes3d(edges=c('z+-', 'x-+', 'y-+'),
-         col='black', nticks=7, expand=1,
-         labels = FALSE, tick = FALSE, ...)
-}
-
-
-#' @export
-mobility3d.close <- function() {
-  rgl.close()
-}
-
-
-# plot 3D voronoi canvas
 voronoi3d <- function(x, y, group_by=NULL, col=NULL, side='y', col.seg = "grey", lty=1, lwd=1) {
   stopifnot(length(x) == length(y), length(x) == length(group_by))
   stopifnot(tolower(side) %in% c('x', 'y', 'z'))

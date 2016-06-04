@@ -105,25 +105,31 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   int i;
   
   GHashTable *stat = g_hash_table_new(g_str_hash, g_int_equal);
-  last_loc = CHAR(STRING_ELT(loc, 0));
+  last_loc = (char *)CHAR(STRING_ELT(loc, 0));
   last_et = etime_[0];
   
   for ( i = 1; i < length(loc); i++ ){
     if ( stime_[i] - last_et <= gap_ ) {
       // assemble new link name   
       char *link;
-      cur_loc = CHAR(STRING_ELT(loc, i));
+      cur_loc = (char *)CHAR(STRING_ELT(loc, i));
       link = malloc(sizeof(char) * (strlen(last_loc) + strlen(cur_loc) + 3));
       sprintf(link, "%s->%s", last_loc, cur_loc);
       
       // update flow stat
+      int *new_v, *old_v;
+      new_v = g_malloc(sizeof(int));
       if ( ! g_hash_table_contains(stat, link) ) {
-        g_hash_table_insert(stat, link, 0);
+        *new_v = 1;
+        g_hash_table_insert(stat, link, new_v);
+      } else {
+        old_v = (int *)g_hash_table_lookup(stat, link);
+        *new_v = *old_v + 1;
+        g_hash_table_insert(stat, link, new_v);
       }
-      g_hash_table_insert(stat, link, GPOINTER_TO_INT(g_hash_table_lookup(stat, link)) + 1 );
     }
     
-    last_loc = CHAR(STRING_ELT(loc, i));
+    last_loc = (char *)CHAR(STRING_ELT(loc, i));
     last_et = etime_[i];
   }
   
@@ -141,7 +147,7 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   g_hash_table_iter_init(&iter, stat);
   while (g_hash_table_iter_next (&iter, &key, &value)) {
     SET_STRING_ELT(edges, i, mkChar((char*)key));
-    INTEGER(flows)[i] = GPOINTER_TO_INT(value);
+    INTEGER(flows)[i] = *(int *)value;
     i++;
   }
   

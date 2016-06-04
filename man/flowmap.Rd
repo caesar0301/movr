@@ -29,7 +29,7 @@ res <- with(movement, flowmap(id, loc, time))
 head(res)
 }
 \seealso{
-\code{\link{compress_mov}}, \code{\link{flowmap2}}, \code{\link{flow_stat}},
-   \code{\link{draw_flowmap}}
+\code{\link{gen.sessions}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
+   \code{\link{plot.flowmap}}
 }
 

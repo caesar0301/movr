@@ -10,12 +10,12 @@
 #' 
 #' @param N The number of unique locations.
 #' @return The entropy value in bits.
-#' @seealso \code{\link{entropy_space}}, \code{\link{entropy_spacetime}}
+#' @seealso \code{\link{entropy.space}}, \code{\link{entropy.spacetime}}
 #' @references
 #'  Song, C. et al., Limits of predictability in human mobility.
 #'  Science 2010, 1018. (doi:10.1126/science.1177170)
 #' @export
-entropy_rand <- function(N) {
+entropy.rand <- function(N) {
   log2(N)
 }
 
@@ -27,15 +27,15 @@ entropy_rand <- function(N) {
 #' 
 #' @param probs A vector of probability to find the person in unique locations.
 #' @return The entropy value in bits.
-#' @seealso \code{\link{entropy_rand}}, \code{\link{entropy_spacetime}}
+#' @seealso \code{\link{entropy.rand}}, \code{\link{entropy.spacetime}}
 #' @references
 #'  Song, C. et al., Limits of predictability in human mobility.
 #'  Science 2010, 1018. (doi:10.1126/science.1177170)
 #' @export
 #' @examples
 #' p <- c(0.1, 0.3, 0.5, 0.1)
-#' entropy_space(p)
-entropy_space <- function(probs) {
+#' entropy.space(p)
+entropy.space <- function(probs) {
   -sum(probs * log2(probs))
 }
 
@@ -49,12 +49,12 @@ entropy_space <- function(probs) {
 #'  is given by a vector (e.g. location names) or two vectors of location coordinates
 #'  (e.g., latitude and longitude values).
 #' @return The entropy value in bits.
-#' @seealso \code{\link{entropy_rand}}, \code{\link{entropy_space}}
+#' @seealso \code{\link{entropy.rand}}, \code{\link{entropy.space}}
 #' @references
 #'  Song, C. et al., Limits of predictability in human mobility.
 #'  Science 2010, 1018. (doi:10.1126/science.1177170)
 #' @export
-entropy_spacetime <- function(x, y=NULL) {
+entropy.spacetime <- function(x, y=NULL) {
   stop('Unsupported right now.')
 }
 
