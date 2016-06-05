@@ -4,7 +4,7 @@
 \alias{gcd}
 \title{Great Circle Distance (GCD)}
 \usage{
-gcd(p1, p2, type = "slc")
+gcd(p1, p2, type = "hf", na = 0)
 }
 \arguments{
 \item{p1}{Location of point 1 with (lat, long) coordinates.}

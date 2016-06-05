@@ -4,13 +4,13 @@
 \alias{dq.traj}
 \title{Spatiotemporal data quality of user trajectories}
 \usage{
-dq.traj(x, y, t, pc, po)
+dq.traj(x, y, t, pc, po, na = 1e-08)
 }
 \description{
-TODO: add grid-based quality calculation.
+Spatiotemporal data quality of user trajectories
 }
 \examples{
-u1 <- movement \%>\% dplyr::filter(id==1)
+u1 <- movement \%>\% dplyr::filter(id==4)
 pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
 dq.traj(u1$lon, u1$lat, u1$time, pc, po)

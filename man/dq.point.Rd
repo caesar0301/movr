@@ -4,7 +4,7 @@
 \alias{dq.point}
 \title{Spatiotemporal data quality of stay points}
 \usage{
-dq.point(x, y, t, pc, po)
+dq.point(x, y, t, pc, po, na = 1e-08)
 }
 \description{
 Spatiotemporal data quality of stay points

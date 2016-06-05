@@ -24,8 +24,8 @@ quantifies the data quality for a whole trajectory, by considering the informati
 of a vector of quality indicators (Q).
 }
 \examples{
-user <- movement \%>\% dplyr::filter(id==1)
-dq.iovan(user$lon, user$lat, user$time/3600)
+u1 <- movement \%>\% dplyr::filter(id==1)
+dq.iovan(u1$lon, u1$lat, u1$time/3600)
 }
 \references{
 [1] https://doi.org/10.1007/978-3-319-00615-4_14

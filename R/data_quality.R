@@ -17,8 +17,8 @@
 #' [1] https://doi.org/10.1007/978-3-319-00615-4_14
 #' 
 #' @examples
-#' user <- movement %>% dplyr::filter(id==1)
-#' dq.iovan(user$lon, user$lat, user$time/3600)
+#' u1 <- movement %>% dplyr::filter(id==1)
+#' dq.iovan(u1$lon, u1$lat, u1$time/3600)
 dq.iovan <- function(x, y, t) {
   dat <- stcoords(x, y, t)
   torder <- order(dat$t)
@@ -30,33 +30,15 @@ dq.iovan <- function(x, y, t) {
     gcd(c(y[i], x[i]), c(y[i+1], x[i+1]))
   })
   delta.t <- t[2:L] - t[1:L-1]
-  
   # Speed index
-  theta <- atan(d / delta.t)
+  theta <- atan(d/delta.t)
   # Uncertainty
   U <- delta.t / cos(theta)
   # Quanlity indicator for each point
   Q <- exp(-theta * 2 / pi * U)
   # Entropic quality indicator for a user
   H <- -sum(Q * log2(Q)) / L
-  
-  list(Q=c(1, Q), H=H)
-}
-
-#' Spatiotemporal data quality indicator of dynamics
-#' @export
-#' @examples
-#' u1 <- movement %>% dplyr::filter(id==1)
-#' head(dq.point.dynamic(u1$lon, u1$lat, u1$time))
-dq.point.dynamic <- function(x, y, t) {
-  stc <- stcoords(x, y, t)
-  sessions <- gen.sessions(stc$sx, stc$sy, stc$t)
-  sessions$x <- as.numeric(sessions$x)
-  sessions$y <- as.numeric(sessions$y)
-  t <- (sessions$etime + sessions$stime) / 2.0
-  ddd <- dq.iovan(sessions$x, sessions$y, t)
-  sessions$dq <- ddd$Q
-  sessions
+  list(theta=c(0, theta), U = c(1, U), Q=c(1, Q), H=H)
 }
 
 #' Calculate the coverage of each stay point according to Voronoi tesselation.
@@ -82,13 +64,12 @@ people.occurrence <- function(uid, x, y) {
   oo
 }
 
-#' Spatiotemporal data quality indicator of statics
-#' @export
-#' @examples
-#' u1 <- movement %>% dplyr::filter(id==1)
-#' pc <- point.coverage(movement$lon, movement$lat)
-#' po <- people.occurrence(movement$id, movement$lon, movement$lat)
-#' head(dq.point.static(u1$lon, u1$lat, u1$time, pc, po))
+# Spatiotemporal data quality indicator of statics
+# ## Example
+# u1 <- movement %>% dplyr::filter(id==61)
+# pc <- point.coverage(movement$lon, movement$lat)
+# po <- people.occurrence(movement$id, movement$lon, movement$lat)
+# head(dq.point.static(u1$lon, u1$lat, u1$time, pc, po))
 dq.point.static <- function(x, y, t, pc, po) {
   stopifnot(all(c('x', 'y') %in% colnames(pc)))
   stc <- stcoords(x, y, t)
@@ -128,6 +109,22 @@ dq.point.static <- function(x, y, t, pc, po) {
   sessions
 }
 
+# Spatiotemporal data quality indicator of dynamics
+# ## Example
+# u1 <- movement %>% dplyr::filter(id==1)
+# head(dq.point.dynamic(u1$lon, u1$lat, u1$time))
+dq.point.dynamic <- function(x, y, t) {
+  stc <- stcoords(x, y, t)
+  sessions <- gen.sessions(stc$sx, stc$sy, stc$t)
+  sessions$x <- as.numeric(sessions$x)
+  sessions$y <- as.numeric(sessions$y)
+  # Use Iovan's algorithm to calculate the dynamic indicator
+  t <- (sessions$etime + sessions$stime) / 2.0
+  ddd <- dq.iovan(sessions$x, sessions$y, t)
+  sessions$dq <- ddd$Q
+  sessions
+}
+
 #' Spatiotemporal data quality of stay points
 #' @export
 #' @examples
@@ -135,27 +132,36 @@ dq.point.static <- function(x, y, t, pc, po) {
 #' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
 #' head(dq.point(u1$lon, u1$lat, u1$time, pc, po))
-dq.point <- function(x, y, t, pc, po) {
+dq.point <- function(x, y, t, pc, po, dq.min=1e-5, na=dq.min) {
   sss <- dq.point.static(x, y, t, pc, po)
   ddd <- dq.point.dynamic(x, y, t)
   ppp <- sss[, c('stime','etime','x','y')]
+  ## Calculate quality indicators of the statics, dynamics and combined
+  sss$dq[is.na(sss$dq)] <- na
   ppp$dq.s <- sss$dq
+  ddd$dq[is.na(ddd$dq)] <- na
   ppp$dq.d <- ddd$dq
-  # ppp$dq <- (ppp$dq.s * ppp$dq.d)
   ppp$dq <- 2 * (ppp$dq.s * ppp$dq.d) / (ppp$dq.s + ppp$dq.d)
   ppp
 }
 
 #' Spatiotemporal data quality of user trajectories
 #' 
-#' TODO: add grid-based quality calculation.
 #' @export
 #' @examples
-#' u1 <- movement %>% dplyr::filter(id==1)
+#' u1 <- movement %>% dplyr::filter(id==4)
 #' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
 #' dq.traj(u1$lon, u1$lat, u1$time, pc, po)
 dq.traj <- function(x, y, t, pc, po) {
   qq <- dq.point(x, y, t, pc, po)
-  mean(qq$dq)
+  N <- length(t)
+  mm <- mean(qq$dq)
+  entropy <- function(.v) {
+    v <- .v[.v>0]
+    -sum(v * log2(v)) / length(v)
+  }
+  H <- entropy(qq$dq)
+  ## TODO: add grid-based quality calculation.
+  data.frame(N=N, dq=mm, mean=mm, entropy=H)
 }

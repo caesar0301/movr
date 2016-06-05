@@ -23,21 +23,25 @@
 #' gcd(p1, p2)
 #' gcd(p1, p2, type="hf")
 #' gcd(p1, p2, type="vif")
-gcd <- function(p1, p2, type="slc") {
+gcd <- function(p1, p2, type="hf", na=0) {
   lat1 = deg2rad(p1[1])
   lon1 = deg2rad(p1[2])
   lat2 = deg2rad(p2[1])
   lon2 = deg2rad(p2[2])
   
   if (type == "slc") {
-    return(gcd.slc(lat1, lon1, lat2, lon2))
+    ddd <- gcd.slc(lat1, lon1, lat2, lon2)
   } else if (type == "hf") {
-    return(gcd.hf(lat1, lon1, lat2, lon2))
+    ddd <- gcd.hf(lat1, lon1, lat2, lon2)
   } else if (type == "vif") {
-    return(gcd.vif(lat1, lon1, lat2, lon2))
+    ddd <- gcd.vif(lat1, lon1, lat2, lon2)[1]
   } else {
     stop("Unknown type argument: supporting one of 'slc', 'hf', 'vif'.")
   }
+
+  if(is.na(ddd))
+    ddd <- na
+  ddd
 }
 
 # Calculates the geodesic distance between two points specified by radian
