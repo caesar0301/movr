@@ -4,7 +4,7 @@
 \alias{dq.point}
 \title{Spatiotemporal data quality of stay points}
 \usage{
-dq.point(x, y, t, pc, po, na = 1e-08)
+dq.point(stcoords, pc, po, dq.min = 1e-05, na = dq.min)
 }
 \description{
 Spatiotemporal data quality of stay points
@@ -13,6 +13,14 @@ Spatiotemporal data quality of stay points
 u1 <- movement \%>\% dplyr::filter(id==1)
 pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
-head(dq.point(u1$lon, u1$lat, u1$time, pc, po))
+
+stc <- stcoords(u1[,c('lon','lat','time')])
+head(dq.point(stc, pc, po))
+
+sessions <- gen.sessions(stc$x, stc$y, stc$t)
+head(dq.point2(sessions, pc, po))
+}
+\seealso{
+\code{\link{dq.point2}}
 }
 

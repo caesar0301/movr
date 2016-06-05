@@ -24,11 +24,11 @@ gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5*3600, unite.sep='_') {
   is_1d = stc$is_1d
   
   if (is_1d) {
-    ssdd = seq_distinct(as.character(stc$sx))
+    ssdd = seq_distinct(as.character(stc$x))
   } else {
     # Merge x and y coords into 1 colume
     stc = stcoords(x, y, t, unite.xy=TRUE, unite.sep=unite.sep)
-    ssdd = seq_distinct(stc$sx)
+    ssdd = seq_distinct(stc$x)
   }
   
   sx = as.vector(ssdd)

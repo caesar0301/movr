@@ -18,12 +18,12 @@
 #' 
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==1)
-#' dq.iovan(u1$lon, u1$lat, u1$time/3600)
-dq.iovan <- function(x, y, t) {
-  dat <- stcoords(x, y, t)
+#' dq.iovan(stcoords(u1[, c('lon','lat','time')]))
+dq.iovan <- function(stcoords) {
+  dat <- stcoords
   torder <- order(dat$t)
-  x <- dat$sx[torder]
-  y <- dat$sy[torder]
+  x <- dat$x[torder]
+  y <- dat$y[torder]
   t <- dat$t[torder]
   L <- length(t)
   d <- sapply(1:(L-1), function(i) {
@@ -41,6 +41,7 @@ dq.iovan <- function(x, y, t) {
   list(theta=c(0, theta), U = c(1, U), Q=c(1, Q), H=H)
 }
 
+
 #' Calculate the coverage of each stay point according to Voronoi tesselation.
 #' @export
 #' @examples 
@@ -52,6 +53,7 @@ point.coverage <- function(x, y) {
   aaa$area.r <- standardize(aaa$area)
   aaa
 }
+
 
 #' Calculate the ocurrence of unique people at each stay point.
 #' @export
@@ -65,15 +67,10 @@ people.occurrence <- function(uid, x, y) {
 }
 
 # Spatiotemporal data quality indicator of statics
-# ## Example
-# u1 <- movement %>% dplyr::filter(id==61)
-# pc <- point.coverage(movement$lon, movement$lat)
-# po <- people.occurrence(movement$id, movement$lon, movement$lat)
-# head(dq.point.static(u1$lon, u1$lat, u1$time, pc, po))
-dq.point.static <- function(x, y, t, pc, po) {
+dq.point.static <- function(sessions, pc, po) {
+  stopifnot(all(c('x', 'y', 'stime', 'etime') %in% colnames(sessions)))
   stopifnot(all(c('x', 'y') %in% colnames(pc)))
-  stc <- stcoords(x, y, t)
-  sessions <- gen.sessions(stc$sx, stc$sy, stc$t)
+  ## Add coverage and people occurrence statistics
   sessions$x <- as.numeric(sessions$x)
   sessions$y <- as.numeric(sessions$y)
   sessions <- sessions %>%
@@ -81,7 +78,7 @@ dq.point.static <- function(x, y, t, pc, po) {
     left_join(po, by=c("x"="x", "y"="y"))
   sessions$dur <- sessions$etime - sessions$stime
   sessions$area.r <- standardize(sessions$area.r)
-
+  ## Recalculate duration at each stay point
   ts <- sessions$stime
   te <- sessions$etime
   dur <- sessions$dur
@@ -99,8 +96,7 @@ dq.point.static <- function(x, y, t, pc, po) {
   ttt <- t(as.data.frame(rrr))
   sss <- c(ttt[, 1], 0) + c(0, ttt[, 2])
   sessions$dur2 <- sss
-  sessions
-  
+  ## Calculate dynamics data quality
   D <- log(sessions$dur2 / 3600 / 24 + 1)
   S <- sessions$area.r
   rho <- sessions$occur.r
@@ -110,33 +106,49 @@ dq.point.static <- function(x, y, t, pc, po) {
 }
 
 # Spatiotemporal data quality indicator of dynamics
-# ## Example
-# u1 <- movement %>% dplyr::filter(id==1)
-# head(dq.point.dynamic(u1$lon, u1$lat, u1$time))
-dq.point.dynamic <- function(x, y, t) {
-  stc <- stcoords(x, y, t)
-  sessions <- gen.sessions(stc$sx, stc$sy, stc$t)
+dq.point.dynamic <- function(sessions) {
+  stopifnot(all(c('x', 'y', 'stime', 'etime') %in% colnames(sessions)))
+  # Use Iovan's algorithm to calculate the dynamic indicator
   sessions$x <- as.numeric(sessions$x)
   sessions$y <- as.numeric(sessions$y)
-  # Use Iovan's algorithm to calculate the dynamic indicator
   t <- (sessions$etime + sessions$stime) / 2.0
-  ddd <- dq.iovan(sessions$x, sessions$y, t)
+  ddd <- dq.iovan(stcoords(sessions$x, sessions$y, t))
   sessions$dq <- ddd$Q
   sessions
 }
 
+
 #' Spatiotemporal data quality of stay points
 #' @export
+#' @seealso \code{\link{dq.point2}}
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==1)
 #' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
-#' head(dq.point(u1$lon, u1$lat, u1$time, pc, po))
-dq.point <- function(x, y, t, pc, po, dq.min=1e-5, na=dq.min) {
-  sss <- dq.point.static(x, y, t, pc, po)
-  ddd <- dq.point.dynamic(x, y, t)
+#' 
+#' stc <- stcoords(u1[,c('lon','lat','time')])
+#' head(dq.point(stc, pc, po))
+#' 
+#' sessions <- gen.sessions(stc$x, stc$y, stc$t)
+#' head(dq.point2(sessions, pc, po))
+dq.point <- function(stcoords, pc, po, dq.min=1e-5, na=dq.min) {
+  if(stcoords$is_1d)
+    stop("Currently only support numeric x,y coordinates")
+  sessions <- gen.sessions(stcoords$x, stcoords$y, stcoords$t)
+  dq.point2(sessions, pc, po, dq.min, na)
+}
+
+
+#' Spatiotemporal data quality of stay points
+#' @export
+#' @seealso \code{\link{dq.point}}
+dq.point2 <- function(sessions, pc, po, dq.min=1e-5, na=dq.min) {
+  stopifnot(all(c('x', 'y', 'stime', 'etime') %in% colnames(sessions)))
+  ## Calculate quality indicators of the statics, dynamics
+  sss <- dq.point.static(sessions, pc, po)
+  ddd <- dq.point.dynamic(sessions)
   ppp <- sss[, c('stime','etime','x','y')]
-  ## Calculate quality indicators of the statics, dynamics and combined
+  ## Calculate combined quality indicator
   sss$dq[is.na(sss$dq)] <- na
   ppp$dq.s <- sss$dq
   ddd$dq[is.na(ddd$dq)] <- na
@@ -145,16 +157,28 @@ dq.point <- function(x, y, t, pc, po, dq.min=1e-5, na=dq.min) {
   ppp
 }
 
+
 #' Spatiotemporal data quality of user trajectories
-#' 
 #' @export
+#' @seealso \code{\link{dq.traj2}}
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==4)
 #' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
-#' dq.traj(u1$lon, u1$lat, u1$time, pc, po)
-dq.traj <- function(x, y, t, pc, po) {
-  qq <- dq.point(x, y, t, pc, po)
+#' stc <- stcoords(u1[,c('lon','lat','time')])
+#' dq.traj(stc, pc, po)
+#' dq.traj2(dq.point(stc, pc, po))
+dq.traj <- function(stcoords, pc, po) {
+  qq <- dq.point(stcoords, pc, po)
+  dq.traj2(qq)
+}
+
+
+#' Spatiotemporal data quality of user trajectories
+#' @export
+#' @seealso \code{\link{dq.traj}}
+dq.traj2 <- function(dqPoints) {
+  qq <- dqPoints
   N <- length(t)
   mm <- mean(qq$dq)
   entropy <- function(.v) {

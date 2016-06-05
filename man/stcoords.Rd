@@ -21,8 +21,8 @@ a string to represent a unique location.}
 \value{
 A list of formatted location sequences:
   is_1d: boolean, indicate the spatial coordinates are 1D or 2D.
-  sx: a vector of x coordinate.
-  sy: a vector of y coordinate, NULL if unite.xy is TRUE
+  x: a vector of x coordinate.
+  y: a vector of y coordinate, NULL if unite.xy is TRUE
   t: a vector of timestamps.
 }
 \description{

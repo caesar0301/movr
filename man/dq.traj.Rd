@@ -4,7 +4,7 @@
 \alias{dq.traj}
 \title{Spatiotemporal data quality of user trajectories}
 \usage{
-dq.traj(x, y, t, pc, po, na = 1e-08)
+dq.traj(stcoords, pc, po)
 }
 \description{
 Spatiotemporal data quality of user trajectories
@@ -13,6 +13,11 @@ Spatiotemporal data quality of user trajectories
 u1 <- movement \%>\% dplyr::filter(id==4)
 pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
-dq.traj(u1$lon, u1$lat, u1$time, pc, po)
+stc <- stcoords(u1[,c('lon','lat','time')])
+dq.traj(stc, pc, po)
+dq.traj2(dq.point(stc, pc, po))
+}
+\seealso{
+\code{\link{dq.traj2}}
 }
 

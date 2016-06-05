@@ -98,8 +98,8 @@ cart2geo.radian <- function(x) {
 #' @param unite.sep A separator to use between x and y coordinates.
 #' @return A list of formatted location sequences:
 #'   is_1d: boolean, indicate the spatial coordinates are 1D or 2D.
-#'   sx: a vector of x coordinate.
-#'   sy: a vector of y coordinate, NULL if unite.xy is TRUE
+#'   x: a vector of x coordinate.
+#'   y: a vector of y coordinate, NULL if unite.xy is TRUE
 #'   t: a vector of timestamps.
 #' @export
 #' @examples
@@ -131,39 +131,39 @@ stcoords <- function(x, y=NULL, t=NULL, unite.xy=FALSE, unite.sep = "_") {
     if (ncol(x) == 2) { # 1D location index
       coords[['is_1d']] = TRUE
       if ( all(c('x', 't') %in% colnames(x)) ){
-        coords[['sx']] = x[, 'x']
+        coords[['x']] = x[, 'x']
         coords[['t']] = x[, 't']
       } else if (all(c('loc', 'time') %in% colnames(x))) {
-        coords[['sx']] = x[, 'loc']
+        coords[['x']] = x[, 'loc']
         coords[['t']] = x[, 'time']
       } else {
-        coords[['sx']] = x[, 1]
+        coords[['x']] = x[, 1]
         coords[['t']] = x[, 2]
       }
     } else if ( ncol(x) == 3 ) { # 2D space coordincates
       if ( all(c('x', 'y', 't') %in% colnames(x)) ) {
-        coords[['sx']] = x[, 'x']
-        coords[['sy']] = x[, 'y']
+        coords[['x']] = x[, 'x']
+        coords[['y']] = x[, 'y']
         coords[['t']] = x[, 't']
       } else if (all(c('lon', 'lat', 'time') %in% colnames(x))) {
-        coords[['sx']] = x[, 'lon']
-        coords[['sy']] = x[, 'lat']
+        coords[['x']] = x[, 'lon']
+        coords[['y']] = x[, 'lat']
         coords[['t']] = x[, 'time']
       } else {
-        coords[['sx']] = x[, 1]
-        coords[['sy']] = x[, 2]
+        coords[['x']] = x[, 1]
+        coords[['y']] = x[, 2]
         coords[['t']] = x[, 3]
       }
     }
   } else if (is.vector(x)) {
     stopifnot( !is.null(t) || length(t)!=length(x))
-    coords[['sx']] = x
+    coords[['x']] = x
     coords[['t']] = t
     coords[['is_1d']] = TRUE
     
     if ( !is.null(y) ) {
       stopifnot( length(y) == length(x) )
-      coords[['sy']] = y
+      coords[['y']] = y
       coords[['is_1d']] = FALSE
     }
   } else {
@@ -171,10 +171,10 @@ stcoords <- function(x, y=NULL, t=NULL, unite.xy=FALSE, unite.sep = "_") {
   }
   
   if (!coords$is_1d && unite.xy) {
-    df <- data.frame(coords$sx, coords$sy) %>%
+    df <- data.frame(coords$x, coords$y) %>%
       tidyr::unite(loc, c(1, 2), sep=unite.sep)
-    coords$sx <- df$loc
-    coords$sy <- NULL
+    coords$x <- df$loc
+    coords$y <- NULL
     coords$is_1d <- TRUE
   }
   

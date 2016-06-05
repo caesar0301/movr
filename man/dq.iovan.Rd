@@ -4,7 +4,7 @@
 \alias{dq.iovan}
 \title{Spatiotemporal data quality indicators of Iovan}
 \usage{
-dq.iovan(x, y, t)
+dq.iovan(stcoords)
 }
 \arguments{
 \item{x, y, t}{input for \code{\link{stcoords}}. If x and y represent longitude and
@@ -25,7 +25,7 @@ of a vector of quality indicators (Q).
 }
 \examples{
 u1 <- movement \%>\% dplyr::filter(id==1)
-dq.iovan(u1$lon, u1$lat, u1$time/3600)
+dq.iovan(stcoords(u1[, c('lon','lat','time')]))
 }
 \references{
 [1] https://doi.org/10.1007/978-3-319-00615-4_14

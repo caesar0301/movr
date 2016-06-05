@@ -37,11 +37,11 @@ standardize_st <- function(scoord, tcoord, value, alpha=0.5){
     # scaled over time
     group_by(s) %>%
     dplyr::mutate(
-      z.t = standardize_v(v) ) %>%
+      z.t = standardize(v) ) %>%
     # scaled over space
     group_by(t) %>%
     dplyr::mutate(
-      z.s = standardize_v(v),
+      z.s = standardize(v),
       z = alpha * z.s + (1-alpha) * z.t ) %>%
     dplyr::select(-z.t, -z.s)
   df2$z
