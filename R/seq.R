@@ -8,11 +8,6 @@
 #' @examples
 #' standardize(c(1,2,3,4,5,6))
 standardize <- function(x) {
-  standardize_v(x)
-}
-
-#' @export
-standardize_v <- function(x){
   if(length(x) == 1){
     warning('standardize_v takes lenght-1 vector')
     return(1)
