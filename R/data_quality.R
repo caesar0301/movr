@@ -66,7 +66,7 @@ dq.iovan <- function(stcoords, type='lonlat') {
 #' @param type the type of coordinate system: c('lonlat', 'xy')
 #' @return a data.frame with four columns:
 #' @return x,y input stay points
-#' @return area the vector of spatial area of each mosaic in Voronoi diagram
+#' @return area the vector of spatial area (km^2) of each mosaic in Voronoi diagram
 #' @return area.r the nomalized ratio of log(area).
 #' @export 
 #' @examples
@@ -113,7 +113,6 @@ dq.point.static <- function(sessions, pc, po) {
     left_join(po, by=c("x"="x", "y"="y"))
   sessions$dur <- sessions$etime - sessions$stime
   sessions$area.r <- standardize(sessions$area.r)
-  print(head(sessions))
   ## Recalculate duration at each stay point
   ts <- sessions$stime
   te <- sessions$etime
