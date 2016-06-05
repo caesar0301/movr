@@ -11,7 +11,7 @@ TODO: add grid-based quality calculation.
 }
 \examples{
 u1 <- movement \%>\% dplyr::filter(id==1)
-pc <- point.coverage(u1$lon, u1$lat)
+pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
 dq.traj(u1$lon, u1$lat, u1$time, pc, po)
 }

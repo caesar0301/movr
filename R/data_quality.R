@@ -78,7 +78,6 @@ point.coverage <- function(x, y) {
 people.occurrence <- function(uid, x, y) {
   df <- data.frame(uid, x, y)
   oo <- df %>% group_by(x, y) %>% summarise(occur = length(unique(uid)))
-  print(oo)
   oo$occur.r <- standardize(oo$occur)
   oo
 }
@@ -87,7 +86,7 @@ people.occurrence <- function(uid, x, y) {
 #' @export
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==1)
-#' pc <- point.coverage(u1$lon, u1$lat)
+#' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
 #' head(dq.point.static(u1$lon, u1$lat, u1$time, pc, po))
 dq.point.static <- function(x, y, t, pc, po) {
@@ -100,6 +99,7 @@ dq.point.static <- function(x, y, t, pc, po) {
     left_join(pc, by=c("x"="x", "y"="y")) %>%
     left_join(po, by=c("x"="x", "y"="y"))
   sessions$dur <- sessions$etime - sessions$stime
+  sessions$area.r <- standardize(sessions$area.r)
 
   ts <- sessions$stime
   te <- sessions$etime
@@ -132,7 +132,7 @@ dq.point.static <- function(x, y, t, pc, po) {
 #' @export
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==1)
-#' pc <- point.coverage(u1$lon, u1$lat)
+#' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
 #' head(dq.point(u1$lon, u1$lat, u1$time, pc, po))
 dq.point <- function(x, y, t, pc, po) {
@@ -152,7 +152,7 @@ dq.point <- function(x, y, t, pc, po) {
 #' @export
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==1)
-#' pc <- point.coverage(u1$lon, u1$lat)
+#' pc <- point.coverage(movement$lon, movement$lat)
 #' po <- people.occurrence(movement$id, movement$lon, movement$lat)
 #' dq.traj(u1$lon, u1$lat, u1$time, pc, po)
 dq.traj <- function(x, y, t, pc, po) {
