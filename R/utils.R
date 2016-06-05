@@ -48,6 +48,22 @@ in.area <- function(lon, lat, area){
 #' @export
 euc.dist <- function(x1, x2) sqrt(sum((x1 - x2) ^ 2))
 
+#' @export
+lonlat2xy <- function(lon, lat) {
+  lon.min <- min(lon)
+  lon.max <- max(lon)
+  lat.min <- min(lat)
+  lat.max <- max(lat)
+  p0 <- c(lat.min, lon.min)
+  res <- sapply(1:length(lon), function(i){
+    x <- gcd(p0, c(lat.min, lon[i]))
+    y <- gcd(p0, c(lat[i], lon.min))
+    c(x, y)
+  })
+  res <- as.data.frame(t(res))
+  colnames(res) <- c('x', 'y')
+  res
+}
 
 # pseudo spatiotemporal data generator
 .pseudo_movement <- function() {

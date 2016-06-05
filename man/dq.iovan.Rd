@@ -2,30 +2,39 @@
 % Please edit documentation in R/data_quality.R
 \name{dq.iovan}
 \alias{dq.iovan}
-\title{Spatiotemporal data quality indicators of Iovan}
+\title{Spatiotemporal data quality of Iovan's}
 \usage{
-dq.iovan(stcoords)
+dq.iovan(stcoords, type = "lonlat")
 }
 \arguments{
-\item{x, y, t}{input for \code{\link{stcoords}}. If x and y represent longitude and
-latitude respectively, please make sure that longitude is located as the first param.}
+\item{type}{the selection of distance calculation function: 'lonlat' -> great circle distance
+fot long/lat pair, 'xy' -> euclidean distance.}
+
+\item{x, y, t}{as like the input of \code{\link{stcoords}}. The spatial coordinates (x, y)
+should be (long, lat) pair in the geographic coordinate, or quantities in Euclidean
+coordinate. If (x, y) represents (long, lat) pair, the first element must be longitude.}
 }
 \value{
+a list of data quality indicators:
+
+theta the speed index
+
 Q the unified quality indicator for each data point
 
-H the entropic quality indicator for each user
+H the entropic quality indicator for each mobility trajectory
 }
 \description{
-In the paper, Iovan et al.[1] addressed user sampling issues from local and global
-aspects, respectively. The local measures quantify the quality of each observation
-point for each individual, which include speed index (theta), uncertainty (U),
-and a unified quality indicator (Q) based of previous two metrics. The global measure (H)
-quantifies the data quality for a whole trajectory, by considering the information entropy
-of a vector of quality indicators (Q).
+In this data quality measure, Iovan et al.[1] addressed mobility data quality from both
+local and global aspects. The local measure quantifies the quality of each data point,
+which encodes the resonableness of data mainly with regards to SPEED (or time and distance).
+The global measure based on informational entropy quantifies the data quality within
+a whole trajectory. This function implements these measures, which are also referred
+to as the DYNAMIC quality for mobility data.
 }
 \examples{
 u1 <- movement \%>\% dplyr::filter(id==1)
-dq.iovan(stcoords(u1[, c('lon','lat','time')]))
+stc <- stcoords(u1[, c('lon','lat','time')])
+dq.iovan(stc, type='lonlat')
 }
 \references{
 [1] https://doi.org/10.1007/978-3-319-00615-4_14

@@ -2,14 +2,36 @@
 % Please edit documentation in R/data_quality.R
 \name{point.coverage}
 \alias{point.coverage}
-\title{Calculate the coverage of each stay point according to Voronoi tesselation.}
+\title{Spatial coverages of stay points.}
 \usage{
-point.coverage(x, y)
+point.coverage(x, y, type = "lonlat")
+}
+\arguments{
+\item{x, y}{the coordinates of all (unique) stay points in Euclidean space}
+
+\item{type}{the type of coordinate system: c('lonlat', 'xy')}
+}
+\value{
+a data.frame with four columns:
+
+x,y input stay points
+
+area the vector of spatial area of each mosaic in Voronoi diagram
+
+area.r the nomalized ratio of log(area).
 }
 \description{
-Calculate the coverage of each stay point according to Voronoi tesselation.
+Calculate the spatial coverage of each data point by employing the Voronoi tesselation
+(with \code{\link{deldir::deldir}}). The spatial area is calculated in a Euclidean
+space. Thus the user should convert long/lat data into Euclidean coordinates before
+passing into the function.
 }
 \examples{
-head(point.coverage(movement$lon, movement$lat))
+## Long/lat points
+head(point.coverage(movement$lon, movement$lat, type='lonlat'))
+
+## Euclidean points
+ii <- lonlat2xy(movement$lon, movement$lat)
+head(point.coverage(ii$x, ii$y, type='xy'))
 }
 

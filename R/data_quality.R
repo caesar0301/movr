@@ -1,57 +1,91 @@
-#' Spatiotemporal data quality indicators of Iovan
+#' Spatiotemporal data quality of Iovan's
 #' 
-#' In the paper, Iovan et al.[1] addressed user sampling issues from local and global
-#' aspects, respectively. The local measures quantify the quality of each observation
-#' point for each individual, which include speed index (theta), uncertainty (U),
-#' and a unified quality indicator (Q) based of previous two metrics. The global measure (H)
-#' quantifies the data quality for a whole trajectory, by considering the information entropy
-#' of a vector of quality indicators (Q).
+#' In this data quality measure, Iovan et al.[1] addressed mobility data quality from both
+#' local and global aspects. The local measure quantifies the quality of each data point,
+#' which encodes the resonableness of data mainly with regards to SPEED (or time and distance).
+#' The global measure based on informational entropy quantifies the data quality within
+#' a whole trajectory. This function implements these measures, which are also referred
+#' to as the DYNAMIC quality for mobility data.
 #' 
-#' @param x,y,t input for \code{\link{stcoords}}. If x and y represent longitude and
-#' latitude respectively, please make sure that longitude is located as the first param.
+#' @param x,y,t as like the input of \code{\link{stcoords}}. The spatial coordinates (x, y)
+#'  should be (long, lat) pair in the geographic coordinate, or quantities in Euclidean
+#'  coordinate. If (x, y) represents (long, lat) pair, the first element must be longitude.
+#' @param type the selection of distance calculation function: 'lonlat' -> great circle distance
+#'  fot long/lat pair, 'xy' -> euclidean distance.
+#' @return a list of data quality indicators:
+#' @return theta the speed index
 #' @return Q the unified quality indicator for each data point
-#' @return H the entropic quality indicator for each user
-#' 
-#' @export
+#' @return H the entropic quality indicator for each mobility trajectory
 #' @references
 #' [1] https://doi.org/10.1007/978-3-319-00615-4_14
-#' 
+#' @export
 #' @examples
 #' u1 <- movement %>% dplyr::filter(id==1)
-#' dq.iovan(stcoords(u1[, c('lon','lat','time')]))
-dq.iovan <- function(stcoords) {
+#' stc <- stcoords(u1[, c('lon','lat','time')])
+#' dq.iovan(stc, type='lonlat')
+dq.iovan <- function(stcoords, type='lonlat') {
+  ## distance functions
+  stopifnot(type %in% c('lonlat', 'xy'))
+  fun.g <- gcd
+  fun.e <- euc.dist
+  FUN <- if(type=='lonlat') fun.g else fun.e
+  ## transform
   dat <- stcoords
   torder <- order(dat$t)
   x <- dat$x[torder]
   y <- dat$y[torder]
   t <- dat$t[torder]
   L <- length(t)
+  ## calculate distances
   d <- sapply(1:(L-1), function(i) {
-    gcd(c(y[i], x[i]), c(y[i+1], x[i+1]))
+    p1 <- c(y[i], x[i])
+    p2 <- c(y[i+1], x[i+1])
+    FUN(p1, p2)
   })
+  ## calculate time period
   delta.t <- t[2:L] - t[1:L-1]
-  # Speed index
+  ## Speed index
   theta <- atan(d/delta.t)
-  # Uncertainty
+  ## Uncertainty
   U <- delta.t / cos(theta)
-  # Quanlity indicator for each point
+  ## Quanlity indicator for each point
   Q <- exp(-theta * 2 / pi * U)
-  # Entropic quality indicator for a user
+  ## Entropic quality indicator for a user
   H <- -sum(Q * log2(Q)) / L
-  list(theta=c(0, theta), U = c(1, U), Q=c(1, Q), H=H)
+  list(theta=c(0, theta), Q=c(1, Q), H=H)
 }
 
 
-#' Calculate the coverage of each stay point according to Voronoi tesselation.
-#' @export
-#' @examples 
-#' head(point.coverage(movement$lon, movement$lat))
-point.coverage <- function(x, y) {
-  dd <- deldir(x, y)
+#' Spatial coverages of stay points.
+#' 
+#' Calculate the spatial coverage of each data point by employing the Voronoi tesselation
+#' (with \code{\link{deldir::deldir}}). The spatial area is calculated in a Euclidean
+#' space. Thus the user should convert long/lat data into Euclidean coordinates before
+#' passing into the function.
+#' @param x,y the coordinates of all (unique) stay points in Euclidean space
+#' @param type the type of coordinate system: c('lonlat', 'xy')
+#' @return a data.frame with four columns:
+#' @return x,y input stay points
+#' @return area the vector of spatial area of each mosaic in Voronoi diagram
+#' @return area.r the nomalized ratio of log(area).
+#' @export 
+#' @examples
+#' ## Long/lat points
+#' head(point.coverage(movement$lon, movement$lat, type='lonlat'))
+#' 
+#' ## Euclidean points
+#' ii <- lonlat2xy(movement$lon, movement$lat)
+#' head(point.coverage(ii$x, ii$y, type='xy'))
+point.coverage <- function(x, y, type='lonlat') {
+  stopifnot(type %in% c('lonlat', 'xy'))
+  ori <- data.frame(x=x, y=y)
+  ori <- ori[!duplicated(ori), ]
+  xy <- if (type=='lonlat') lonlat2xy(ori$x, ori$y) else ori
+  dd <- deldir(xy$x, xy$y)
   summ <- dd$summary
-  aaa <- data.frame(x=summ$x, y=summ$y, area=summ$dir.area)
-  aaa$area.r <- standardize(aaa$area)
-  aaa
+  ori$area <- summ$dir.area
+  ori$area.r <- standardize(log(ori$area*1e6))
+  ori
 }
 
 
@@ -79,6 +113,7 @@ dq.point.static <- function(sessions, pc, po) {
     left_join(po, by=c("x"="x", "y"="y"))
   sessions$dur <- sessions$etime - sessions$stime
   sessions$area.r <- standardize(sessions$area.r)
+  print(head(sessions))
   ## Recalculate duration at each stay point
   ts <- sessions$stime
   te <- sessions$etime
@@ -98,7 +133,7 @@ dq.point.static <- function(sessions, pc, po) {
   sss <- c(ttt[, 1], 0) + c(0, ttt[, 2])
   sessions$dur2 <- sss
   ## Calculate dynamics data quality
-  D <- log(sessions$dur2 / 3600 / 24 + 1)
+  D <- log(sessions$dur2+1)
   S <- sessions$area.r
   rho <- sessions$occur.r
   Q <- 2 / pi * atan(D/S/sqrt(rho))
@@ -151,8 +186,10 @@ dq.point2 <- function(sessions, pc, po, dq.min=1e-5, na=dq.min) {
   ppp <- sss[, c('stime','etime','x','y')]
   ## Calculate combined quality indicator
   sss$dq[is.na(sss$dq)] <- na
-  ppp$dq.s <- sss$dq
+  sss$dq[sss$dq < dq.min] <- dq.min
   ddd$dq[is.na(ddd$dq)] <- na
+  ddd$dq[ddd$dq < dq.min] <- dq.min
+  ppp$dq.s <- sss$dq
   ppp$dq.d <- ddd$dq
   ppp$dq <- 2 * (ppp$dq.s * ppp$dq.d) / (ppp$dq.s + ppp$dq.d)
   ppp
