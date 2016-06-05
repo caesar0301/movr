@@ -66,6 +66,7 @@ people.occurrence <- function(uid, x, y) {
   oo
 }
 
+
 # Spatiotemporal data quality indicator of statics
 dq.point.static <- function(sessions, pc, po) {
   stopifnot(all(c('x', 'y', 'stime', 'etime') %in% colnames(sessions)))
@@ -178,8 +179,10 @@ dq.traj <- function(stcoords, pc, po) {
 #' @export
 #' @seealso \code{\link{dq.traj}}
 dq.traj2 <- function(dqPoints) {
+  stopifnot(is.data.frame(dqPoints))
+  stopifnot('dq' %in% colnames(dqPoints))
   qq <- dqPoints
-  N <- length(t)
+  N <- length(qq$dq)
   mm <- mean(qq$dq)
   entropy <- function(.v) {
     v <- .v[.v>0]
