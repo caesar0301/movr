@@ -144,10 +144,11 @@ dq.point.static <- function(sessions, pc, po) {
   sss <- c(ttt[, 1], 0) + c(0, ttt[, 2])
   sessions$dur2 <- sss
   ## Calculate dynamics data quality
-  D <- log(sessions$dur2+1)
+  D <- standardize(sessions$dur2)
   S <- sessions$area.r
   rho <- sessions$occur.r
   Q <- 2 / pi * atan(D/S/sqrt(rho))
+  Q <- exp(-Q)
   sessions$dq <- Q
   sessions
 }
