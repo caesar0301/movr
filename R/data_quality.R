@@ -145,13 +145,14 @@ dq.point.static <- function(sessions, pc, po) {
   sessions$dur2 <- sss
   ## Calculate dynamics data quality
   D <- standardize(sessions$dur2)
-  S <- sessions$area.r
-  rho <- sessions$occur.r
+  S <- sapply(sessions$area.r, function(i) max(i, 0.001))
+  rho <- sessions$occur / sessions$area * 1.0
   Q <- 2 / pi * atan(D/S/sqrt(rho))
   Q <- exp(-Q)
   sessions$dq <- Q
   sessions
 }
+
 
 # Spatiotemporal data quality indicator of dynamics
 dq.point.dynamic <- function(sessions) {
