@@ -1,7 +1,7 @@
-#' Merge individual ST points into sessions.
+#' Detect staying sessions of user
 #' 
-#' Remove duplicate location records in user's movement history.
-#' Continuous records at the same location is merged into a single session
+#' This funciton removes duplicate location records in user's mobility trajectory.
+#' Successive records at the same location are merged into a single session
 #' (with interval less than `gap`) recording the starting and ending times.
 #' 
 #' @param x,y,t see params of \code{\link{stcoords}}

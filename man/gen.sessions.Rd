@@ -2,7 +2,7 @@
 % Please edit documentation in R/flowmap.R
 \name{gen.sessions}
 \alias{gen.sessions}
-\title{Merge individual ST points into sessions.}
+\title{Detect staying sessions of user}
 \usage{
 gen.sessions(x, y = NULL, t = NULL, gap = 0.5 * 3600, unite.sep = "_")
 }
@@ -15,8 +15,8 @@ gen.sessions(x, y = NULL, t = NULL, gap = 0.5 * 3600, unite.sep = "_")
 see also \code{\link{stcoords}}}
 }
 \description{
-Remove duplicate location records in user's movement history.
-Continuous records at the same location is merged into a single session
+This funciton removes duplicate location records in user's mobility trajectory.
+Successive records at the same location are merged into a single session
 (with interval less than `gap`) recording the starting and ending times.
 }
 \examples{

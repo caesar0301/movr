@@ -2,18 +2,39 @@
 % Please edit documentation in R/data_quality.R
 \name{dq.traj}
 \alias{dq.traj}
-\title{Spatiotemporal data quality of user trajectories}
+\title{Spatiotemporal data quality of user trajectory}
 \usage{
 dq.traj(stcoords, pc, po)
 }
+\arguments{
+\item{stcoords}{the spatiotemporal coordinates, see \code{\link{stcoords}}}
+
+\item{pc}{the point coverage, see \code{\link{point.coverage}}}
+
+\item{po}{the occurrence of people, see \code{\link{people.occurrence}}}
+}
+\value{
+a data.frame of data qualities for each user.
+
+N the number of data points in a trajectory
+
+dq the data quality of a given trajectory
+
+mean the average data quality of stay points
+
+entropy the informatic entropy of point data qualities
+}
 \description{
-Spatiotemporal data quality of user trajectories
+This function calculates the data quality of a user's trajectory. The measure
+is quantifies with heterogeneity of spatiotemporal data points, as obtained
+via a grid-based optimal searching algorithm.
 }
 \examples{
 u1 <- movement \%>\% dplyr::filter(id==4)
 pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
 stc <- stcoords(u1[,c('lon','lat','time')])
+
 dq.traj(stc, pc, po)
 dq.traj2(dq.point(stc, pc, po))
 }

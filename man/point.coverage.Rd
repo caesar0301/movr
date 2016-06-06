@@ -16,7 +16,7 @@ a data.frame with four columns:
 
 x,y input stay points
 
-area the vector of spatial area of each mosaic in Voronoi diagram
+area the vector of spatial area (km^2) of each mosaic in Voronoi diagram
 
 area.r the nomalized ratio of log(area).
 }

@@ -2,12 +2,18 @@
 % Please edit documentation in R/data_quality.R
 \name{dq.traj2}
 \alias{dq.traj2}
-\title{Spatiotemporal data quality of user trajectories}
+\title{Spatiotemporal data quality of user trajectory}
 \usage{
 dq.traj2(dqPoints)
 }
+\arguments{
+\item{dqPoints}{the data quality returned by \code{\link{dq.point}}}
+}
+\value{
+as the return of \code{\link{dq.traj}}
+}
 \description{
-Spatiotemporal data quality of user trajectories
+The inner implementation of algorithm in \code{\link{dq.traj}}.
 }
 \seealso{
 \code{\link{dq.traj}}

@@ -2,12 +2,27 @@
 % Please edit documentation in R/data_quality.R
 \name{people.occurrence}
 \alias{people.occurrence}
-\title{Calculate the ocurrence of unique people at each stay point.}
+\title{People occurrence at each stay point.}
 \usage{
 people.occurrence(uid, x, y)
 }
+\arguments{
+\item{uid}{a vector of user id}
+
+\item{x, y}{vectors of user's locations}
+}
+\value{
+a data.frame with columns: uid, x, y, occur, occur.r
+
+occur the number of unique people detected at a stay point
+
+occur.r the nomalized ratio of occur.
+}
 \description{
-Calculate the ocurrence of unique people at each stay point.
+Calculate the identifiability of a person within a stay point's coverage.
+The identifiability is given via the average number of unique people present
+in the data. The more occurrence of people, the lower of identifiability to
+detect a specific person in the coverage.
 }
 \examples{
 people.occurrence(movement$id, movement$lon, movement$lat)
