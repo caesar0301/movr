@@ -32,6 +32,9 @@ install_github("caesar0301/movr")
 b. From source code
 
 ```bash
+# Build C source
+./configure
+
 # Check package compliance
 R CMD check ${PKG_ROOT}
 
