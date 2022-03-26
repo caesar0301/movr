@@ -23,6 +23,13 @@ install.packages(c('devtools', 'dplyr', 'tidyr', 'data.table', 'geosphere', 'del
 devtools::install_github("caesar0301/movr")
 ```
 
+Or install from source code:
+
+```bash
+R CMD check ${PKG_ROOT}
+echo "library(devtools); run_examples(); install()" | R --no-save
+```
+
 ## Visualization
 
 This package provides a suit of very useful utilities to analyze human

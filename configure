@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 PKG_ROOT=`dirname $0`
 
 if [ -e ${PKG_ROOT}/build ]; then
@@ -26,9 +24,3 @@ fi
 
 # Inform useDynLib search path
 cp ${PKG_ROOT}/build/${libname} ${PKG_ROOT}/src/${libname}
-
-echo "Run R CMD check"
-R CMD check ${PKG_ROOT}
-
-echo "Run movr examples"
-echo "library(devtools); run_examples(); install()" | R --no-save
