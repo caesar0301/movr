@@ -6,7 +6,7 @@ rm -rf ${PKG_ROOT}/build
 fi
 mkdir ${PKG_ROOT}/build
 
-cd ${PKG_ROOT}/build && cmake .. && make && cd -
+cd ${PKG_ROOT}/build && cmake -Wno-dev .. && make && cd -
 
 unameOut="$(uname -s)"
 case "${unameOut}" in
@@ -23,4 +23,4 @@ echo "Error: Shared lib not built, exit" && exit 1
 fi
 
 # Inform useDynLib search path
-cp ${PKG_ROOT}/build/${libname} ${PKG_ROOT}/src/${libname}
+cp ${PKG_ROOT}/build/${libname} ${PKG_ROOT}/src/libmovr.so
