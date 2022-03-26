@@ -16,17 +16,29 @@ On Mac OS X
     
 ## Install
 
-Currently only support installation from Github:
+1. Install dependencies
 
 ```R
-install.packages(c('devtools', 'dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph'))
-devtools::install_github("caesar0301/movr")
+install.packages(c('dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph'))
 ```
 
-Or install from source code:
+2. Install movr
+
+a. From github
+
+```R
+library(devtools)
+install_github("caesar0301/movr")
+run_examples("movr")
+```
+
+b. From source code
 
 ```bash
+# Check package compliance
 R CMD check ${PKG_ROOT}
+
+# Install
 echo "library(devtools); run_examples(); install()" | R --no-save
 ```
 
