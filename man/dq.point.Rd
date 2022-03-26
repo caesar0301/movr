@@ -46,4 +46,3 @@ head(dq.point2(sessions, pc, po))
 \seealso{
 \code{\link{dq.point2}}
 }
-

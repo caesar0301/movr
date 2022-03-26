@@ -3,10 +3,8 @@
 \docType{package}
 \name{movr}
 \alias{movr}
-\alias{movr-package}
 \title{movr: inspecting human mobility with R}
 \description{
 A package targeting at analyzing, modeling, and visualizing
 human mobility from temporal and spatial perspectives.
 }
-

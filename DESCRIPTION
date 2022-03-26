@@ -23,4 +23,4 @@ LazyData: yes
 License: MIT + file LICENSE
 SystemRequirements: GNU CMake
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 7.1.2

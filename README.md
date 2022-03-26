@@ -6,6 +6,8 @@ Human mobility data analysis and visualization in R.
 
 ## Dependencies
 
+On Ubuntu
+
     > sudo apt-get install cmake pkg-config libglib2.0-dev
 
 On Mac OS X
@@ -17,7 +19,7 @@ On Mac OS X
 Currently only support installation from Github:
 
 ```R
-install.packages("devtools")
+install.packages(c('devtools', 'dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph'))
 devtools::install_github("caesar0301/movr")
 ```
 
@@ -30,7 +32,7 @@ spatio-temporal mobility data.
 
 ![draw_mobility3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/mobility3d.png)
 
-* `plog.flowmap` (using mobile data from Senegal, [D4D challenge 2014](http://www.d4d.orange.com/en/Accueil))
+* `plot.flowmap` (using mobile data from Senegal, [D4D challenge 2014](http://www.d4d.orange.com/en/Accueil))
 
 ![draw_flowmap_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/flowmap.png)
 

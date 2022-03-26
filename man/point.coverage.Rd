@@ -34,4 +34,3 @@ head(point.coverage(movement$lon, movement$lat, type='lonlat'))
 ii <- lonlat2xy(movement$lon, movement$lat)
 head(point.coverage(ii$x, ii$y, type='xy'))
 }
-

@@ -15,4 +15,3 @@ hour2date(hour, tz = "Asia/Shanghai")
 Convert UNIX hour (calculated by dividing UNIX seconds with 3600)
 to date at local time zone.
 }
-

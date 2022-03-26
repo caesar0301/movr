@@ -15,4 +15,3 @@ Convert Cartesian coordinates to geopoints in radians.
 \seealso{
 \code{\link{geo2cart.radian}}
 }
-

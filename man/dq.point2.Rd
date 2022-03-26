@@ -30,4 +30,3 @@ or external utilities.
 \seealso{
 \code{\link{dq.point}}
 }
-

@@ -4,10 +4,17 @@
 \alias{voronoi3d}
 \title{3D voronoi canvas for RGL}
 \usage{
-voronoi3d(x, y, group_by = NULL, col = NULL, side = "y",
-  col.seg = "grey", lty = 1, lwd = 1)
+voronoi3d(
+  x,
+  y,
+  group_by = NULL,
+  col = NULL,
+  side = "y",
+  col.seg = "grey",
+  lty = 1,
+  lwd = 1
+)
 }
 \description{
 3D voronoi canvas for RGL
 }
-

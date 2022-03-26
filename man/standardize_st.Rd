@@ -24,4 +24,3 @@ tcoord <- rep(c(1,2), each=6)
 value <- runif(6 * 2)
 standardize_st(scoord, tcoord, log10(1+value))
 }
-

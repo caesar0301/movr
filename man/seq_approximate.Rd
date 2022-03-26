@@ -24,4 +24,3 @@ seq_approximate(a, b)
 \seealso{
 \code{\link{seq_along}}, \code{\link{rep_each}}
 }
-

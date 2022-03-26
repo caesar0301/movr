@@ -19,4 +19,3 @@ confine the area boundaries.
 \examples{
 in.area(120.1, 30.1, c(120.0,30.0,120.5,30.5))
 }
-

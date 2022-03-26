@@ -61,4 +61,3 @@ stcoords(x=rep(1:10, 2), t=1:20)
 x <- data.frame(rep(1:10, 2), rep_each(1:10, 2), 1:20)
 stcoords(x, unite.xy=TRUE)
 }
-

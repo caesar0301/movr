@@ -27,4 +27,3 @@ detect a specific person in the coverage.
 \examples{
 people.occurrence(movement$id, movement$lon, movement$lat)
 }
-

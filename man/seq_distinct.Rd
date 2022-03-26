@@ -21,4 +21,3 @@ seq_distinct(c(1,2,3,2))
 \code{\link{seq_along}}, \code{\link{seq_collapsed}},
    \code{\link{vbin}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 }
-

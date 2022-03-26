@@ -23,4 +23,4 @@ minor.ticks.axis(ax, n, lab = TRUE, tick.ratio = 0.5, mn, mx, ...)
 Add minor ticks for log-log plots based on R basic
 graphic engine.
 }
-
+\concept{graphic extensions}

@@ -23,4 +23,3 @@ Note that only eucludian distance is supported merely for this time.
 \seealso{
 \code{\link{spatial.corr}}
 }
-

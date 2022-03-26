@@ -15,4 +15,3 @@ hour2tod(hour, tz = "Asia/Shanghai")
 Convert UNIX hour (calculated by dividing UNIX seconds with 3600)
 to to Time-of-Day (TOD) at local time zone.
 }
-

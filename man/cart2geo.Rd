@@ -21,4 +21,3 @@ cart2geo(c(-0.4330127, 0.7500000, 0.5000000))
 \seealso{
 \code{\link{geo2cart}}, \code{\link{cart2geo.radian}}
 }
-

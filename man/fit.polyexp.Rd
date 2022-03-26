@@ -4,8 +4,7 @@
 \alias{fit.polyexp}
 \title{Fit a poly-exponential distribution}
 \usage{
-fit.polyexp(x, y, xmin = min(x), xmax = max(x), plot = TRUE, add = TRUE,
-  ...)
+fit.polyexp(x, y, xmin = min(x), xmax = max(x), plot = TRUE, add = TRUE, ...)
 }
 \arguments{
 \item{x}{A vector of independent variable.}
@@ -28,4 +27,3 @@ A list of values for a, b, c, and d.
 \description{
 Model: y ~ exp(a*x^2 + b*x + c) * x^d
 }
-

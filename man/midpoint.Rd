@@ -36,4 +36,3 @@ midpoint(lat, lon, w)
 \seealso{
 \code{\link{radius.of.gyration}}
 }
-

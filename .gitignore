@@ -1,9 +1,9 @@
 *.DS_Store
 *.Rcheck
-Makefile
 *.bke
 test
 test.c
+build
 
 # building
 _builds
@@ -24,5 +24,7 @@ src/*.dylib
 # RStudio files
 .Rproj.user/
 .Rproj.user
+movr.Rproj
 packrat/lib*/
 inst/doc
+movr-manual.pdf

@@ -23,4 +23,3 @@ several fields (indexed by order) of given timestamp:
 \description{
 Melt time into parts
 }
-

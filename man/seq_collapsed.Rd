@@ -20,4 +20,3 @@ seq_collapsed(c(1,2,2,3,2,2))
 \code{\link{seq_along}}, \code{\link{seq_distinct}},
    \code{\link{vbin}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 }
-

@@ -15,4 +15,3 @@ Convert radians to degrees.
 \seealso{
 \code{\link{deg2rad}}
 }
-

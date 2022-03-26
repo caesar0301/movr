@@ -14,7 +14,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 # source files of this project
 set(movr_SRCS
   src/flowmap.c
-
   src/order.c
   src/order.h
 )

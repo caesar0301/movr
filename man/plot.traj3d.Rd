@@ -4,8 +4,17 @@
 \alias{plot.traj3d}
 \title{Visualize trajectories using RGL 3D.}
 \usage{
-plot.traj3d(x, y, t, group_by = NULL, col = NULL, xlab = "", ylab = "",
-  tlab = "", ...)
+\method{plot}{traj3d}(
+  x,
+  y,
+  t,
+  group_by = NULL,
+  col = NULL,
+  xlab = "",
+  ylab = "",
+  tlab = "",
+  ...
+)
 }
 \arguments{
 \item{x, y}{Numeric vectors of spatial coordinates}
@@ -37,4 +46,3 @@ invisible(readline(prompt="Press [enter] to continue"))
 traj3d.close()
 }
 }
-

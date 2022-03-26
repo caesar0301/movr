@@ -4,8 +4,19 @@
 \alias{plot.heatmap}
 \title{Heatmap of xyz data}
 \usage{
-plot.heatmap(x, y, z, nx = 100, ny = 100, na = 0, nlevels = 10,
-  levels = NULL, colors = rev(brewer.pal(11, "Spectral")), bias = 1, ...)
+\method{plot}{heatmap}(
+  x,
+  y,
+  z,
+  nx = 100,
+  ny = 100,
+  na = 0,
+  nlevels = 10,
+  levels = NULL,
+  colors = rev(brewer.pal(11, "Spectral")),
+  bias = 1,
+  ...
+)
 }
 \arguments{
 \item{x, y}{the coordinates of each z value.}
@@ -29,4 +40,3 @@ plot.heatmap(x, y, z, nx = 100, ny = 100, na = 0, nlevels = 10,
 \description{
 Visualize the xyz data in a 2d heatmap.
 }
-

@@ -17,4 +17,3 @@ calculate the root mean squared error (RMSE) of two vectors.
 \examples{
 RMSE(c(1,2,3,4), c(2,3,2,3))
 }
-

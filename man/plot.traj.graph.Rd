@@ -4,7 +4,7 @@
 \alias{plot.traj.graph}
 \title{Visualize individual's trajectories.}
 \usage{
-plot.traj.graph(loc, time, ...)
+\method{plot}{traj.graph}(loc, time, ...)
 }
 \description{
 This funciton plots a trajectory of a specific user as a weighted
@@ -13,4 +13,3 @@ graph. Each node represents a stay point whose size indicates the
 transition between stay points and its width indicates the (log)
 transition frenquencies.
 }
-

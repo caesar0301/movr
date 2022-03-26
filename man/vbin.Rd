@@ -30,4 +30,3 @@ vbin(1:10, 3, TRUE)
 \seealso{
 \code{\link{seq_approximate}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 }
-

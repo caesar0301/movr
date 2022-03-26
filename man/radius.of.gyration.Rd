@@ -32,4 +32,3 @@ Nature, vol. 453, no. 7196, pp. 779-782, Jun. 2008.
 \seealso{
 \code{\link{midpoint}}
 }
-

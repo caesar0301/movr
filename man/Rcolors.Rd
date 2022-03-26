@@ -20,4 +20,3 @@ Copyright: Earl F. Glynn
 \references{
 http://research.stowers-institute.org/efg/R/Color/Chart/
 }
-

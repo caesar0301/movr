@@ -4,8 +4,7 @@
 \alias{fit.power.law}
 \title{Fit a power-law}
 \usage{
-fit.power.law(x, y, xmin = min(x), xmax = max(x), plot = TRUE,
-  add = TRUE, ...)
+fit.power.law(x, y, xmin = min(x), xmax = max(x), plot = TRUE, add = TRUE, ...)
 }
 \arguments{
 \item{x}{A vector of independent variable.}
@@ -31,4 +30,3 @@ Model: y ~ a * x^{-lambda}
 \seealso{
 \code{\link[igraph]{fit_power_law}}, \code{\link{fit.truncated.power.law}}
 }
-

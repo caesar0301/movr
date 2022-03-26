@@ -4,10 +4,22 @@
 \alias{plot.flowmap}
 \title{Visualize flowmap.}
 \usage{
-plot.flowmap(from_lat, from_lon, to_lat, to_lon, dist.log = TRUE,
-  weight = NULL, weight.log = TRUE, gc.breaks = 5, col.pal = c("white",
-  "blue", "black"), col.pal.bias = 0.3, col.pal.grad = 200,
-  new.device = TRUE, bg = "black", ...)
+\method{plot}{flowmap}(
+  from_lat,
+  from_lon,
+  to_lat,
+  to_lon,
+  dist.log = TRUE,
+  weight = NULL,
+  weight.log = TRUE,
+  gc.breaks = 5,
+  col.pal = c("white", "blue", "black"),
+  col.pal.bias = 0.3,
+  col.pal.grad = 200,
+  new.device = TRUE,
+  bg = "black",
+  ...
+)
 }
 \arguments{
 \item{from_lat}{The latitude coordinates of departing point for mobile transitions.}
@@ -49,4 +61,3 @@ will generate a line on the map.
 \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
    \code{\link{flow.stat}}
 }
-

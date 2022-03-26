@@ -39,4 +39,3 @@ dq.iovan(stc, type='lonlat')
 \references{
 [1] https://doi.org/10.1007/978-3-319-00615-4_14
 }
-

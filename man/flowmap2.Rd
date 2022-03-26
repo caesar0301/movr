@@ -30,4 +30,3 @@ generate flow statistics.
 \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flow.stat}},
    \code{\link{plot.flowmap}}
 }
-

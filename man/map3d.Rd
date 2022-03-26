@@ -47,4 +47,3 @@ if(require(OpenStreetMap)){
 \seealso{
 \code{\link[OpenStreetMap]{openmap}}
 }
-

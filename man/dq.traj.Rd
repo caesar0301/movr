@@ -41,4 +41,3 @@ dq.traj2(dq.point(stc, pc, po))
 \seealso{
 \code{\link{dq.traj2}}
 }
-

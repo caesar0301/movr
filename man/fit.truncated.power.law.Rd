@@ -4,8 +4,15 @@
 \alias{fit.truncated.power.law}
 \title{Fit a truncated power-law.}
 \usage{
-fit.truncated.power.law(x, y, xmin = min(x), xmax = max(x), plot = TRUE,
-  add = TRUE, ...)
+fit.truncated.power.law(
+  x,
+  y,
+  xmin = min(x),
+  xmax = max(x),
+  plot = TRUE,
+  add = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{A vector of independent variable.}
@@ -31,4 +38,3 @@ Model: y ~ a * x^(-lambda) exp(-x/k)
 \seealso{
 \code{\link{fit.power.law}}
 }
-

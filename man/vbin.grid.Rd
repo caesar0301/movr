@@ -29,4 +29,3 @@ vbin.grid(1:20, 20:1, runif(20), nx=5, ny=5)
 \seealso{
 \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin.range}}
 }
-

@@ -22,4 +22,3 @@ rep_each(1:10, 2)
 \seealso{
 \code{\link{seq_approximate}},
 }
-

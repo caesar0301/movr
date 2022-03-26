@@ -28,4 +28,3 @@ Calculate spatial correlation of a 2D region
 \seealso{
 \code{\link{pairwise.dist}}
 }
-

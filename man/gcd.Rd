@@ -35,4 +35,3 @@ gcd(p1, p2, type="vif")
 \url{
 http://www.r-bloggers.com/great-circle-distance-calculations-in-r/}
 }
-

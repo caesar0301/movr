@@ -32,4 +32,3 @@ head(gen.sessions(u1$lon, u1$lat, u1$time))
 \seealso{
 \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}}
 }
-

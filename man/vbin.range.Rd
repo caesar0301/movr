@@ -23,4 +23,3 @@ vbin.range(10:20, 3)
 \seealso{
 \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin.grid}}
 }
-

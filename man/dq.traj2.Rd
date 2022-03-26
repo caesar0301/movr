@@ -18,4 +18,3 @@ The inner implementation of algorithm in \code{\link{dq.traj}}.
 \seealso{
 \code{\link{dq.traj}}
 }
-

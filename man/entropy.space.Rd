@@ -28,4 +28,3 @@ Song, C. et al., Limits of predictability in human mobility.
 \seealso{
 \code{\link{entropy.rand}}, \code{\link{entropy.spacetime}}
 }
-

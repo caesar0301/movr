@@ -32,4 +32,3 @@ head(res)
 \code{\link{gen.sessions}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
    \code{\link{plot.flowmap}}
 }
-
