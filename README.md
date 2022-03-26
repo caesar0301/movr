@@ -36,7 +36,7 @@ b. From source code
 ./configure
 
 # Check package compliance
-R CMD check ${PKG_ROOT}
+R CMD check .
 
 # Install
 echo "library(devtools); run_examples(); install()" | R --no-save
@@ -44,8 +44,7 @@ echo "library(devtools); run_examples(); install()" | R --no-save
 
 ## Visualization
 
-This package provides a suit of very useful utilities to analyze human
-spatio-temporal mobility data.
+`movr` provides a suit of useful utilities to analyze human spatio-temporal mobility data.
 
 * `plot.traj3d` (`voronoi3d`)
 
