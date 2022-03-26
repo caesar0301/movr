@@ -2,7 +2,7 @@
 
 Human mobility data analysis and visualization in R.
 
-## Dependencies
+## Prerequirments
 
 On Ubuntu
 
@@ -17,6 +17,10 @@ On Mac OS X
 1. Install dependencies
 
 ```R
+# for pkg installation
+install.packages('devtools')
+
+# for movr
 install.packages(c('dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph'))
 ```
 
