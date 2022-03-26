@@ -1,7 +1,5 @@
 # movr
 
-[![Build Status](https://travis-ci.org/caesar0301/movr.svg)](https://travis-ci.org/caesar0301/movr)
-
 Human mobility data analysis and visualization in R.
 
 ## Dependencies
@@ -29,7 +27,6 @@ a. From github
 ```R
 library(devtools)
 install_github("caesar0301/movr")
-run_examples("movr")
 ```
 
 b. From source code
