@@ -2,7 +2,7 @@
 
 Human mobility data analysis and visualization in R.
 
-## Prerequirments
+## Prerequisites
 
 On Ubuntu
 
