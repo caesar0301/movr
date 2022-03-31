@@ -6,11 +6,11 @@ Human mobility data analysis and visualization in R.
 
 On Ubuntu
 
-    > sudo apt-get install cmake pkg-config libglib2.0-dev
+    > sudo apt-get install cmake pkg-config libglib2.0-dev libglpk-dev libgmp-dev libopengl-dev
 
 On Mac OS X
 
-    > brew install cmake pkg-config glib
+    > brew install cmake pkg-config glib glpk
     
 ## Install
 
@@ -21,7 +21,7 @@ On Mac OS X
 install.packages('devtools')
 
 # for movr
-install.packages(c('dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph'))
+install.packages(c('dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph', 'rgl'))
 ```
 
 2. Install movr
@@ -42,8 +42,11 @@ b. From source code
 # Check package compliance
 R CMD check .
 
+# Run examples
+R --no-save -e "library(devtools);run_examples()"
+
 # Install
-echo "library(devtools); run_examples(); install()" | R --no-save
+R --no-save -e "library(devtools);install()"
 ```
 
 ## Visualization

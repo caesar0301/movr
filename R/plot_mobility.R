@@ -87,11 +87,15 @@ traj3d.close <- function() {
 #' transition between stay points and its width indicates the (log)
 #' transition frequencies.
 #' @export
+#' @examples
+#' data(movement)
+#' 
+#' user <- subset(movement, id==20)
+#' plot_traj_graph(user$loc, user$time)
 plot_traj_graph <- function(loc, time, ...) {
   library(igraph)
   user <- data.frame(loc=loc, time=time)
   stays <- cal_place_dwelling(user$loc, user$time)
-  print(head(stays))
   cut.off <- sqrt(median(stays$dwelling))
   stays.cut <- stays[stays$dwelling > cut.off, ]
   user.cut <- subset(user, user$loc %in% stays.cut$loc)

@@ -13,3 +13,9 @@ graph. Each node represents a stay point whose size indicates the
 transition between stay points and its width indicates the (log)
 transition frequencies.
 }
+\examples{
+data(movement)
+
+user <- subset(movement, id==20)
+plot_traj_graph(user$loc, user$time)
+}
