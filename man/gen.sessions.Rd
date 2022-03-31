@@ -7,15 +7,15 @@
 gen.sessions(x, y = NULL, t = NULL, gap = 0.5 * 3600, unite.sep = "_")
 }
 \arguments{
-\item{x, y, t}{see params of \code{\link{stcoords}}}
+\item{x, y, t}{see parameters of \code{\link{stcoords}}}
 
-\item{gap}{the time tolerance (sec) to conbime two continuous observations}
+\item{gap}{the time tolerance (sec) to combine two continuous observations}
 
 \item{unite.sep}{a separator to combine x and y coordinators into one column,
 see also \code{\link{stcoords}}}
 }
 \description{
-This funciton removes duplicate location records in user's mobility trajectory.
+This function removes duplicate location records in user's mobility trajectory.
 Successive records at the same location are merged into a single session
 (with interval less than `gap`) recording the starting and ending times.
 }
@@ -23,10 +23,10 @@ Successive records at the same location are merged into a single session
 data(movement)
 u1 <- movement \%>\% dplyr::filter(id==2)
 
-## 1-colume location indicators
+## 1-column location indicators
 head(gen.sessions(u1$loc, t=u1$time))
 
-## 2-columes location coordinates
+## 2-column location coordinates
 head(gen.sessions(u1$lon, u1$lat, u1$time))
 }
 \seealso{

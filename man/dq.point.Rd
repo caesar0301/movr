@@ -14,22 +14,22 @@ dq.point(stcoords, pc, po, dq.min = 1e-05, na = dq.min)
 \item{po}{the occurrence of people, see \code{\link{people.occurrence}}}
 
 \item{dq.min}{the lower bound of data quality. Values less than this bound
-will be set forcely to this quality (default 1e-5)}
+will be set by force to this quality (default 1e-5)}
 
 \item{na}{the replacement of NA (default dq.min)}
 }
 \value{
-the origianl sessions with extra fields: c('dq.s', 'dq.d', 'dq'). `dq.s`
+the original sessions with extra fields: c('dq.s', 'dq.d', 'dq'). `dq.s`
  and `dq.d` give the STATIC and DYNAMIC quality measures respectively, while
  `dq` is the Harmonic mean of previous two.
 }
 \description{
-This funciton gives the local quality metric of spatiotemporal data points.
+This function gives the local quality metric of spatiotemporal data points.
 The metric contains two parts of quality information, ie STATIC and DYNAMIC.
 The STATIC part comes from the spatial and temporal coverage of each point,
-which quantifies the uncertainty of user whereabout caused by the intrinsic
+which quantifies the uncertainty of user whereabouts caused by the intrinsic
 limitation of measurement method (eg location coverage). The DYNAMIC part
-gives the quanlity from dynamic information like speed, which emploies the
+gives the quality from dynamic information like speed, which uses the
 Iovan's algorithm as addressed in \code{\link{dq.iovan}}.
 }
 \examples{

@@ -30,5 +30,5 @@ head(res)
 }
 \seealso{
 \code{\link{gen.sessions}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
-   \code{\link{plot.flowmap}}
+   \code{\link{plot_flowmap}}
 }

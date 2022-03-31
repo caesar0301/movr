@@ -5,7 +5,7 @@
 \title{Major concepts, tools and visualization in the predictability paper.
  Song, C. et al., Limits of predictability in human mobility.
  Science 2010, 1018. (doi:10.1126/science.1177170)
-Mobility entropies}
+Mobility entropy}
 \usage{
 entropy.rand(N)
 }
@@ -16,7 +16,7 @@ entropy.rand(N)
 The entropy value in bits.
 }
 \description{
-In Song's paper, three kinds of entorpies are involved to investigate
+In Song's paper, three kinds of entropy are involved to investigate
 the predictability of human mobility, i.e., random entropy $S^{rand}$,
 spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
 }

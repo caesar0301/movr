@@ -2,7 +2,7 @@
 % Please edit documentation in R/predictability.R
 \name{entropy.spacetime}
 \alias{entropy.spacetime}
-\title{Mobility entropies}
+\title{Mobility entropy}
 \usage{
 entropy.spacetime(x, y = NULL)
 }
@@ -15,7 +15,7 @@ is given by a vector (e.g. location names) or two vectors of location coordinate
 The entropy value in bits.
 }
 \description{
-In Song's paper, three kinds of entorpies are involved to investigate
+In Song's paper, three kinds of entropy are involved to investigate
 the predictability of human mobility, i.e., random entropy $S^{rand}$,
 spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
 }

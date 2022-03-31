@@ -56,7 +56,7 @@ gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5*3600, unite.sep='_') {
 #' @param etime The ending timestamp (SECONDS) vector of movement history
 #' @param gap The temporal idle interval
 #' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
-#'    \code{\link{plot.flowmap}}
+#'    \code{\link{plot_flowmap}}
 #' @export
 #' @examples
 #' data(movement)
@@ -91,7 +91,7 @@ flow.stat <- function(loc, stime, etime, gap=86400) {
 #' @param gap the maximum dwelling time to consider a valid move between locations.
 #' @return a data frame with four columns: from, to, total, unique (users)
 #' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap2}}, \code{\link{flow.stat}},
-#'    \code{\link{plot.flowmap}}
+#'    \code{\link{plot_flowmap}}
 #' @export
 #' @examples
 #' data(movement)
@@ -121,7 +121,7 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
 #' @param gap the maximum dwelling time to consider a valid move between locations
 #' @return a data frame with four columns: from, to, total, unique (users)
 #' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flow.stat}},
-#'    \code{\link{plot.flowmap}}
+#'    \code{\link{plot_flowmap}}
 #' @export
 flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
   compressed <- data.frame(uid=uid, loc=loc, stime=stime, etime=etime)
@@ -162,7 +162,7 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #' @seealso \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
 #'    \code{\link{flow.stat}}
 #' @export
-plot.flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
+plot_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weight=NULL, weight.log=TRUE,
                          gc.breaks=5, col.pal=c("white", "blue", "black"), col.pal.bias=0.3,
                          col.pal.grad=200, new.device=TRUE, bg="black", ...) {  
   df <- data.frame(from_lat=from_lat, from_lon=from_lon, to_lat=to_lat, to_lon=to_lon)

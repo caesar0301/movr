@@ -18,7 +18,7 @@ x,y input stay points
 
 area the vector of spatial area (km^2) of each mosaic in Voronoi diagram
 
-area.r the nomalized ratio of log(area).
+area.r the normalized ratio of log(area).
 }
 \description{
 Calculate the spatial coverage of each data point by employing the Voronoi tesselation

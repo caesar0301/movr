@@ -29,5 +29,5 @@ head(res)
 }
 \seealso{
 \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flowmap2}},
-   \code{\link{plot.flowmap}}
+   \code{\link{plot_flowmap}}
 }

@@ -28,5 +28,5 @@ generate flow statistics.
 }
 \seealso{
 \code{\link{gen.sessions}}, \code{\link{flowmap}}, \code{\link{flow.stat}},
-   \code{\link{plot.flowmap}}
+   \code{\link{plot_flowmap}}
 }

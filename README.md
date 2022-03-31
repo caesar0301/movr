@@ -50,11 +50,11 @@ echo "library(devtools); run_examples(); install()" | R --no-save
 
 `movr` provides a suit of useful utilities to analyze human spatio-temporal mobility data.
 
-* `plot.traj3d` (`voronoi3d`)
+* `plot_traj3d` (`voronoi3d`)
 
 ![draw_mobility3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/mobility3d.png)
 
-* `plot.flowmap` (using mobile data from Senegal, [D4D challenge 2014](http://www.d4d.orange.com/en/Accueil))
+* `plot_flowmap` (using mobile data from Senegal, [D4D challenge 2014](http://www.d4d.orange.com/en/Accueil))
 
 ![draw_flowmap_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/flowmap.png)
 

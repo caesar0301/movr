@@ -8,7 +8,7 @@ dq.iovan(stcoords, type = "lonlat")
 }
 \arguments{
 \item{type}{the selection of distance calculation function: 'lonlat' -> great circle distance
-fot long/lat pair, 'xy' -> euclidean distance.}
+of long/lat pair, 'xy' -> euclidean distance.}
 
 \item{x, y, t}{as like the input of \code{\link{stcoords}}. The spatial coordinates (x, y)
 should be (long, lat) pair in the geographic coordinate, or quantities in Euclidean
@@ -26,7 +26,7 @@ H the entropic quality indicator for each mobility trajectory
 \description{
 In this data quality measure, Iovan et al.[1] addressed mobility data quality from both
 local and global aspects. The local measure quantifies the quality of each data point,
-which encodes the resonableness of data mainly with regards to SPEED (or time and distance).
+which encodes the reasonableness of data mainly with regards to SPEED (or time and distance).
 The global measure based on informational entropy quantifies the data quality within
 a whole trajectory. This function implements these measures, which are also referred
 to as the DYNAMIC quality for mobility data.

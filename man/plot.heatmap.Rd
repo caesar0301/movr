@@ -25,7 +25,7 @@
 
 \item{nx, ny}{the number of bins in x and y dimension, used by \code{\link{vbin.grid}}.}
 
-\item{na}{replacemnet for NA value in matrix bins, used by \code{\link{vbin.grid}}.}
+\item{na}{replacement for NA value in matrix bins, used by \code{\link{vbin.grid}}.}
 
 \item{nlevels}{the number of colorful stages to plot, see `filled.contour`.}
 

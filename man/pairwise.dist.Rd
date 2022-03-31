@@ -17,8 +17,8 @@ the data frame of c('r', 'z1', 'z2')
 \description{
 Given a random field defined by (x, y) and observation value z, this function
 calculates the distance between each location pair and appends original observation
-values into the same row. The output can be exploited to calcualte spatial correlations.
-Note that only eucludian distance is supported merely for this time.
+values into the same row. The output can be exploited to calculate spatial correlations.
+Note that only Euclidean distance is supported merely for this time.
 }
 \seealso{
 \code{\link{spatial.corr}}

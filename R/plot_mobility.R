@@ -14,13 +14,13 @@
 #'  mutate(time = time/86400 - min(time/86400)) %>%
 #'  dplyr::filter(time <= 30)
 #' \dontrun{
-#' plot.traj3d(users$lon, users$lat, users$time,
+#' plot_traj3d(users$lon, users$lat, users$time,
 #'  group_by=users$id, col=c('royalblue', 'orangered'))
 #' 
 #' invisible(readline(prompt="Press [enter] to continue"))
 #' traj3d.close()
 #' }
-plot.traj3d <- function(x, y, t, group_by=NULL, col=NULL, xlab="", ylab="", tlab="", ...) {
+plot_traj3d <- function(x, y, t, group_by=NULL, col=NULL, xlab="", ylab="", tlab="", ...) {
   library(rgl)
   library(deldir)
   
@@ -87,24 +87,11 @@ traj3d.close <- function() {
 #' transition between stay points and its width indicates the (log)
 #' transition frequencies.
 #' @export
-plot.traj.graph <- function(loc, time, ...) {
+plot_traj_graph <- function(loc, time, ...) {
   library(igraph)
-  
-  place_dwelling <- function(x, t) {
-    xt <- merge.sessions(x=x, t=t)
-    xt$dwelling <- xt$etime - xt$stime
-    
-    L <- nrow(xt)
-    delta <- 0.5 * (xt$stime[2:L] - xt$etime[1:L-1])
-    xt$dwelling <- xt$dwelling + c(delta, 0) + c(0, delta)
-    
-    df <- data.frame(loc=xt$loc, dwelling=xt$dwelling)
-    df %>% group_by(loc) %>% summarise(dwelling=sum(dwelling))
-  }
-  
   user <- data.frame(loc=loc, time=time)
-  
-  stays <- place_dwelling(user$loc, user$time)
+  stays <- cal_place_dwelling(user$loc, user$time)
+  print(head(stays))
   cut.off <- sqrt(median(stays$dwelling))
   stays.cut <- stays[stays$dwelling > cut.off, ]
   user.cut <- subset(user, user$loc %in% stays.cut$loc)
@@ -123,3 +110,24 @@ plot.traj.graph <- function(loc, time, ...) {
   plot(g, layout=layout.kamada.kawai, ...)
 }
 
+# Merged by the same locations
+merge_dwelling_session <- function(loc, time) {
+  df <- data.frame(loc, time)
+  df %>% 
+    mutate(grp=cumsum(c(TRUE, diff(loc) != 0))) %>%
+    group_by(grp, loc) %>%
+    summarise(stime=min(time), etime=max(time))
+}
+
+#' Calculate dwelling period by averaging dwelling
+#' time between different consecutive locations
+#' @export
+cal_place_dwelling <- function(loc, time) {
+  xt <- merge_dwelling_session(loc, time)
+  xt$dwelling <- xt$etime - xt$stime
+  L <- nrow(xt)
+  delta <- 0.5 * (xt$stime[2:L] - xt$etime[1:L-1])
+  xt$dwelling <- xt$dwelling + c(delta, 0) + c(0, delta)
+  df <- data.frame(loc=xt$loc, dwelling=xt$dwelling)
+  df %>% group_by(loc) %>% summarise(dwelling=sum(dwelling))
+}

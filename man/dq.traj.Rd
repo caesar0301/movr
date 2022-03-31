@@ -22,7 +22,7 @@ dq the data quality of a given trajectory
 
 mean the average data quality of stay points
 
-entropy the informatic entropy of point data qualities
+entropy the informative entropy of point data qualities
 }
 \description{
 This function calculates the data quality of a user's trajectory. The measure
