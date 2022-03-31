@@ -2,9 +2,9 @@
 #'  Song, C. et al., Limits of predictability in human mobility.
 #'  Science 2010, 1018. (doi:10.1126/science.1177170)
 
-#' Mobility entropies
+#' Mobility entropy
 #' 
-#' In Song's paper, three kinds of entorpies are involved to investigate
+#' In Song's paper, three kinds of entropy are involved to investigate
 #' the predictability of human mobility, i.e., random entropy $S^{rand}$,
 #' spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
 #' 
@@ -19,9 +19,9 @@ entropy.rand <- function(N) {
   log2(N)
 }
 
-#' Mobility entropies
+#' Mobility entropy
 #' 
-#' In Song's paper, three kinds of entorpies are involved to investigate
+#' In Song's paper, three kinds of entropy are involved to investigate
 #' the predictability of human mobility, i.e., random entropy $S^{rand}$,
 #' spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
 #' 
@@ -39,9 +39,9 @@ entropy.space <- function(probs) {
   -sum(probs * log2(probs))
 }
 
-#' Mobility entropies
+#' Mobility entropy
 #' 
-#' In Song's paper, three kinds of entorpies are involved to investigate
+#' In Song's paper, three kinds of entropy are involved to investigate
 #' the predictability of human mobility, i.e., random entropy $S^{rand}$,
 #' spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
 #' 

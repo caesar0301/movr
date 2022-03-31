@@ -1,11 +1,11 @@
 #' Detect staying sessions of user
 #' 
-#' This funciton removes duplicate location records in user's mobility trajectory.
+#' This function removes duplicate location records in user's mobility trajectory.
 #' Successive records at the same location are merged into a single session
 #' (with interval less than `gap`) recording the starting and ending times.
 #' 
-#' @param x,y,t see params of \code{\link{stcoords}}
-#' @param gap the time tolerance (sec) to conbime two continuous observations
+#' @param x,y,t see parameters of \code{\link{stcoords}}
+#' @param gap the time tolerance (sec) to combine two continuous observations
 #' @param unite.sep a separator to combine x and y coordinators into one column,
 #'  see also \code{\link{stcoords}}
 #' @export
@@ -14,10 +14,10 @@
 #' data(movement)
 #' u1 <- movement %>% dplyr::filter(id==2)
 #' 
-#' ## 1-colume location indicators
+#' ## 1-column location indicators
 #' head(gen.sessions(u1$loc, t=u1$time))
 #' 
-#' ## 2-columes location coordinates
+#' ## 2-column location coordinates
 #' head(gen.sessions(u1$lon, u1$lat, u1$time))
 gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5*3600, unite.sep='_') {
   stc = stcoords(x, y, t)
@@ -153,7 +153,7 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #'        Refer to \url{colorbrewer2.org} to derive more palettes.
 #' @param col.pal.bias The bias coefficient used by \code{colorRampPalette}. Higher values give more widely
 #'        spaced colors at the high end.
-#' @param col.pal.grad The number of color grades to diffeciate distance.
+#' @param col.pal.grad The number of color grades to differentiate distance.
 #' @param new.device Whether creating a new device for current plot. Set this parameter as FALSE when
 #'  trying to plot multiple flowmaps in one figure.
 #' @param bg The background color for current plot. It is working when new.device is TRUE.

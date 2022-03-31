@@ -12,7 +12,7 @@ heatmap.levels <- function(z, nlevels=10) {
 #' @param x,y the coordinates of each z value.
 #' @param z the observed value for each (x,y) point.
 #' @param nx,ny the number of bins in x and y dimension, used by \code{\link{vbin.grid}}.
-#' @param na replacemnet for NA value in matrix bins, used by \code{\link{vbin.grid}}.
+#' @param na replacement for NA value in matrix bins, used by \code{\link{vbin.grid}}.
 #' @param nlevels the number of colorful stages to plot, see `filled.contour`.
 #' @param levels a numeric vector to indicate the colorful stages, see `filled.contour`.
 #' @param colors a vector of color names or hex values, see `colorRampPalette`.
@@ -27,7 +27,7 @@ plot.heatmap <- function(x, y, z, nx=100, ny=100, na=0, nlevels=10, levels=NULL,
   # Generate 2d heatmap from xyz data
   mat <- vbin_grid(x, y, z, na=na, nx=nx, ny=ny)
   
-  # Obtain x and y coords for each bin on a 2d surface
+  # Obtain x and y coordinates for each bin on a 2d surface
   x <- as.numeric(rownames(mat))
   y <- as.numeric(colnames(mat))
   

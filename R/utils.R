@@ -1,4 +1,4 @@
-# Utility funcitons used by movr package
+# Utilities used by movr package
 # By Xiaming Chen <chenxm35@gmail.com>
 
 # Rotate a matrix by 90 degree

@@ -81,11 +81,11 @@ traj3d.close <- function() {
 
 #' Visualize individual's trajectories.
 #' 
-#' This funciton plots a trajectory of a specific user as a weighted
+#' This function plots a trajectory of a specific user as a weighted
 #' graph. Each node represents a stay point whose size indicates the
-#' (log) lenght of dwelling time. Each directed edge means the existence
+#' (log) length of dwelling time. Each directed edge means the existence
 #' transition between stay points and its width indicates the (log)
-#' transition frenquencies.
+#' transition frequencies.
 #' @export
 plot.traj.graph <- function(loc, time, ...) {
   library(igraph)
