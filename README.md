@@ -6,7 +6,7 @@ For human mobility data analysis and visualization in R.
     
 ## Install
 
-See detailed prerequisites and installation in [INSTALL.md](http://github.com/caesar0301/movr/INSTALL.md).
+See detailed prerequisites and installation in [INSTALL.md](https://github.com/caesar0301/movr/blob/master/INSTALL.md).
 
 A quick start with `devtools::install_github("caesar0301/movr")` in R console.
 
