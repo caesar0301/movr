@@ -1,55 +1,18 @@
 # movr
 
-Human mobility data analysis and visualization in R.
+For human mobility data analysis and visualization in R.
 
-## Prerequisites
-
-On Ubuntu
-
-    > sudo apt-get install cmake pkg-config libglib2.0-dev libglpk-dev libgmp-dev libopengl-dev
-
-On Mac OS X
-
-    > brew install cmake pkg-config glib glpk
+[Behavior informatics](https://en.wikipedia.org/wiki/Behavior_informatics) studies intrinsic laws of human or animals in nature. Insight on individual or group mobility dynamics facilitates developing enhanced simulation and prediction models in application fields like wireless communication networks, animal migration, epidemic prediction and so on. In common scenarios, individual mobility is described by three-element tuples, i.e. <subjectId, timestamp, location>, in which location is represented by symbolic character name or geo-coordinates. `movr` originates from my research on human mobility and provides some general transformation, calculation and visualization tools. May this small library facilitates others job in the area.
     
 ## Install
 
-1. Install dependencies
+See detailed prerequisites and installation in [INSTALL.md](http://github.com/caesar0301/movr/INSTALL.md).
 
-```R
-# for pkg installation
-install.packages('devtools')
+A quick start with `devtools::install_github("caesar0301/movr")` in R console.
 
-# for movr
-install.packages(c('dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph', 'rgl'))
-```
+## Usage
 
-2. Install movr
-
-a. From github
-
-```R
-library(devtools)
-install_github("caesar0301/movr")
-```
-
-b. From source code
-
-```bash
-# Build C source
-./configure
-
-# Check package compliance
-R CMD check .
-
-# Run examples
-R --no-save -e "library(devtools);run_examples()"
-
-# Install
-R --no-save -e "library(devtools);install()"
-```
-
-## Visualization
+### Visualization
 
 `movr` provides a suit of useful utilities to analyze human spatio-temporal mobility data.
 
@@ -66,10 +29,24 @@ R --no-save -e "library(devtools);install()"
 ![map3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/map3d-rgl.png)
 
 
+## Related work
+
+Some application of `movr` can be found in the Meta-Structure paper: 
+
+```
+@article{CHEN2017464,
+	author = {Xiaming Chen and Haiyang Wang and Siwei Qiang and Yongkun Wang and Yaohui Jin},
+	doi = {https://doi.org/10.1016/j.pmcj.2017.02.001},
+	issn = {1574-1192},
+	journal = {Pervasive and Mobile Computing},
+	title = {Discovering and modeling meta-structures in human behavior from city-scale cellular data},
+	url = {https://www.sciencedirect.com/science/article/pii/S1574119217300743},
+	volume = {40},
+	year = {2017}}
+```
+
+
 ## Bug Report
 
 * https://github.com/caesar0301/movr/issues
-
-## Author
-
-© Xiaming Chen - chenxm35@gmail.com
+* Or contact chenxm35@gmail.com

@@ -1,0 +1,48 @@
+# Install Movr
+
+## Prerequisites
+
+On Ubuntu
+
+    > sudo apt-get install cmake pkg-config libglib2.0-dev libglpk-dev libgmp-dev libopengl-dev
+
+On Mac OS X
+
+    > brew install cmake pkg-config glib glpk
+    
+## Install
+
+1. Install dependencies
+
+```R
+# for pkg installation
+install.packages('devtools')
+
+# for movr
+install.packages(c('dplyr', 'tidyr', 'data.table', 'geosphere', 'deldir', 'RColorBrewer', 'igraph', 'rgl'))
+```
+
+2. Install movr
+
+a. From github
+
+```R
+library(devtools)
+install_github("caesar0301/movr")
+```
+
+b. From source code
+
+```bash
+# Build C source
+./configure
+
+# Check package compliance
+R CMD check .
+
+# Run examples
+R --no-save -e "library(devtools);run_examples()"
+
+# Install
+R --no-save -e "library(devtools);install()"
+```
