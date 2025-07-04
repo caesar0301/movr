@@ -44,13 +44,13 @@ jobs:
 
       - name: Install R package dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran(c("devtools", "roxygen2", "spelling", "goodpractice"))
+          R -e "install.packages(c('remotes', 'rcmdcheck'))"
+          R -e "remotes::install_deps(dependencies = TRUE)"
+          R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'goodpractice'))"
 
       - name: Build package
         run: |
-          devtools::build()
+          R -e "devtools::build()"
 
       - name: Run CRAN release check
         run: |
