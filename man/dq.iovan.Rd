@@ -7,12 +7,10 @@
 dq.iovan(stcoords, type = "lonlat")
 }
 \arguments{
+\item{stcoords}{The spatiotemporal coordinates, see \code{\link{stcoords}}}
+
 \item{type}{the selection of distance calculation function: 'lonlat' -> great circle distance
 of long/lat pair, 'xy' -> euclidean distance.}
-
-\item{x, y, t}{as like the input of \code{\link{stcoords}}. The spatial coordinates (x, y)
-should be (long, lat) pair in the geographic coordinate, or quantities in Euclidean
-coordinate. If (x, y) represents (long, lat) pair, the first element must be longitude.}
 }
 \value{
 a list of data quality indicators:

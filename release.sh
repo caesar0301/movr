@@ -5,8 +5,8 @@ echo "Building native code"
 echo "Check package"
 R CMD check .
 
-echo "Regenerate documents"
-R --no-save -e "library(devtools);document(roclets=c('collate','namespace','rd'))"
+echo "Regenerate documents with enhanced NAMESPACE generation"
+Rscript render_docs.R
 
 echo "Build package"
 R CMD build .

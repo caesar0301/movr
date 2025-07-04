@@ -33,7 +33,7 @@ fit.truncated.power.law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, a
 
 #' Fit a power-law
 #' 
-#' Model: y ~ a * x^{-lambda}
+#' Model: \eqn{y \sim a \times x^{-\lambda}}
 #' 
 #' @param x A vector of independent variable.
 #' @param y A vector of dependent variable.

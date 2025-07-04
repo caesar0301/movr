@@ -21,3 +21,6 @@
 ^\.cursor$
 ^\.Rcheck$
 ^\.DS_Store$
+
+render_docs.R
+release.sh

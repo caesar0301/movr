@@ -12,7 +12,7 @@
 #' }
 #' 
 #' @source Sample mobility data for demonstration purposes
-#' 
+#' @docType data
 #' @examples
 #' data(movement)
 #' head(movement)

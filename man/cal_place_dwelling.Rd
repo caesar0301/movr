@@ -9,6 +9,7 @@ cal_place_dwelling(loc, time)
 }
 \arguments{
 \item{loc}{A vector of location identifiers}
+
 \item{time}{A vector of timestamps corresponding to each location}
 }
 \value{

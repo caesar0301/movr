@@ -4,15 +4,15 @@
 \alias{vbin}
 \title{Vector binning}
 \usage{
-vbin(x, n, center=c(TRUE, FALSE))
+vbin(x, n, center = FALSE)
 }
 \arguments{
 \item{x}{a numeric vector}
 
 \item{n}{the number of bins}
 
-\item{center}{indication of representing intervals as index (default) or
-center points.}
+\item{center}{indication of representing intervals as index (FALSE, default) or
+center points (TRUE).}
 }
 \value{
 Sequence with interval index or center points.
