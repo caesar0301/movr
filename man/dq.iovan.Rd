@@ -32,7 +32,7 @@ a whole trajectory. This function implements these measures, which are also refe
 to as the DYNAMIC quality for mobility data.
 }
 \examples{
-u1 <- movement \%>\% dplyr::filter(id==1)
+u1 <- dplyr::filter(movement, id==1)
 stc <- stcoords(u1[, c('lon','lat','time')])
 dq.iovan(stc, type='lonlat')
 }

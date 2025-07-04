@@ -7,6 +7,13 @@ time between different consecutive locations}
 \usage{
 cal_place_dwelling(loc, time)
 }
+\arguments{
+\item{loc}{A vector of location identifiers}
+\item{time}{A vector of timestamps corresponding to each location}
+}
+\value{
+A data frame with columns 'loc' and 'dwelling' containing the total dwelling time for each location
+}
 \description{
 Calculate dwelling period by averaging dwelling
 time between different consecutive locations

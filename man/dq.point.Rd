@@ -33,7 +33,7 @@ gives the quality from dynamic information like speed, which uses the
 Iovan's algorithm as addressed in \code{\link{dq.iovan}}.
 }
 \examples{
-u1 <- movement \%>\% dplyr::filter(id==1)
+u1 <- dplyr::filter(movement, id==1)
 pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
 

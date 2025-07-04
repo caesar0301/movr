@@ -14,8 +14,8 @@ The entropy value in bits.
 }
 \description{
 In Song's paper, three kinds of entropy are involved to investigate
-the predictability of human mobility, i.e., random entropy $S^{rand}$,
-spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
+the predictability of human mobility, i.e., random entropy \eqn{S^{rand}},
+spatial entropy \eqn{S^{unc}} and spatio-temproal entropy \eqn{S_i}.
 }
 \examples{
 p <- c(0.1, 0.3, 0.5, 0.1)

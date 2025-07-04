@@ -11,6 +11,7 @@
 #' @param p1 Location of point 1 with (lat, long) coordinates.
 #' @param p2 Location of point 2 with (lat, long) coordinates.
 #' @param type Specific algorithm to use, c('slc', 'hf', 'vif').
+#' @param na Value to return for NA distances
 #' @return Distance in kilometers (km).
 #' @references \url{
 #' http://www.r-bloggers.com/great-circle-distance-calculations-in-r/}

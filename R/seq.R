@@ -35,15 +35,15 @@ standardize_st <- function(scoord, tcoord, value, alpha=0.5){
   df <- data.frame(s=scoord, t=tcoord, v=value)
   df2 <- df %>%
     # scaled over time
-    group_by(s) %>%
+    dplyr::group_by(.data$s) %>%
     dplyr::mutate(
-      z.t = standardize(v) ) %>%
+      z.t = standardize(.data$v) ) %>%
     # scaled over space
-    group_by(t) %>%
+    dplyr::group_by(.data$t) %>%
     dplyr::mutate(
-      z.s = standardize(v),
-      z = alpha * z.s + (1-alpha) * z.t ) %>%
-    dplyr::select(-z.t, -z.s)
+      z.s = standardize(.data$v),
+      z = alpha * .data$z.s + (1-alpha) * .data$z.t ) %>%
+    dplyr::select(-.data$z.t, -.data$z.s)
   df2$z
 }
 
@@ -136,12 +136,10 @@ rep_each <- function(x, times=2) {
 #' and bin index is given by checking the bin [bin_min, bin_max)
 #' into which data points in x fall.
 #' 
-#' @usage
-#'     vbin(x, n, center=c(TRUE, FALSE))
 #' @param x a numeric vector
 #' @param n the number of bins
-#' @param center indication of representing intervals as index (default) or
-#' center points.
+#' @param center indication of representing intervals as index (FALSE, default) or
+#' center points (TRUE).
 #' @return Sequence with interval index or center points.
 #' @seealso \code{\link{seq_approximate}}, \code{\link{vbin.range}}, \code{\link{vbin.grid}}
 #' @export
@@ -199,8 +197,8 @@ vbin.grid <- function(x, y, z, nx, ny, FUN=mean, na=NA){
   # binning matrix statistics
   df <- data.frame(x.int=x.int, y.int=y.int, z=z)
   dfg <- df %>%
-    group_by(x.int, y.int) %>%
-    dplyr::summarise(z = FUN(z))
+    dplyr::group_by(.data$x.int, .data$y.int) %>%
+    dplyr::summarise(z = FUN(.data$z))
   
   mat <- matrix(data=na, nrow=nx, ncol=ny)
   mat[cbind(dfg$x.int, dfg$y.int)] <- dfg$z

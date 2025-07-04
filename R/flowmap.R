@@ -12,7 +12,7 @@
 #' @seealso \code{\link{flowmap}}, \code{\link{flowmap2}}, \code{\link{flow.stat}}
 #' @examples
 #' data(movement)
-#' u1 <- movement %>% dplyr::filter(id==2)
+#' u1 <- dplyr::filter(movement, id==2)
 #' 
 #' ## 1-column location indicators
 #' head(gen.sessions(u1$loc, t=u1$time))
@@ -39,10 +39,10 @@ gen.sessions <- function(x, y=NULL, t=NULL, gap=0.5*3600, unite.sep='_') {
   xy2id <- data.frame(xy=names(ssdd), id=as.vector(ssdd))
   xy2id <- xy2id[!duplicated(xy2id), ]
   if (!is_1d) {
-    xy2id <- xy2id %>% separate(xy, into=c("x", "y"), sep=unite.sep)
+    xy2id <- xy2id %>% tidyr::separate(.data$xy, into=c("x", "y"), sep=unite.sep)
   }
   
-  sessions <- sessions %>% left_join(xy2id, by=c("id"="id")) %>% subset(select=-id)
+  sessions <- sessions %>% dplyr::left_join(xy2id, by=c("id"="id")) %>% subset(select=-id)
   if (is_1d) {
     colnames(sessions) <-c('stime', 'etime', 'loc')
   }
@@ -102,7 +102,7 @@ flowmap <- function(uid, loc, time, gap=8*3600) {
   # remove duplicated info in user movement hisotry
   compressed <- data.frame(uid=uid, loc=loc, time=time) %>%
     dplyr::group_by(uid) %>%
-    dplyr::do(gen.sessions(x=.$loc, t=.$time))
+    dplyr::do(gen.sessions(x=.data$loc, t=.data$time))
   
   with(compressed, flowmap2(uid, loc, stime, etime, gap))
 }
@@ -127,11 +127,11 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
   compressed <- data.frame(uid=uid, loc=loc, stime=stime, etime=etime)
   
   fmap <- compressed %>%
-    group_by(uid) %>%
-    dplyr::do(flow.stat(.$loc, .$stime, .$etime, gap)) %>%
-    group_by(edge) %>%
-    dplyr::summarise(total = sum(freq)) %>%
-    separate(edge, c("from", "to"), sep="->")
+    dplyr::group_by(uid) %>%
+    dplyr::do(flow.stat(.data$loc, .data$stime, .data$etime, gap)) %>%
+      dplyr::group_by(edge) %>%
+  dplyr::summarise(total = sum(.data$freq)) %>%
+    tidyr::separate(edge, c("from", "to"), sep="->")
   
   as.data.frame(fmap)
 }
@@ -169,7 +169,7 @@ plot_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weig
   
   # add great circle distances
   dist = apply(df, 1, function(x)
-    distGeo(x[c('from_lon', 'from_lat')], x[c('to_lon', 'to_lat')]))
+    geosphere::distGeo(x[c('from_lon', 'from_lat')], x[c('to_lon', 'to_lat')]))
   dist[is.na(dist)] <- 0
   
   if (is.null(weight)) {
@@ -181,7 +181,7 @@ plot_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weig
     col_ord = max(wgh) - wgh + 1
   }  
   
-  df <- df %>% mutate(col_ord = col_ord)
+  df <- df %>% dplyr::mutate(col_ord = col_ord)
   
   x_axis = seq(min(c(df$from_lon, df$to_lon)), max(c(df$from_lon, df$to_lon)), length.out = 100)
   y_axis = seq(min(c(df$from_lat, df$to_lat)), max(c(df$from_lat, df$to_lat)), length.out = 100)
@@ -202,7 +202,7 @@ plot_flowmap <- function(from_lat, from_lon, to_lat, to_lon, dist.log=TRUE, weig
     
     if (sum(is.na(p1)) == 0 && sum(is.na(p2)) == 0) {
       # use geosphere to generate intermediate points of great circles
-      cps = gcIntermediate(p1, p2, n=gc.breaks, addStartEnd=T)
+      cps = geosphere::gcIntermediate(p1, p2, n=gc.breaks, addStartEnd=T)
       
       col = pal.1[x['col_ord']]
       

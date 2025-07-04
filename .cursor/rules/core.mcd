@@ -5,3 +5,10 @@ alwaysApply: true
 ---
 
 You're working on **movr**—an Rlang library to process and visualize human mobility spatiotemporal data.
+
+## CODING STYLE
+
+* Keep consistent with Tidyverse Rlang style guide at https://style.tidyverse.org
+* We target release on CRAN when running on Linux, MacOS and Windows.
+* Add all dependencies of movr as Imports in DESCRIPTION.
+* DO NOT use importFrom in NAMESPACE.

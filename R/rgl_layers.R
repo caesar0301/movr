@@ -4,10 +4,10 @@
 #' supported by OpenStreetMap package. All parameters except for h are
 #' consistent with the 'openmap' function in OSM.
 #' 
-#' @usage map3d(upperLeft, lowerRight, h = 0, ...)
-#' @param upperLeft the upper left lat and long
-#' @param lowerRight the lower right lat and long
+#' @param lowerLeft the lower left lat and long
+#' @param upperRight the upper right lat and long
 #' @param h the horizontal plane to locate the map surface
+#' @param type the map type to use
 #' @param ... all other parameters of \code{\link[OpenStreetMap]{openmap}}
 #' @export
 #' @seealso \code{\link[OpenStreetMap]{openmap}}
@@ -36,12 +36,17 @@
 #'  rgl.close()
 #' }}
 map3d <- function(lowerLeft, upperRight, h=0, type='bing', ...) {
-  library(OpenStreetMap)
+  if (!requireNamespace("rgl", quietly = TRUE)) {
+    stop("Package 'rgl' is required for this function. Please install it with: install.packages('rgl')")
+  }
+  if (!requireNamespace("OpenStreetMap", quietly = TRUE)) {
+    stop("Package 'OpenStreetMap' is required for this function. Please install it with: install.packages('OpenStreetMap')")
+  }
   
   upperLeft <- c(upperRight[1], lowerLeft[2])
   lowerRight <- c(lowerLeft[1], upperRight[2])
-  map <- openmap(upperLeft, lowerRight, type=type, ...)
-  map <- openproj(map)
+  map <- OpenStreetMap::openmap(upperLeft, lowerRight, type=type, ...)
+  map <- OpenStreetMap::openproj(map)
   
   if(length(map$tiles)!=1){
     stop("multiple tiles not implemented")
@@ -64,12 +69,23 @@ map3d <- function(lowerLeft, upperRight, h=0, type='bing', ...) {
   col = matrix(tile$colorData, xres, yres, byrow=T)
   h <- matrix(h, yres, xres)
   
-  rgl.surface(slat, slon, t(h), col=col[xres:1,])
+  rgl::rgl.surface(slat, slon, t(h), col=col[xres:1,])
 }
 
 #' 3D voronoi canvas for RGL
+#' 
+#' @param x,y Coordinates of points
+#' @param group_by Grouping variable for points
+#' @param col Colors for each group
+#' @param side Which side to project the voronoi diagram ('x', 'y', or 'z')
+#' @param col.seg Color for line segments
+#' @param lty Line type
+#' @param lwd Line width
 #' @export
 voronoi3d <- function(x, y, group_by=NULL, col=NULL, side='y', col.seg = "grey", lty=1, lwd=1) {
+  if (!requireNamespace("rgl", quietly = TRUE)) {
+    stop("Package 'rgl' is required for this function. Please install it with: install.packages('rgl')")
+  }
   stopifnot(length(x) == length(y), length(x) == length(group_by))
   stopifnot(tolower(side) %in% c('x', 'y', 'z'))
   
@@ -91,7 +107,7 @@ voronoi3d <- function(x, y, group_by=NULL, col=NULL, side='y', col.seg = "grey",
     }
   }
   
-  bbox = par3d('bbox')
+  bbox = rgl::par3d('bbox')
   br = range(bbox)
   if (br[1] - br[2] > 3e+30)
     stop("A valid rgl canvas is needed first when calling voronoi3d{movr}.")
@@ -103,7 +119,7 @@ voronoi3d <- function(x, y, group_by=NULL, col=NULL, side='y', col.seg = "grey",
   
   plot.direchlet.tess <- function(points) {
     points.all = dplyr::distinct(points)
-    dd = deldir(points.all[,1], points.all[,2])
+    dd = deldir::deldir(points.all[,1], points.all[,2])
     dirsgs = dd$dirsgs
     p1 = as.vector(t(dirsgs[,c(1,3)]))
     p2 = as.vector(t(dirsgs[,c(2,4)]))
@@ -121,7 +137,7 @@ voronoi3d <- function(x, y, group_by=NULL, col=NULL, side='y', col.seg = "grey",
       y = p2
       z = p3
     }
-    rgl.lines(x=x, y=y, z=z, lwd=lwd, lty=lty, color=col.seg)
+    rgl::rgl.lines(x=x, y=y, z=z, lwd=lwd, lty=lty, color=col.seg)
   }
   
   plot.points <- function(points, col) {
@@ -142,12 +158,12 @@ voronoi3d <- function(x, y, group_by=NULL, col=NULL, side='y', col.seg = "grey",
       py = s2
       pz = s3
     }
-    rgl.points(x=px, y=py, z=pz, color=col, alpha=0.5)
+    rgl::rgl.points(x=px, y=py, z=pz, color=col, alpha=0.5)
   }
   
   points <- data.frame(x=x, y=y, group=group_by)
   plot.direchlet.tess(points)
   for ( g in unique(points$group) ) {
-    plot.points(subset(points, group==g), col[g])
+    plot.points(subset(points, points$group==g), col[g])
   }
 }

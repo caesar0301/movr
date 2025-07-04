@@ -17,8 +17,8 @@ fit.truncated.power.law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, a
   x = x[xtrunc]
   y = y[xtrunc]
   y[y==0] <- 1e-32
-  lm.out <- lm(log(y) ~ x + I(log(x)))
-  p <- coef(lm.out)
+  lm.out <- stats::lm(log(y) ~ x + I(log(x)))
+  p <- stats::coef(lm.out)
   lambda = - as.numeric(p[3])
   k = -1 / as.numeric(p[2])
   a = exp(as.numeric(p[1]))
@@ -50,8 +50,8 @@ fit.power.law <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, .
   x = x[xtrunc]
   y = y[xtrunc]
   y[y==0] <- 1e-32
-  lm.out <- lm(log(y) ~ I(log(x)))
-  p <- coef(lm.out)
+  lm.out <- stats::lm(log(y) ~ I(log(x)))
+  p <- stats::coef(lm.out)
   a <- exp(as.numeric(p[1]))
   lambda <- - as.numeric(p[2])
   
@@ -80,8 +80,8 @@ fit.polyexp <- function(x, y, xmin=min(x), xmax=max(x), plot=TRUE, add=TRUE, ...
   x = x[xtrunc]
   y = y[xtrunc]
   y[y==0] <- 1e-32
-  lm.out <- lm(log(y) ~ x + I(x ^ 2) + I(log(x)))
-  p <- coef(lm.out)
+  lm.out <- stats::lm(log(y) ~ x + I(x ^ 2) + I(log(x)))
+  p <- stats::coef(lm.out)
   a=as.numeric(p[1])
   b=as.numeric(p[2])
   c=as.numeric(p[3])

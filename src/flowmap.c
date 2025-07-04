@@ -1,5 +1,7 @@
 #include <R.h>
 #include <Rdefines.h>
+#include <Rinternals.h>
+#include <R_ext/Rdynload.h>
 #include <glib.h>
 
 #include "order.h"
@@ -159,4 +161,16 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   g_hash_table_destroy(stat);
   
   return out;
+}
+
+// Function registration
+static const R_CallMethodDef callMethods[] = {
+  {"_compress_mov", (DL_FUNC) &_compress_mov, 3},
+  {"_flow_stat", (DL_FUNC) &_flow_stat, 4},
+  {NULL, NULL, 0}
+};
+
+void R_init_movr(DllInfo *info) {
+  R_registerRoutines(info, NULL, callMethods, NULL, NULL);
+  R_useDynamicSymbols(info, FALSE);
 }

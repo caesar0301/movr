@@ -35,9 +35,9 @@ Visualize trajectories using RGL 3D.
 \examples{
 data(movement)
 
-users <- subset(movement, id \%in\% c(23, 20)) \%>\%
- mutate(time = time/86400 - min(time/86400)) \%>\%
- dplyr::filter(time <= 30)
+users <- subset(movement, id \%in\% c(23, 20))
+users <- dplyr::mutate(users, time = time/86400 - min(time/86400))
+users <- dplyr::filter(users, time <= 30)
 \dontrun{
 plot_traj3d(users$lon, users$lat, users$time,
  group_by=users$id, col=c('royalblue', 'orangered'))

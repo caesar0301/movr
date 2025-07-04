@@ -37,5 +37,26 @@ include_directories (
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
 
+# Set output name and extension for cross-platform R compatibility
+if(APPLE)
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        PREFIX ""
+        SUFFIX ".so"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    )
+elseif(UNIX)
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        PREFIX ""
+        SUFFIX ".so"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    )
+elseif(WIN32)
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        PREFIX ""
+        SUFFIX ".dll"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    )
+endif()
+
 # install library to custom location
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)

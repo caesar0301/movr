@@ -9,20 +9,32 @@ Maintainer: Xiaming Chen <chen@xiaming.me>
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
 Language: en-US
+Encoding: UTF-8
 Depends:
-    R (>= 3.0.0),
+    R (>= 3.0.0)
+Imports:
     dplyr (>= 0.7.0),
     tidyr (>= 0.6.1),
-    data.table (>= 1.10.2),
     geosphere (>= 1.5-5),
     deldir (>= 0.1-14),
-    RColorBrewer (>= 1.0-5),
-    igraph (>= 1.1.1),
-    assertr (>= 2.5)
+    reshape2,
+    methods,
+    parallel,
+    magrittr,
+    RColorBrewer,
+    squash,
+    igraph,
+    sp,
+    graphics,
+    grDevices,
+    stats,
+    classInt
 Suggests:
-    knitr
+    testthat,
+    OpenStreetMap,
+    rgl
 LazyData: yes
 License: MIT + file LICENSE
 SystemRequirements: GNU CMake
-VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
+
