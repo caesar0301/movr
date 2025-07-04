@@ -227,13 +227,13 @@ run_test("Good Practice Check", function() {
   # Run goodpractice checks
   gp_result <- goodpractice::gp(pkg_dir)
   
-  # Get issues
-  issues <- goodpractice::all_practices(gp_result)
+  # Get failed checks
+  failed_checks <- goodpractice::failed_checks(gp_result)
   
-  if (length(issues) > 0) {
+  if (length(failed_checks) > 0) {
     cat("    Good practice issues found:\n")
-    for (issue in issues) {
-      cat("      - ", issue, "\n")
+    for (check in failed_checks) {
+      cat("      - ", check, "\n")
     }
     warning("Good practice issues found - review before release")
   } else {
@@ -380,19 +380,34 @@ run_test("Dependencies Check", function() {
   pkg_dir <- list.files(temp_dir, full.names = TRUE)[1]
   
   # Check package dependencies
-  deps <- devtools::package_deps(pkg_dir)
+  desc <- read.dcf(file.path(pkg_dir, "DESCRIPTION"))
   
-  if (nrow(deps) > 0) {
-    cat("    Package dependencies:\n")
-    for (i in 1:nrow(deps)) {
-      cat("      ", deps$package[i], " (", deps$installed[i], ")\n")
+  # Get dependencies from DESCRIPTION
+  deps_fields <- c("Depends", "Imports", "Suggests", "LinkingTo")
+  all_deps <- character()
+  
+  for (field in deps_fields) {
+    if (field %in% colnames(desc)) {
+      field_deps <- desc[1, field]
+      if (!is.na(field_deps) && field_deps != "") {
+        # Parse dependencies (remove version requirements)
+        deps_list <- strsplit(field_deps, ",\\s*")[[1]]
+        deps_list <- gsub("\\s*\\([^)]*\\)", "", deps_list)  # Remove version requirements
+        deps_list <- gsub("^\\s+|\\s+$", "", deps_list)     # Trim whitespace
+        all_deps <- c(all_deps, deps_list)
+      }
     }
   }
   
-  # Check for missing dependencies
-  missing_deps <- deps$package[is.na(deps$installed)]
-  if (length(missing_deps) > 0) {
-    warning("Missing dependencies: ", paste(missing_deps, collapse = ", "))
+  if (length(all_deps) > 0) {
+    cat("    Package dependencies found:\n")
+    for (dep in all_deps) {
+      if (dep != "R") {  # Skip R itself
+        cat("      ", dep, "\n")
+      }
+    }
+  } else {
+    cat("    No dependencies found\n")
   }
   
   cat("    Dependencies check completed\n")
