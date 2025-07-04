@@ -5,8 +5,8 @@
 #' Mobility entropy
 #' 
 #' In Song's paper, three kinds of entropy are involved to investigate
-#' the predictability of human mobility, i.e., random entropy $S^{rand}$,
-#' spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
+#' the predictability of human mobility, i.e., random entropy \eqn{S^{rand}},
+#' spatial entropy \eqn{S^{unc}} and spatio-temporal entropy \eqn{S_i}.
 #' 
 #' @param N The number of unique locations.
 #' @return The entropy value in bits.
@@ -22,8 +22,8 @@ entropy.rand <- function(N) {
 #' Mobility entropy
 #' 
 #' In Song's paper, three kinds of entropy are involved to investigate
-#' the predictability of human mobility, i.e., random entropy $S^{rand}$,
-#' spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
+#' the predictability of human mobility, i.e., random entropy \eqn{S^{rand}},
+#' spatial entropy \eqn{S^{unc}} and spatio-temporal entropy \eqn{S_i}.
 #' 
 #' @param probs A vector of probability to find the person in unique locations.
 #' @return The entropy value in bits.
@@ -42,8 +42,8 @@ entropy.space <- function(probs) {
 #' Mobility entropy
 #' 
 #' In Song's paper, three kinds of entropy are involved to investigate
-#' the predictability of human mobility, i.e., random entropy $S^{rand}$,
-#' spatial entropy $S^{unc}$ and spatio-temproal entropy $S_i$.
+#' the predictability of human mobility, i.e., random entropy \eqn{S^{rand}},
+#' spatial entropy \eqn{S^{unc}} and spatio-temporal entropy \eqn{S_i}.
 #' 
 #' @param x,y A chronologically ordered sequence of visited locations. The sequence
 #'  is given by a vector (e.g. location names) or two vectors of location coordinates

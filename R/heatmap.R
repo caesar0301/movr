@@ -1,7 +1,19 @@
+#' Generate color breaks for heatmap
+#' 
+#' Generate color breaks for heatmap visualization using equal interval classification.
+#' 
+#' @param z A numeric vector of values to classify
+#' @param nlevels The number of levels/breaks to generate
+#' @return A numeric vector of break points
 #' @export
+#' @examples
+#' heatmap.levels(rnorm(100), nlevels=10)
 heatmap.levels <- function(z, nlevels=10) {
+  if (!requireNamespace("classInt", quietly = TRUE)) {
+    stop("Package 'classInt' is required for this function. Please install it with: install.packages('classInt')")
+  }
   # Generate color breaks
-  brks <- classIntervals(z, nlevels, style='equal')
+  brks <- classInt::classIntervals(z, nlevels, style='equal')
   brks$brks
 }
 
@@ -15,17 +27,17 @@ heatmap.levels <- function(z, nlevels=10) {
 #' @param na replacement for NA value in matrix bins, used by \code{\link{vbin.grid}}.
 #' @param nlevels the number of colorful stages to plot, see `filled.contour`.
 #' @param levels a numeric vector to indicate the colorful stages, see `filled.contour`.
-#' @param colors a vector of color names or hex values, see `colorRampPalette`.
+#' @param colors a vector of color names or hex values, see `colorRampPalette`. Default uses RColorBrewer::brewer.pal(11, "Spectral").
 #' @param bias a positive number. Higher values give more widely spaced colors at the high end, see `colorRampPalette`.
 #' @param ... other parameters sent to `filled.contour`.
 #' @export
 plot.heatmap <- function(x, y, z, nx=100, ny=100, na=0, nlevels=10, levels=NULL,
-                         colors=rev(brewer.pal(11, "Spectral")), bias=1, ...) {
+                         colors=rev(RColorBrewer::brewer.pal(11, "Spectral")), bias=1, ...) {
   # Create color palette
   col.pal <- colorRampPalette(colors, bias=bias)
   
   # Generate 2d heatmap from xyz data
-  mat <- vbin_grid(x, y, z, na=na, nx=nx, ny=ny)
+  mat <- vbin.grid(x, y, z, na=na, nx=nx, ny=ny)
   
   # Obtain x and y coordinates for each bin on a 2d surface
   x <- as.numeric(rownames(mat))

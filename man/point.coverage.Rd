@@ -22,7 +22,7 @@ area.r the normalized ratio of log(area).
 }
 \description{
 Calculate the spatial coverage of each data point by employing the Voronoi tesselation
-(with \code{\link{deldir::deldir}}). The spatial area is calculated in a Euclidean
+(with \code{\link[deldir]{deldir}}). The spatial area is calculated in a Euclidean
 space. Thus the user should convert long/lat data into Euclidean coordinates before
 passing into the function.
 }

@@ -37,8 +37,12 @@ b. From source code
 # Build C source
 ./configure
 
-# Check package compliance
-R CMD check .
+# Check package compliance (recommended)
+./scripts/check_cran.sh --quick
+
+# Or run basic check
+R CMD build .
+R CMD check movr_*.tar.gz
 
 # Run examples
 R --no-save -e "library(devtools);run_examples()"

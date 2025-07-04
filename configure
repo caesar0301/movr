@@ -1,26 +1,26 @@
-#!/bin/bash
-PKG_ROOT=`dirname $0`
+#!/bin/sh
+PKG_ROOT=`dirname "$0"`
 
-if [ -e ${PKG_ROOT}/build ]; then
-rm -rf ${PKG_ROOT}/build
+if [ -e "${PKG_ROOT}/build" ]; then
+rm -rf "${PKG_ROOT}/build"
 fi
-mkdir ${PKG_ROOT}/build
+mkdir "${PKG_ROOT}/build"
 
-cd ${PKG_ROOT}/build && cmake -Wno-dev .. && make && cd -
+cd "${PKG_ROOT}/build" && cmake -Wno-dev .. && make && cd -
 
 unameOut="$(uname -s)"
 case "${unameOut}" in
-    Linux*)     machine=Linux;libname=libmovr.so;;
-    Darwin*)    machine=Mac;libname=libmovr.dylib;;
-    CYGWIN*)    machine=Cygwin;libname=libmovr.dll;;
-    MINGW*)     machine=MinGw;libname=libmovr.dll;;
-    *)          machine="UNKNOWN:${unameOut}"
+    Linux*|Darwin*) libname=movr.so;;
+    CYGWIN*|MINGW*) libname=movr.dll;;
+    *)          echo "Unknown platform: ${unameOut}"; exit 1;;
 esac
-echo "Machine platform: ${machine}"
+echo "Machine platform: ${unameOut}"
 
-if [ ! -e ${PKG_ROOT}/build/${libname} ]; then
+if [ ! -e "${PKG_ROOT}/libs/${libname}" ]; then
 echo "Error: Shared lib not built, exit" && exit 1
 fi
 
-# Inform useDynLib search path
-cp ${PKG_ROOT}/build/${libname} ${PKG_ROOT}/src/libmovr.so
+# Clean up build directory to avoid GNU extensions in package
+if [ -e "${PKG_ROOT}/build" ]; then
+rm -rf "${PKG_ROOT}/build"
+fi

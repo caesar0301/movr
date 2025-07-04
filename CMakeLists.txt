@@ -11,6 +11,23 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 
+# Set generator to Unix Makefiles for better portability
+if(NOT CMAKE_GENERATOR)
+    set(CMAKE_GENERATOR "Unix Makefiles" CACHE INTERNAL "" FORCE)
+endif()
+
+# Add portability settings to avoid GNU extensions
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Disable GNU extensions in generated Makefiles
+set(CMAKE_MAKE_PROGRAM "make" CACHE INTERNAL "" FORCE)
+set(CMAKE_GENERATOR_TOOLSET "" CACHE INTERNAL "" FORCE)
+
+# Use portable make settings
+set(CMAKE_MAKE_PROGRAM_FLAGS "" CACHE INTERNAL "" FORCE)
+
 # source files of this project
 set(movr_SRCS
   src/flowmap.c
@@ -36,6 +53,27 @@ include_directories (
 # generate a shared library
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
+
+# Set output name and extension for cross-platform R compatibility
+if(APPLE)
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        PREFIX ""
+        SUFFIX ".so"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    )
+elseif(UNIX)
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        PREFIX ""
+        SUFFIX ".so"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    )
+elseif(WIN32)
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        PREFIX ""
+        SUFFIX ".dll"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+    )
+endif()
 
 # install library to custom location
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)

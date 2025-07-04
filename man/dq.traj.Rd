@@ -30,7 +30,7 @@ is quantifies with heterogeneity of spatiotemporal data points, as obtained
 via a grid-based optimal searching algorithm.
 }
 \examples{
-u1 <- movement \%>\% dplyr::filter(id==4)
+u1 <- dplyr::filter(movement, id==4)
 pc <- point.coverage(movement$lon, movement$lat)
 po <- people.occurrence(movement$id, movement$lon, movement$lat)
 stc <- stcoords(u1[,c('lon','lat','time')])

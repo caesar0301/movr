@@ -25,7 +25,7 @@ fit.power.law(x, y, xmin = min(x), xmax = max(x), plot = TRUE, add = TRUE, ...)
 A list of values for a and lambda.
 }
 \description{
-Model: y ~ a * x^{-lambda}
+Model: \eqn{y \sim a \times x^{-\lambda}}
 }
 \seealso{
 \code{\link[igraph]{fit_power_law}}, \code{\link{fit.truncated.power.law}}

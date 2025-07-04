@@ -1,0 +1,17 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+You're working on **movr**—an Rlang library to process and visualize human mobility spatiotemporal data.
+
+## CODING STYLE
+
+* Keep consistent with Tidyverse Rlang style guide at https://style.tidyverse.org
+* We target release on CRAN when running on Linux, MacOS and Windows.
+* Add all dependencies of movr as Imports in DESCRIPTION.
+* Use importFrom instead of import in NAMESPACE file.
+* DO NOT edit NAMESPACE file manully. Always update it with roxygen2 or helper script.
+* DO NOT edit manuals under man folder manully. Always update it roxygen2 or helper script.
+* Always R CMD check against built package instead of project diretory.

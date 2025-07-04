@@ -15,6 +15,21 @@ voronoi3d(
   lwd = 1
 )
 }
+\arguments{
+\item{x, y}{Coordinates of points}
+
+\item{group_by}{Grouping variable for points}
+
+\item{col}{Colors for each group}
+
+\item{side}{Which side to project the voronoi diagram ('x', 'y', or 'z')}
+
+\item{col.seg}{Color for line segments}
+
+\item{lty}{Line type}
+
+\item{lwd}{Line width}
+}
 \description{
 3D voronoi canvas for RGL
 }

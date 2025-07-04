@@ -1,28 +1,42 @@
 Package: movr
 Type: Package
-Version: 0.2.1
+Version: 0.3.1
 Title: Analyzing and Visualizing Human Mobility Data
 Description: A set of functions and utilities to analyze and visualize 
   spatio-temporal mobility data.
-Author: Xiaming Chen <chen@xiaming.me>
-Maintainer: Xiaming Chen <chen@xiaming.me>
+Authors@R: c(
+    person("Xiaming", "Chen", 
+           email = "chenxm35@gmail.com",
+           role = c("aut", "cre"))
+  )
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
 Language: en-US
+Encoding: UTF-8
 Depends:
-    R (>= 3.0.0),
+    R (>= 3.0.0)
+Imports:
     dplyr (>= 0.7.0),
     tidyr (>= 0.6.1),
-    data.table (>= 1.10.2),
     geosphere (>= 1.5-5),
     deldir (>= 0.1-14),
-    RColorBrewer (>= 1.0-5),
-    igraph (>= 1.1.1),
-    assertr (>= 2.5)
+    methods,
+    parallel,
+    magrittr,
+    RColorBrewer,
+    squash,
+    igraph,
+    sp,
+    graphics,
+    grDevices,
+    stats,
+    classInt,
+    OpenStreetMap,
+    rgl
 Suggests:
-    knitr
+    testthat
 LazyData: yes
-License: MIT + file LICENSE
+License: Apache-2.0 + file LICENSE
 SystemRequirements: GNU CMake
-VignetteBuilder: knitr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
+

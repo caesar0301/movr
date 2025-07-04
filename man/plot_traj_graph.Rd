@@ -6,6 +6,13 @@
 \usage{
 plot_traj_graph(loc, time, ...)
 }
+\arguments{
+\item{loc}{A vector of location identifiers}
+
+\item{time}{A vector of timestamps corresponding to each location}
+
+\item{...}{Additional arguments passed to plot function}
+}
 \description{
 This function plots a trajectory of a specific user as a weighted
 graph. Each node represents a stay point whose size indicates the

@@ -13,7 +13,7 @@ standardize_st(scoord, tcoord, value, alpha = 0.5)
 
 \item{value}{a value vector for each (scoord, tcoord)}
 
-\item{alpha}{a tuning parameter controling the weight of space and time}
+\item{alpha}{a tuning parameter controlling the weight of space and time}
 }
 \description{
 Scale the value along spatial and temporal coordinates simultaneously.

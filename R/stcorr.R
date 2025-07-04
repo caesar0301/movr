@@ -18,8 +18,8 @@ pairwise.dist <- function(x, y, z){
   z.mean <- mean(df$z, na.rm=TRUE)
   z.var <- var(df$z, na.rm=TRUE)
   
-  do.call(rbind, mclapply(seq(1, blocks), function(i){
-    do.call(rbind, mclapply(seq(i, blocks), function(j){
+  do.call(rbind, parallel::mclapply(seq(1, blocks), function(i){
+    do.call(rbind, parallel::mclapply(seq(i, blocks), function(j){
       data.frame(
         r = euc.dist(df[i, c("x","y")], df[j, c("x","y")]),
         z1 = df[i, "z"],
@@ -40,12 +40,12 @@ pairwise.dist <- function(x, y, z){
 #' @seealso \code{\link{pairwise.dist}}
 #' @export
 spatial.corr <- function(x, y, z, beta=0.05, corr.method='pearson') {
-  pairwise.dist(x, y, z) %>% mutate(
-    r.int = findInterval(r, seq(min(r), max(r), by=beta))) %>%
-    group_by(r.int) %>%
+  pairwise.dist(x, y, z) %>% dplyr::mutate(
+    r.int = findInterval(.data$r, seq(min(.data$r), max(.data$r), by=beta))) %>%
+    dplyr::group_by(.data$r.int) %>%
     dplyr::summarise(
-      r = mean(r),
-      n = length(z1),
-      corr = cor(z1, z2, method=corr.method)
-    ) %>% filter(!is.na(corr)) %>% select(-r.int)
+      r = mean(.data$r),
+      n = length(.data$z1),
+      corr = cor(.data$z1, .data$z2, method=corr.method)
+    ) %>% dplyr::filter(!is.na(.data$corr)) %>% dplyr::select(-.data$r.int)
 }

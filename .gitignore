@@ -1,30 +1,65 @@
-*.DS_Store
-*.Rcheck
-*.bke
-test
-test.c
-build
-
-# building
-_builds
-_install
-src/*.so
-src/*.o
-src/*.dylib
-
-# History files
-*.Rhistory
-*.RData
-*.Rprofile
-
-# Example code in package build process
-*-Ex.R
-# R data files from past sessions
-.Rdata
-# RStudio files
+# R project and session files
+*.Rproj
 .Rproj.user/
-.Rproj.user
-movr.Rproj
-packrat/lib*/
-inst/doc
+.Rhistory
+.RData
+.RDataTmp
+.Rapp.history
+.Ruserdata
+.Rprofile
+.Renviron
+.httr-oauth
+
+# Build artifacts
+.Rcheck/
+*.tar.gz
+*.bke
+*.utf8.md
+*-Ex.R
+/build/
+_builds/
+_install/
+inst/doc/
+docs/
 movr-manual.pdf
+
+# Compiled objects and binaries
+src/*.o
+src/*.so
+src/*.dylib
+libs/
+
+# Test and example outputs
+test/
+test.c
+cache/
+*_cache/
+
+# Vignettes and knitr outputs
+vignettes/*.html
+vignettes/*.pdf
+*.knit.md
+
+# Version control
+.git/
+.gitignore
+
+# Editors and tools
+.DS_Store
+.vscode/
+.cursor/
+
+# CI/CD and deployment
+.github/
+.travis.yml
+rsconnect/
+
+# Packrat (optional, if not using)
+packrat/lib*/
+
+# PO/misc
+po/*~
+
+..Rcheck/
+Rplots.pdf
+NAMESPACE.backup

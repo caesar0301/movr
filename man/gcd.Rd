@@ -12,6 +12,8 @@ gcd(p1, p2, type = "hf", na = 0)
 \item{p2}{Location of point 2 with (lat, long) coordinates.}
 
 \item{type}{Specific algorithm to use, c('slc', 'hf', 'vif').}
+
+\item{na}{Value to return for NA distances}
 }
 \value{
 Distance in kilometers (km).
@@ -33,5 +35,5 @@ gcd(p1, p2, type="vif")
 }
 \references{
 \url{
-http://www.r-bloggers.com/great-circle-distance-calculations-in-r/}
+https://www.r-bloggers.com/2010/11/great-circle-distance-calculations-in-r/}
 }

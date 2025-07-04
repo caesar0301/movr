@@ -2,9 +2,22 @@
 % Please edit documentation in R/movr.r
 \docType{package}
 \name{movr}
+\alias{movr-package}
 \alias{movr}
 \title{movr: inspecting human mobility with R}
 \description{
 A package targeting at analyzing, modeling, and visualizing
 human mobility from temporal and spatial perspectives.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/caesar0301/movr}
+  \item Report bugs at \url{https://github.com/caesar0301/movr/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Xiaming Chen \email{chenxm35@gmail.com}
+
 }

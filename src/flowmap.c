@@ -1,5 +1,7 @@
 #include <R.h>
 #include <Rdefines.h>
+#include <Rinternals.h>
+#include <R_ext/Rdynload.h>
 #include <glib.h>
 
 #include "order.h"
@@ -113,8 +115,9 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
       // assemble new link name   
       char *link;
       cur_loc = (char *)CHAR(STRING_ELT(loc, i));
-      link = malloc(sizeof(char) * (strlen(last_loc) + strlen(cur_loc) + 3));
-      sprintf(link, "%s->%s", last_loc, cur_loc);
+      size_t link_len = strlen(last_loc) + strlen(cur_loc) + 3;
+      link = malloc(sizeof(char) * link_len);
+      snprintf(link, link_len, "%s->%s", last_loc, cur_loc);
       
       // update flow stat
       int *new_v, *old_v;
@@ -159,4 +162,16 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   g_hash_table_destroy(stat);
   
   return out;
+}
+
+// Function registration
+static const R_CallMethodDef callMethods[] = {
+  {"_compress_mov", (DL_FUNC) &_compress_mov, 3},
+  {"_flow_stat", (DL_FUNC) &_flow_stat, 4},
+  {NULL, NULL, 0}
+};
+
+void R_init_movr(DllInfo *info) {
+  R_registerRoutines(info, NULL, callMethods, NULL, NULL);
+  R_useDynamicSymbols(info, FALSE);
 }

@@ -172,7 +172,7 @@ stcoords <- function(x, y=NULL, t=NULL, unite.xy=FALSE, unite.sep = "_") {
   
   if (!coords$is_1d && unite.xy) {
     df <- data.frame(coords$x, coords$y) %>%
-      tidyr::unite(loc, c(1, 2), sep=unite.sep)
+      tidyr::unite("loc", c(1, 2), sep=unite.sep)
     coords$x <- df$loc
     coords$y <- NULL
     coords$is_1d <- TRUE

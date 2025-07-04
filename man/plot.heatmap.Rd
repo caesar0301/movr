@@ -13,7 +13,7 @@
   na = 0,
   nlevels = 10,
   levels = NULL,
-  colors = rev(brewer.pal(11, "Spectral")),
+  colors = rev(RColorBrewer::brewer.pal(11, "Spectral")),
   bias = 1,
   ...
 )
@@ -31,7 +31,7 @@
 
 \item{levels}{a numeric vector to indicate the colorful stages, see `filled.contour`.}
 
-\item{colors}{a vector of color names or hex values, see `colorRampPalette`.}
+\item{colors}{a vector of color names or hex values, see `colorRampPalette`. Default uses RColorBrewer::brewer.pal(11, "Spectral").}
 
 \item{bias}{a positive number. Higher values give more widely spaced colors at the high end, see `colorRampPalette`.}
 

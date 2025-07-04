@@ -7,12 +7,10 @@
 dq.iovan(stcoords, type = "lonlat")
 }
 \arguments{
+\item{stcoords}{The spatiotemporal coordinates, see \code{\link{stcoords}}}
+
 \item{type}{the selection of distance calculation function: 'lonlat' -> great circle distance
 of long/lat pair, 'xy' -> euclidean distance.}
-
-\item{x, y, t}{as like the input of \code{\link{stcoords}}. The spatial coordinates (x, y)
-should be (long, lat) pair in the geographic coordinate, or quantities in Euclidean
-coordinate. If (x, y) represents (long, lat) pair, the first element must be longitude.}
 }
 \value{
 a list of data quality indicators:
@@ -32,7 +30,7 @@ a whole trajectory. This function implements these measures, which are also refe
 to as the DYNAMIC quality for mobility data.
 }
 \examples{
-u1 <- movement \%>\% dplyr::filter(id==1)
+u1 <- dplyr::filter(movement, id==1)
 stc <- stcoords(u1[, c('lon','lat','time')])
 dq.iovan(stc, type='lonlat')
 }

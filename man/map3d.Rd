@@ -4,16 +4,18 @@
 \alias{map3d}
 \title{Add a 3D map surface}
 \usage{
-map3d(upperLeft, lowerRight, h = 0, ...)
+map3d(lowerLeft, upperRight, h = 0, type = "bing", ...)
 }
 \arguments{
+\item{lowerLeft}{the lower left lat and long}
+
+\item{upperRight}{the upper right lat and long}
+
 \item{h}{the horizontal plane to locate the map surface}
 
+\item{type}{the map type to use}
+
 \item{...}{all other parameters of \code{\link[OpenStreetMap]{openmap}}}
-
-\item{upperLeft}{the upper left lat and long}
-
-\item{lowerRight}{the lower right lat and long}
 }
 \description{
 This method add a 3D map surface to the RGL plot. The backend map service is

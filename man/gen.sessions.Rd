@@ -21,7 +21,7 @@ Successive records at the same location are merged into a single session
 }
 \examples{
 data(movement)
-u1 <- movement \%>\% dplyr::filter(id==2)
+u1 <- dplyr::filter(movement, id==2)
 
 ## 1-column location indicators
 head(gen.sessions(u1$loc, t=u1$time))
