@@ -61,3 +61,5 @@ packrat/lib*/
 po/*~
 
 ..Rcheck/
+Rplots.pdf
+NAMESPACE.backup

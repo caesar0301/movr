@@ -11,6 +11,16 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 
+# Set generator to Unix Makefiles for better portability
+if(NOT CMAKE_GENERATOR)
+    set(CMAKE_GENERATOR "Unix Makefiles" CACHE INTERNAL "" FORCE)
+endif()
+
+# Add portability settings
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
 # source files of this project
 set(movr_SRCS
   src/flowmap.c

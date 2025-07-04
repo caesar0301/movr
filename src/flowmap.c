@@ -115,8 +115,9 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
       // assemble new link name   
       char *link;
       cur_loc = (char *)CHAR(STRING_ELT(loc, i));
-      link = malloc(sizeof(char) * (strlen(last_loc) + strlen(cur_loc) + 3));
-      sprintf(link, "%s->%s", last_loc, cur_loc);
+      size_t link_len = strlen(last_loc) + strlen(cur_loc) + 3;
+      link = malloc(sizeof(char) * link_len);
+      snprintf(link, link_len, "%s->%s", last_loc, cur_loc);
       
       // update flow stat
       int *new_v, *old_v;

@@ -1,12 +1,12 @@
-#!/bin/bash
-PKG_ROOT=`dirname $0`
+#!/bin/sh
+PKG_ROOT=`dirname "$0"`
 
-if [ -e ${PKG_ROOT}/build ]; then
-rm -rf ${PKG_ROOT}/build
+if [ -e "${PKG_ROOT}/build" ]; then
+rm -rf "${PKG_ROOT}/build"
 fi
-mkdir ${PKG_ROOT}/build
+mkdir "${PKG_ROOT}/build"
 
-cd ${PKG_ROOT}/build && cmake -Wno-dev .. && make && cd -
+cd "${PKG_ROOT}/build" && cmake -Wno-dev .. && make && cd -
 
 unameOut="$(uname -s)"
 case "${unameOut}" in
@@ -16,6 +16,6 @@ case "${unameOut}" in
 esac
 echo "Machine platform: ${unameOut}"
 
-if [ ! -e ${PKG_ROOT}/libs/${libname} ]; then
+if [ ! -e "${PKG_ROOT}/libs/${libname}" ]; then
 echo "Error: Shared lib not built, exit" && exit 1
 fi

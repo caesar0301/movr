@@ -14,3 +14,4 @@ You're working on **movr**—an Rlang library to process and visualize human mob
 * Use importFrom instead of import in NAMESPACE file.
 * DO NOT edit NAMESPACE file manully. Always update it with roxygen2 or helper script.
 * DO NOT edit manuals under man folder manully. Always update it roxygen2 or helper script.
+* Always R CMD check against built package instead of project diretory.

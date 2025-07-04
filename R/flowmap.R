@@ -129,9 +129,9 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
   fmap <- compressed %>%
     dplyr::group_by(uid) %>%
     dplyr::do(flow.stat(.data$loc, .data$stime, .data$etime, gap)) %>%
-      dplyr::group_by(edge) %>%
+      dplyr::group_by(.data$edge) %>%
   dplyr::summarise(total = sum(.data$freq)) %>%
-    tidyr::separate(edge, c("from", "to"), sep="->")
+    tidyr::separate(.data$edge, c("from", "to"), sep="->")
   
   as.data.frame(fmap)
 }

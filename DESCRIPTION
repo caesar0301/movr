@@ -6,6 +6,11 @@ Description: A set of functions and utilities to analyze and visualize
   spatio-temporal mobility data.
 Author: Xiaming Chen <chenxm35@gmail.com>
 Maintainer: Xiaming Chen <chenxm35@gmail.com>
+Authors@R: c(
+    person("Xiaming", "Chen", 
+           email = "chenxm35@gmail.com",
+           role = c("aut", "cre"))
+  )
 URL: https://github.com/caesar0301/movr
 BugReports: https://github.com/caesar0301/movr/issues
 Language: en-US
@@ -33,7 +38,7 @@ Imports:
 Suggests:
     testthat
 LazyData: yes
-License: Apache License 2.0 + file LICENSE
+License: Apache License 2.0
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2
 

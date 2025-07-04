@@ -17,3 +17,7 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Xiaming Chen \email{chenxm35@gmail.com}
+
+}

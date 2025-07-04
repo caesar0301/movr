@@ -71,10 +71,24 @@ for (pkg in required_packages) {
   }
 }
 
-cat("5. Running R CMD check on documentation...\n")
-# Run a quick check on the documentation
+cat("5. Building package for documentation check...\n")
+# Clean any previous builds
+if (dir.exists("build")) {
+  unlink("build", recursive = TRUE)
+}
+
+# Build package
+build_result <- devtools::build()
+if (!file.exists(build_result)) {
+  stop("Package build failed")
+}
+
+cat("   - Package built successfully: ", basename(build_result), "\n")
+
+cat("6. Running R CMD check on built package...\n")
+# Run a quick check on the built package
 check_result <- tryCatch({
-  system("R CMD check . --no-manual --no-vignettes --no-tests", intern = TRUE, ignore.stderr = TRUE)
+  system(paste("R CMD check", build_result, "--no-manual --no-vignettes --no-tests"), intern = TRUE, ignore.stderr = TRUE)
 }, error = function(e) {
   NULL
 })
@@ -86,13 +100,14 @@ if (!is.null(check_result) && length(check_result) > 0 && !is.null(attr(check_re
   cat("   - This is normal for packages with C extensions.\n")
 }
 
-cat("6. Documentation generation complete!\n")
+cat("7. Documentation generation complete!\n")
 cat("   - NAMESPACE file: NAMESPACE\n")
 cat("   - Documentation files: man/\n")
 cat("   - Backup file: NAMESPACE.backup\n")
+cat("   - Built package: ", basename(build_result), "\n")
 
 cat("\n=== Next Steps ===\n")
 cat("1. Review the generated NAMESPACE file\n")
 cat("2. Add @importFrom annotations to R files for better organization\n")
-cat("3. Run 'R CMD check .' to verify everything works\n")
+cat("3. Run './scripts/check_cran.sh' to verify everything works\n")
 cat("4. Commit the changes to version control\n") 

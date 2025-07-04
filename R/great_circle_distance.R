@@ -1,5 +1,5 @@
 # Calculate great circle distance. See
-# http://www.r-bloggers.com/great-circle-distance-calculations-in-r/
+# https://www.r-bloggers.com/2010/11/great-circle-distance-calculations-in-r/
 
 #' Great Circle Distance (GCD)
 #' 
@@ -14,7 +14,7 @@
 #' @param na Value to return for NA distances
 #' @return Distance in kilometers (km).
 #' @references \url{
-#' http://www.r-bloggers.com/great-circle-distance-calculations-in-r/}
+#' https://www.r-bloggers.com/2010/11/great-circle-distance-calculations-in-r/}
 #' @export
 #' @examples
 #' # Point in (lat, long) format
