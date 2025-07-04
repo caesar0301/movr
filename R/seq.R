@@ -24,7 +24,7 @@ standardize <- function(x) {
 #' @param scoord a 1D vector of spatial coordinate
 #' @param tcoord a 1D vector of temporal coordinate
 #' @param value a value vector for each (scoord, tcoord)
-#' @param alpha a tuning parameter controling the weight of space and time
+#' @param alpha a tuning parameter controlling the weight of space and time
 #' @export
 #' @examples
 #' scoord <- rep(seq(6), 2)
@@ -157,7 +157,7 @@ vbin <- function(x, n, center=FALSE){
 
 #' Vector range binning
 #' 
-#' Bin the range of given vector into n itervals.
+#' Bin the range of given vector into n intervals.
 #' 
 #' @param x a numeric vector
 #' @param n the number of bins
@@ -179,7 +179,7 @@ vbin.range <- function(x, n){
 #' They must have the same length.
 #' @param nx,ny the number of bins in x and y dimension.
 #' @param FUN a function to calculate statistics in each 2D bin.
-#' @param na Replacemnet for NA value in matrix bins.
+#' @param na Replacement for NA value in matrix bins.
 #' @return a matrix with row (column) names being the center points of x (y) dim,
 #' and with cell value being the aggregate statistics calculated by FUN.
 #' @seealso \code{\link{seq_approximate}}, \code{\link{vbin}}, \code{\link{vbin.range}}

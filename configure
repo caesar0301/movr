@@ -19,3 +19,8 @@ echo "Machine platform: ${unameOut}"
 if [ ! -e "${PKG_ROOT}/libs/${libname}" ]; then
 echo "Error: Shared lib not built, exit" && exit 1
 fi
+
+# Clean up build directory to avoid GNU extensions in package
+if [ -e "${PKG_ROOT}/build" ]; then
+rm -rf "${PKG_ROOT}/build"
+fi

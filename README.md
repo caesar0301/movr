@@ -20,7 +20,7 @@ A quick start with `devtools::install_github("caesar0301/movr")` in R console.
 
 ![draw_mobility3d_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/mobility3d.png)
 
-* `plot_flowmap` (using mobile data from Senegal, [D4D challenge 2014](https://www.d4d.orange.com/en/Accueil))
+* `plot_flowmap` (using mobile data from Senegal, D4D challenge 2014)
 
 ![draw_flowmap_example](https://raw.githubusercontent.com/caesar0301/movr/master/examples/flowmap.png)
 

@@ -14,7 +14,7 @@ They must have the same length.}
 
 \item{FUN}{a function to calculate statistics in each 2D bin.}
 
-\item{na}{Replacemnet for NA value in matrix bins.}
+\item{na}{Replacement for NA value in matrix bins.}
 }
 \value{
 a matrix with row (column) names being the center points of x (y) dim,

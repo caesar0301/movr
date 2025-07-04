@@ -123,7 +123,6 @@
 ^\.cursor$
 ^\.Rcheck$
 ^\.DS_Store$
-^\.Rspelling$
 
 # Development and build files
 ^CODEOWNERS$
@@ -136,3 +135,5 @@
 
 render_docs.R
 release.sh
+
+^temp_extract/

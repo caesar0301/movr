@@ -15,7 +15,7 @@ vbin.range(x, n)
 the center of each interval
 }
 \description{
-Bin the range of given vector into n itervals.
+Bin the range of given vector into n intervals.
 }
 \examples{
 vbin.range(10:20, 3)

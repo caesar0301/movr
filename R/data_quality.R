@@ -99,7 +99,7 @@ point.coverage <- function(x, y, type='lonlat') {
 #' @param x,y vectors of user's locations
 #' @return a data.frame with columns: uid, x, y, occur, occur.r
 #' @return occur the number of unique people detected at a stay point
-#' @return occur.r the nomalized ratio of occur.
+#' @return occur.r the normalized ratio of occur.
 #' @export
 #' @examples
 #' people.occurrence(movement$id, movement$lon, movement$lat)

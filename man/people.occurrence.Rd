@@ -16,7 +16,7 @@ a data.frame with columns: uid, x, y, occur, occur.r
 
 occur the number of unique people detected at a stay point
 
-occur.r the nomalized ratio of occur.
+occur.r the normalized ratio of occur.
 }
 \description{
 Calculate the identifiability of a person within a stay point's coverage.
