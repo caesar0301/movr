@@ -3,3 +3,21 @@
 ^packrat/
 ^\.Rprofile$
 .travis.yml
+
+# Build artifacts and compiled files
+^build/
+^src/.*\.so$
+^src/.*\.o$
+^src/.*\.dylib$
+^libs/
+^.*\.tar\.gz$
+^.*\.Rcheck/
+
+# Hidden files and directories
+^\.git$
+^\.gitignore$
+^\.github$
+^\.vscode$
+^\.cursor$
+^\.Rcheck$
+^\.DS_Store$

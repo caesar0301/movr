@@ -1,6 +1,6 @@
 Package: movr
 Type: Package
-Version: 0.2.1
+Version: 0.3.1
 Title: Analyzing and Visualizing Human Mobility Data
 Description: A set of functions and utilities to analyze and visualize 
   spatio-temporal mobility data.
@@ -34,7 +34,7 @@ Imports:
 Suggests:
     testthat
 LazyData: yes
-License: MIT + file LICENSE
+License: Apache License 2.0 + file LICENSE
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2
 

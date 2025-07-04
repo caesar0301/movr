@@ -1,79 +1,63 @@
-*.DS_Store
-*.Rcheck
-*.bke
-test
-test.c
-build
-
-# building
-_builds
-_install
-src/*.so
-src/*.o
-src/*.dylib
-
-# History files
-*.Rhistory
-*.RData
-*.Rprofile
-
-# Example code in package build process
-*-Ex.R
-# R data files from past sessions
-.Rdata
-# RStudio files
+# R project and session files
+*.Rproj
 .Rproj.user/
-.Rproj.user
-movr.Rproj
-packrat/lib*/
-inst/doc
-movr-manual.pdf
-# History files
 .Rhistory
-.Rapp.history
-
-# Session Data files
 .RData
 .RDataTmp
-
-# User-specific files
+.Rapp.history
 .Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.Rprofile
+.Renviron
 .httr-oauth
 
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
+# Build artifacts
+.Rcheck/
+*.tar.gz
+*.bke
 *.utf8.md
+*-Ex.R
+/build/
+_builds/
+_install/
+inst/doc/
+docs/
+movr-manual.pdf
+
+# Compiled objects and binaries
+src/*.o
+src/*.so
+src/*.dylib
+libs/
+
+# Test and example outputs
+test/
+test.c
+cache/
+*_cache/
+
+# Vignettes and knitr outputs
+vignettes/*.html
+vignettes/*.pdf
 *.knit.md
 
-# R Environment Variables
-.Renviron
+# Version control
+.git/
+.gitignore
 
-# pkgdown site
-docs/
+# Editors and tools
+.DS_Store
+.vscode/
+.cursor/
 
-# translation temp files
+# CI/CD and deployment
+.github/
+.travis.yml
+rsconnect/
+
+# Packrat (optional, if not using)
+packrat/lib*/
+
+# PO/misc
 po/*~
 
-# RStudio Connect folder
-rsconnect/
+..Rcheck/
