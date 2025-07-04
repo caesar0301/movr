@@ -1,0 +1,7 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+You're working on **movr**—an Rlang library to process and visualize human mobility spatiotemporal data.
