@@ -86,8 +86,14 @@ run_test("Package Structure Validation", function() {
   
   # Check DESCRIPTION format
   desc <- read.dcf("DESCRIPTION")
-  required_fields <- c("Package", "Version", "Title", "Description", "Author", "Maintainer", "License")
+  required_fields <- c("Package", "Version", "Title", "Description", "License")
   missing_fields <- required_fields[!required_fields %in% colnames(desc)]
+  
+  # Check for author information (either Author/Maintainer or Authors@R)
+  has_author_info <- any(c("Author", "Maintainer", "Authors@R") %in% colnames(desc))
+  if (!has_author_info) {
+    missing_fields <- c(missing_fields, "Author/Maintainer or Authors@R")
+  }
   
   if (length(missing_fields) > 0) {
     stop("Missing required DESCRIPTION fields: ", paste(missing_fields, collapse = ", "))
