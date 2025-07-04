@@ -31,16 +31,22 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
+      - name: Setup virtual display (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          echo "export DISPLAY=:99" >> $GITHUB_ENV
+
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake build-essential libglib2.0-dev
+          sudo apt-get install -y cmake build-essential libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev xvfb
 
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew install cmake glib
+          brew install cmake glib mesa
 
       - name: Install R package dependencies
         run: |
