@@ -50,8 +50,6 @@ vignettes/*.pdf
 .cursor/
 
 # CI/CD and deployment
-.github/
-.travis.yml
 rsconnect/
 
 # Packrat (optional, if not using)
