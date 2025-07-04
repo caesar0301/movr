@@ -28,11 +28,11 @@ Imports:
     graphics,
     grDevices,
     stats,
-    classInt
-Suggests:
-    testthat,
+    classInt,
     OpenStreetMap,
     rgl
+Suggests:
+    testthat
 LazyData: yes
 License: MIT + file LICENSE
 SystemRequirements: GNU CMake
