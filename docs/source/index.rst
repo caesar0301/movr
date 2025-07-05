@@ -97,7 +97,6 @@ Contents:
    quickstart
    examples
    api
-   research
    contributing
 
 Indices and tables
