@@ -4,14 +4,6 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
-  jobs:
-    post_install:
-      - echo "Installing R and dependencies..."
-      - curl -fsSL https://cran.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/r-project.gpg
-      - echo "deb [signed-by=/usr/share/keyrings/r-project.gpg] https://cran.r-project.org/bin/linux/ubuntu jammy-cran40/" | sudo tee /etc/apt/sources.list.d/r-project.list
-      - sudo apt-get update
-      - sudo apt-get install -y r-base r-base-dev cmake build-essential libglib2.0-dev
-      - R -e "install.packages(c('devtools', 'roxygen2', 'knitr', 'rmarkdown'), repos='https://cran.r-project.org')"
 
 sphinx:
   configuration: docs/source/conf.py

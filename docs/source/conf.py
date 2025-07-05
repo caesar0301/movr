@@ -359,7 +359,6 @@ texinfo_documents = [
 # -- Intersphinx configuration --------------------------------------------
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
-    'r': ('https://cran.r-project.org/doc/manuals/r-release/R-exts.html', None),
 }
 
 # -- Copy button configuration --------------------------------------------
