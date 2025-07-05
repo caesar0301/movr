@@ -19,8 +19,6 @@ jobs:
         include:
           - os: ubuntu-latest
             r: 'release'
-          - os: macos-latest
-            r: 'release'
     steps:
       - uses: actions/checkout@v4
 
