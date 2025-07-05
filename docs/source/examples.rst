@@ -224,21 +224,21 @@ Here are some example visualizations you can create with `movr`:
 3D Mobility Trajectories
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. image:: ../examples/mobility3d.png
+.. image:: ../../examples/mobility3d.png
    :alt: 3D Trajectories
    :align: center
 
 Flow Maps
 ~~~~~~~~~
 
-.. image:: ../examples/flowmap.png
+.. image:: ../../examples/flowmap.png
    :alt: Flow Maps
    :align: center
 
 3D Map Layers
 ~~~~~~~~~~~~~
 
-.. image:: ../examples/map3d-rgl.png
+.. image:: ../../examples/map3d-rgl.png
    :alt: 3D Maps
    :align: center
 

@@ -9,7 +9,7 @@
 
 `movr` is an R package that provides comprehensive tools for analyzing and visualizing spatio-temporal human mobility data. It originates from research on human mobility patterns and offers general transformation, calculation, and visualization utilities for mobility analysis.
 
-## ⚠️ Operating System Support
+## Operating System Support
 
 **`movr` only supports Linux and macOS systems.**
 
