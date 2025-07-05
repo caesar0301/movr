@@ -58,7 +58,12 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install openjdk@11
-          echo "JAVA_HOME=/opt/homebrew/opt/openjdk@11" >> $GITHUB_ENV
+          if [ -d "/usr/local/opt/openjdk@11/" ]; then
+            echo "JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
+            echo "export JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
+          else
+            echo "Warning: Could not find Java installation"
+          fi
           java -version
 
       - name: Install R package dependencies
@@ -66,6 +71,16 @@ jobs:
           R -e "install.packages(c('remotes', 'rcmdcheck'))"
           R -e "remotes::install_deps(dependencies = TRUE)"
           R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'goodpractice'))"
+
+      - name: Install rgl and OpenStreetMap (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          # Install rgl with proper Java support
+          # First try to install from source, fallback to binary if needed
+          R -e "tryCatch(install.packages('rgl', type = 'source'), error = function(e) install.packages('rgl'))"
+          R -e "install.packages('OpenStreetMap')"
+          # Verify rgl installation
+          R -e "library(rgl)"
 
       - name: Build package
         run: |
