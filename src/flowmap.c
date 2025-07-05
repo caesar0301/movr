@@ -121,14 +121,14 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
       
       // update flow stat
       int *new_v, *old_v;
-      new_v = g_malloc(sizeof(int));
       if ( ! g_hash_table_contains(stat, link) ) {
+        new_v = g_malloc(sizeof(int));
         *new_v = 1;
         g_hash_table_insert(stat, link, new_v);
       } else {
         old_v = (int *)g_hash_table_lookup(stat, link);
-        *new_v = *old_v + 1;
-        g_hash_table_insert(stat, link, new_v);
+        *old_v = *old_v + 1;
+        free(link); // Free link since we don't need to insert it again
       }
     }
     
@@ -159,6 +159,7 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   
   UNPROTECT(3);
   
+  // Clean up hash table and all allocated memory
   g_hash_table_destroy(stat);
   
   return out;

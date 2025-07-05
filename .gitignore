@@ -27,7 +27,6 @@ movr-manual.pdf
 src/*.o
 src/*.so
 src/*.dylib
-libs/
 
 # Test and example outputs
 test/

@@ -21,6 +21,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+# Suppress warnings from R headers that we can't control
+if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    add_compile_options(-Wno-pedantic -Wno-unknown-pragmas -Wno-unused-parameter)
+endif()
+
 # Disable GNU extensions in generated Makefiles
 set(CMAKE_MAKE_PROGRAM "make" CACHE INTERNAL "" FORCE)
 set(CMAKE_GENERATOR_TOOLSET "" CACHE INTERNAL "" FORCE)
@@ -55,23 +60,24 @@ add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
 
 # Set output name and extension for cross-platform R compatibility
+# Build directly to src directory to avoid copying
 if(APPLE)
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         PREFIX ""
         SUFFIX ".so"
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
 elseif(UNIX)
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         PREFIX ""
         SUFFIX ".so"
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
 elseif(WIN32)
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         PREFIX ""
         SUFFIX ".dll"
-        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/libs"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
 endif()
 

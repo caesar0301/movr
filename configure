@@ -16,8 +16,9 @@ case "${unameOut}" in
 esac
 echo "Machine platform: ${unameOut}"
 
-if [ ! -e "${PKG_ROOT}/libs/${libname}" ]; then
-echo "Error: Shared lib not built, exit" && exit 1
+# Check if library was built directly in src directory
+if [ ! -e "${PKG_ROOT}/src/${libname}" ]; then
+echo "Error: Shared lib not built in src directory, exit" && exit 1
 fi
 
 # Clean up build directory to avoid GNU extensions in package
