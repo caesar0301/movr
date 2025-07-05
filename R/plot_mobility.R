@@ -20,7 +20,7 @@
 #' users <- subset(movement, id %in% c(23, 20))
 #' users <- dplyr::mutate(users, time = time/86400 - min(time/86400))
 #' users <- dplyr::filter(users, time <= 30)
-#' \dontrun{
+#' \donttest{
 #' plot_traj3d(users$lon, users$lat, users$time,
 #'  group_by=users$id, col=c('royalblue', 'orangered'))
 #' 
@@ -122,7 +122,9 @@ traj3d.close <- function() {
 #' data(movement)
 #' 
 #' user <- subset(movement, id==20)
+#' \donttest{
 #' plot_traj_graph(user$loc, user$time)
+#' }
 plot_traj_graph <- function(loc, time, ...) {
   if (!requireNamespace("igraph", quietly = TRUE)) {
     stop("Package 'igraph' is required for this function.")

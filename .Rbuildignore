@@ -137,3 +137,9 @@ render_docs.R
 release.sh
 
 ^temp_extract/
+
+# CMake build system files
+^cmake/
+^CMakeLists\.txt$
+^configure$
+^configure\.win$

@@ -36,7 +36,9 @@ Suggests:
     testthat,
     rgl
 LazyData: yes
-License: Apache-2.0
+License: Apache License 2.0
+License_is_FOSS: true
+License_file: LICENSE
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2
 
