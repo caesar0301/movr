@@ -60,3 +60,4 @@ po/*~
 ..Rcheck/
 Rplots.pdf
 NAMESPACE.backup
+movr.Rcheck/
