@@ -6,6 +6,8 @@ This directory contains all helper scripts for the movr package development, tes
 
 ### Core Scripts
 
+> **Note**: The `test_build.sh` script has been merged into `release.sh` as the build testing functionality. The unified script now includes all build testing as a preceding step before release operations.
+
 #### `cran_release_check.R`
 **Purpose**: Comprehensive R-based testing engine for CRAN release validation
 - **12 test categories** covering all CRAN requirements
@@ -33,15 +35,20 @@ Rscript scripts/cran_release_check.R
 ```
 
 #### `release.sh`
-**Purpose**: Complete release workflow with integrated testing
-- **Native code building** and documentation generation
-- **Comprehensive CRAN testing** before release
-- **Package building** and final verification
-- **CRAN submission preparation**
+**Purpose**: Unified release script with dry-run and real release modes
+- **Build testing** (from test_build.sh) as preceding step
+- **Dry-run mode** for testing build and CRAN validation (default)
+- **Real release mode** for actual CRAN submission
+- **Quick mode** for faster testing
+- **Uses devtools** for package building instead of R CMD
 
 **Usage**:
 ```bash
-./scripts/release.sh
+./scripts/release.sh              # Dry-run (test build and validate)
+./scripts/release.sh --dry-run    # Same as above
+./scripts/release.sh --release    # Perform actual CRAN release
+./scripts/release.sh --quick      # Quick dry-run
+./scripts/release.sh --help       # Show all options
 ```
 
 #### `render_docs.R`
@@ -137,12 +144,17 @@ The `cran_release_check.R` script performs 12 comprehensive test categories:
 
 ### Release Workflow
 ```bash
-# 1. Complete release process
-./release
+# 1. Test build and validate (dry-run)
+./scripts/release.sh --dry-run
 
-# 2. Review final package
-# 3. Submit to CRAN
-# 4. Monitor submission status
+# 2. Review any issues and fix them
+# 3. Run quick validation
+./scripts/release.sh --quick
+
+# 4. Perform actual release
+./scripts/release.sh --release
+
+# 5. Monitor CRAN submission status
 ```
 
 ## 🔍 Troubleshooting

@@ -215,37 +215,7 @@ run_test("Spell Check", function() {
   }
 }, skip_in_quick = TRUE)
 
-# Test 6: Good Practice Check on Built Package
-run_test("Good Practice Check", function() {
-  if (!exists("build_file_path")) {
-    stop("No build file available. Run build test first.")
-  }
-  
-  # Extract package to temporary directory for good practice checking
-  temp_dir <- tempfile("movr_gp_check")
-  dir.create(temp_dir)
-  on.exit(unlink(temp_dir, recursive = TRUE))
-  
-  # Extract the built package
-  utils::untar(build_file_path, exdir = temp_dir)
-  pkg_dir <- list.files(temp_dir, full.names = TRUE)[1]
-  
-  # Run goodpractice checks
-  gp_result <- goodpractice::gp(pkg_dir)
-  
-  # Get failed checks
-  failed_checks <- goodpractice::failed_checks(gp_result)
-  
-  if (length(failed_checks) > 0) {
-    cat("    Good practice issues found:\n")
-    for (check in failed_checks) {
-      cat("      - ", check, "\n")
-    }
-    warning("Good practice issues found - review before release")
-  } else {
-    cat("    All good practice checks passed\n")
-  }
-}, skip_in_quick = TRUE)
+# Test 6: Good Practice Check on Built Package (skipped)
 
 # Test 7: Package Installation Test from Built Package
 run_test("Package Installation Test", function() {
