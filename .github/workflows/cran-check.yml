@@ -45,6 +45,10 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install cmake glib mesa
+          # Ensure GLib headers are available
+          brew install pkg-config
+          # Set up pkg-config path for GLib
+          echo "PKG_CONFIG_PATH=$(brew --prefix glib)/lib/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
 
       - name: Setup Java (Linux)
         if: runner.os == 'Linux'
@@ -84,6 +88,9 @@ jobs:
 
       - name: Build package
         run: |
+          # Verify pkg-config can find GLib
+          pkg-config --cflags glib-2.0
+          pkg-config --libs glib-2.0
           R -e "devtools::build()"
 
       - name: Run CRAN release check

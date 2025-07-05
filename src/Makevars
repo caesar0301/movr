@@ -1,5 +1,5 @@
 # Empty Makevars: all build logic is handled by the configure script in the package root.
 
-# GLib include and library paths for macOS
-PKG_CPPFLAGS = -I/usr/local/include/glib-2.0 -I/usr/local/lib/glib-2.0/include
-PKG_LIBS = -L/usr/local/lib -lglib-2.0
+# GLib include and library paths using pkg-config for cross-platform compatibility
+PKG_CPPFLAGS = $(shell pkg-config --cflags glib-2.0)
+PKG_LIBS = $(shell pkg-config --libs glib-2.0)
