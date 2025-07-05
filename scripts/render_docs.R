@@ -2,6 +2,9 @@
 # Enhanced Documentation Generation Script for movr package
 # This script generates documentation with explicit importFrom statements
 
+# Set CRAN mirror to avoid issues
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
+
 cat("=== movr Package Documentation Generation ===\n")
 
 # Load required packages

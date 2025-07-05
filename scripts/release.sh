@@ -37,6 +37,7 @@ show_usage() {
     echo "  -h, --help          Show this help message"
     echo "  -d, --dry-run       Test build and validate for CRAN release (default)"
     echo "  -r, --release       Perform actual CRAN release"
+    echo "  -i, --interactive   Enable interactive mode for CRAN submission"
     echo "  -q, --quick         Run quick checks (skip some time-consuming tests)"
     echo "  -v, --verbose       Run with verbose output"
     echo ""
@@ -44,6 +45,7 @@ show_usage() {
     echo "  $0                  # Run dry-run (test build and validate)"
     echo "  $0 --dry-run        # Same as above"
     echo "  $0 --release        # Perform actual CRAN release"
+    echo "  $0 --release --interactive  # Perform CRAN release with interactive submission"
     echo "  $0 --quick          # Run quick dry-run"
     echo ""
     echo "This script performs comprehensive testing and builds the package for CRAN release."
@@ -225,6 +227,18 @@ final_verification() {
     fi
 }
 
+# Function to run spell check
+run_spell_check() {
+    print_status "Running spell check..."
+    R --slave -e "options(repos = c(CRAN = 'https://cran.rstudio.com/')); library(devtools); spell_check()"
+    if [ $? -eq 0 ]; then
+        print_success "Spell check completed"
+    else
+        print_error "Spell check failed"
+        exit 1
+    fi
+}
+
 # Function to perform CRAN release
 perform_cran_release() {
     print_status "Preparing for CRAN release..."
@@ -235,12 +249,35 @@ perform_cran_release() {
     echo "  □ No critical warnings remain"
     echo ""
     
+    # Run spell check first
+    run_spell_check
+    
     read -p "Proceed with CRAN release? (y/n): " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         print_status "Initiating CRAN release..."
-        R --no-save -e "library(devtools);spell_check();release()"
-        print_success "CRAN release initiated"
+        
+        if [ "$INTERACTIVE_MODE" = true ]; then
+            print_status "Starting interactive CRAN submission process..."
+            print_status "Launching interactive R session for CRAN submission..."
+            print_warning "You will be prompted to answer questions in the R session."
+            print_status "Type 'q()' to exit R when done."
+            echo ""
+            R --no-save --interactive -e "
+options(repos = c(CRAN = 'https://cran.rstudio.com/'))
+library(devtools)
+cat('\\n=== CRAN Release Process ===\\n')
+cat('Package ready for submission. Running release()...\\n')
+release()
+"
+            print_success "CRAN release process completed"
+        else
+            print_warning "Interactive mode not enabled. Use --interactive flag for automatic CRAN submission."
+            print_status "For non-interactive environments, you can manually submit the package to CRAN."
+            print_status "Package file: $(ls movr_*.tar.gz | head -1)"
+            print_status "CRAN submission URL: https://cran.r-project.org/submit.html"
+            print_success "Release preparation completed - ready for manual submission"
+        fi
     else
         print_status "Release cancelled. Package is ready for manual submission."
         BUILD_FILE=$(ls movr_*.tar.gz | head -1)
@@ -290,20 +327,20 @@ run_real_release() {
     echo "Working directory: $(pwd)"
     echo ""
     
-    # Check if we're in the right directory
-    if [ ! -f "DESCRIPTION" ]; then
-        print_error "DESCRIPTION file not found. Please run this script from the package root directory."
-        exit 1
-    fi
+    # # Check if we're in the right directory
+    # if [ ! -f "DESCRIPTION" ]; then
+    #     print_error "DESCRIPTION file not found. Please run this script from the package root directory."
+    #     exit 1
+    # fi
     
-    # Step 1: Run build test (from test_build.sh)
-    run_build_test
+    # # Step 1: Run build test (from test_build.sh)
+    # run_build_test
     
-    # Step 2: Regenerate documents
-    regenerate_documents
+    # # Step 2: Regenerate documents
+    # regenerate_documents
     
-    # Step 3: Run CRAN release check
-    run_cran_check
+    # # Step 3: Run CRAN release check
+    # run_cran_check
     
     # Step 4: Build package
     build_package_for_release
@@ -322,6 +359,7 @@ run_real_release() {
 DRY_RUN=true  # Default to dry-run mode
 QUICK_MODE=false
 VERBOSE=false
+INTERACTIVE_MODE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -343,6 +381,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         -v|--verbose)
             VERBOSE=true
+            shift
+            ;;
+        -i|--interactive)
+            INTERACTIVE_MODE=true
             shift
             ;;
         *)

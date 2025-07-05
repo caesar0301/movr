@@ -41,7 +41,7 @@ check_r() {
 install_required_packages() {
     print_status "Checking required R packages..."
     
-    required_packages=("devtools" "roxygen2" "spelling" "goodpractice" "rcmdcheck")
+    required_packages=("devtools" "roxygen2" "spelling" "goodpractice" "rcmdcheck" "rhub")
     missing_packages=()
     
     for pkg in "${required_packages[@]}"; do

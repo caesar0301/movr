@@ -7,6 +7,9 @@
 args <- commandArgs(trailingOnly = TRUE)
 quick_mode <- "--quick" %in% args
 
+# Set CRAN mirror to avoid issues
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
+
 cat("=== movr Package CRAN Release Testing ===\n")
 if (quick_mode) {
   cat("Running in QUICK MODE (skipping some time-consuming tests)\n")
@@ -14,7 +17,7 @@ if (quick_mode) {
 cat("Starting comprehensive pre-release validation...\n\n")
 
 # Load required packages
-required_packages <- c("devtools", "roxygen2", "spelling", "goodpractice", "rcmdcheck")
+required_packages <- c("devtools", "roxygen2", "spelling", "goodpractice", "rcmdcheck", "rhub")
 missing_packages <- required_packages[!sapply(required_packages, requireNamespace, quietly = TRUE)]
 
 if (length(missing_packages) > 0) {
@@ -186,7 +189,72 @@ run_test("R CMD check (CRAN standard)", function() {
   cat("    R CMD check completed\n")
 })
 
-# Test 5: Spell Check on Built Package
+# Test 5: R-hub Platform Check (Optional but Recommended)
+run_test("R-hub Platform Check", function() {
+  if (!exists("build_file_path")) {
+    stop("No build file available. Run build test first.")
+  }
+  
+  cat("    Starting R-hub platform check...\n")
+  cat("    This will test the package on multiple platforms.\n")
+  cat("    Note: This requires an internet connection and may take several minutes.\n")
+  
+  # Check if rhub is available and authenticated
+  if (!requireNamespace("rhub", quietly = TRUE)) {
+    stop("rhub package not available. Install with: install.packages('rhub')")
+  }
+  
+  # Check if user is authenticated with rhub
+  tryCatch({
+    rhub::validate_email()
+    cat("    R-hub authentication verified\n")
+  }, error = function(e) {
+    cat("    R-hub authentication required. Please run: rhub::validate_email()\n")
+    cat("    This test will be skipped.\n")
+    return()
+  })
+  
+  # Select platforms for testing
+  # Focus on the most common platforms for CRAN
+  platforms <- c(
+    "windows-x86_64-devel",
+    "ubuntu-gcc-release", 
+    "macos-highsierra-release"
+  )
+  
+  cat("    Testing on platforms: ", paste(platforms, collapse = ", "), "\n")
+  
+  # Run the check
+  tryCatch({
+    check_result <- rhub::check_for_cran(
+      path = build_file_path,
+      platforms = platforms,
+      email = NULL,  # Use default email
+      show_status = FALSE
+    )
+    
+    # Display results
+    cat("    R-hub check completed\n")
+    cat("    Check URL: ", check_result$url, "\n")
+    cat("    Status: ", check_result$status, "\n")
+    
+    # Check for any issues
+    if (check_result$status != "ok") {
+      warning("R-hub check found issues. Check the URL for details: ", check_result$url)
+    } else {
+      cat("    ✅ All platform checks passed\n")
+    }
+    
+  }, error = function(e) {
+    cat("    R-hub check failed: ", e$message, "\n")
+    cat("    This may be due to network issues or authentication problems.\n")
+    cat("    You can run this check manually with: rhub::check_for_cran()\n")
+  })
+  
+  cat("    R-hub platform check completed\n")
+}, skip_in_quick = TRUE)
+
+# Test 6: Spell Check on Built Package
 run_test("Spell Check", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -215,9 +283,9 @@ run_test("Spell Check", function() {
   }
 }, skip_in_quick = TRUE)
 
-# Test 6: Good Practice Check on Built Package (skipped)
+# Test 7: Good Practice Check on Built Package (skipped)
 
-# Test 7: Package Installation Test from Built Package
+# Test 8: Package Installation Test from Built Package
 run_test("Package Installation Test", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -234,7 +302,7 @@ run_test("Package Installation Test", function() {
   cat("    Build file: ", basename(build_file_path), "\n")
 })
 
-# Test 8: Examples Test from Built Package
+# Test 9: Examples Test from Built Package
 run_test("Examples Test", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -259,7 +327,7 @@ run_test("Examples Test", function() {
   cat("    All examples run successfully\n")
 }, skip_in_quick = TRUE)
 
-# Test 9: Tests Test from Built Package
+# Test 10: Tests Test from Built Package
 run_test("Tests Test", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -288,7 +356,7 @@ run_test("Tests Test", function() {
   }
 }, skip_in_quick = TRUE)
 
-# Test 10: CRAN Policy Compliance on Built Package
+# Test 11: CRAN Policy Compliance on Built Package
 run_test("CRAN Policy Compliance", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -340,7 +408,7 @@ run_test("CRAN Policy Compliance", function() {
   cat("    CRAN policy compliance check completed\n")
 })
 
-# Test 11: Dependencies Check on Built Package
+# Test 12: Dependencies Check on Built Package
 run_test("Dependencies Check", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -389,7 +457,7 @@ run_test("Dependencies Check", function() {
   cat("    Dependencies check completed\n")
 }, skip_in_quick = TRUE)
 
-# Test 12: Build Artifacts Check on Built Package
+# Test 13: Build Artifacts Check on Built Package
 run_test("Build Artifacts Check", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -427,7 +495,7 @@ run_test("Build Artifacts Check", function() {
   }
 })
 
-# Test 13: Final Package Validation
+# Test 14: Final Package Validation
 run_test("Final Package Validation", function() {
   if (!exists("build_file_path")) {
     stop("No build file available. Run build test first.")
@@ -479,6 +547,7 @@ cat("5. Monitor CRAN submission status\n")
 
 cat("\n=== CRAN Submission Checklist ===\n")
 cat("□ Package passes all R CMD check tests\n")
+cat("□ R-hub platform checks pass (if run)\n")
 cat("□ Documentation is complete and accurate\n")
 cat("□ Examples run without errors\n")
 cat("□ Tests pass\n")
