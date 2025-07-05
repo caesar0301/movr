@@ -24,5 +24,7 @@ transition frequencies.
 data(movement)
 
 user <- subset(movement, id==20)
+\donttest{
 plot_traj_graph(user$loc, user$time)
+}
 }

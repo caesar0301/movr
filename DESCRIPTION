@@ -30,15 +30,15 @@ Imports:
     graphics,
     grDevices,
     stats,
-    classInt,
-    OpenStreetMap
+    classInt
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
+    OpenStreetMap,
     rgl
 LazyData: yes
-License: Apache License 2.0
+NeedsCompilation: yes
+License: Apache-2.0 + file LICENSE
 License_is_FOSS: true
-License_file: LICENSE
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2
-
+Config/testthat/edition: 3

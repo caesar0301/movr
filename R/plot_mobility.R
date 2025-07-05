@@ -20,19 +20,16 @@
 #' users <- subset(movement, id %in% c(23, 20))
 #' users <- dplyr::mutate(users, time = time/86400 - min(time/86400))
 #' users <- dplyr::filter(users, time <= 30)
-#' \donttest{
-#' plot_traj3d(users$lon, users$lat, users$time,
-#'  group_by=users$id, col=c('royalblue', 'orangered'))
-#' 
-#' invisible(readline(prompt="Press [enter] to continue"))
-#' traj3d.close()
-#' }
+#' \dontrun{
+#' if(require(OpenStreetMap) && require(rgl)){
+#'   plot_traj3d(users$lon, users$lat, users$time,
+#'    group_by=users$id, col=c('royalblue', 'orangered'))
+#'   invisible(readline(prompt="Press [enter] to continue"))
+#'   traj3d.close()
+#' }}
 plot_traj3d <- function(x, y, t, group_by=NULL, col=NULL, xlab="", ylab="", tlab="", ...) {
   if (!requireNamespace("rgl", quietly = TRUE)) {
     stop("Package 'rgl' is required for this function. Please install it with: install.packages('rgl')")
-  }
-  if (!requireNamespace("deldir", quietly = TRUE)) {
-    stop("Package 'deldir' is required for this function.")
   }
   
   stopifnot(length(x) == length(y) && length(x) == length(t))
@@ -126,9 +123,6 @@ traj3d.close <- function() {
 #' plot_traj_graph(user$loc, user$time)
 #' }
 plot_traj_graph <- function(loc, time, ...) {
-  if (!requireNamespace("igraph", quietly = TRUE)) {
-    stop("Package 'igraph' is required for this function.")
-  }
   user <- data.frame(loc=loc, time=time)
   stays <- cal_place_dwelling(user$loc, user$time)
   cut.off <- sqrt(median(stays$dwelling))
@@ -140,11 +134,7 @@ plot_traj_graph <- function(loc, time, ...) {
   igraph::V(g)$size <- log(igraph::V(g)$dwelling + 1) * 3
   igraph::V(g)$label <- NA
   igraph::V(g)$frame.color <- NA
-  if (requireNamespace("RColorBrewer", quietly = TRUE)) {
-    pal <- RColorBrewer::brewer.pal(12, name='Set3')
-  } else {
-    pal <- rainbow(12)
-  }
+  pal <- RColorBrewer::brewer.pal(12, name='Set3')
   igraph::V(g)$community <- igraph::optimal.community(g)$membership
   igraph::V(g)$color <- pal[vbin(igraph::V(g)$community, 10)]
   igraph::E(g)$arrow.size <- .2

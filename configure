@@ -1,13 +1,49 @@
 #!/bin/sh
-PKG_ROOT=`dirname "$0"`
+PKG_ROOT="$(cd "$(dirname "$0")"; pwd)"
 
-if [ -e "${PKG_ROOT}/build" ]; then
-rm -rf "${PKG_ROOT}/build"
+echo "=== movr Package Build Configuration ==="
+echo "Package root: ${PKG_ROOT}"
+
+# Check if cmake is available
+if ! command -v cmake >/dev/null 2>&1; then
+    echo "Error: cmake is required but not found. Please install cmake."
+    exit 1
 fi
-mkdir "${PKG_ROOT}/build"
 
-cd "${PKG_ROOT}/build" && cmake -Wno-dev .. && make && cd -
+# Check if make is available
+if ! command -v make >/dev/null 2>&1; then
+    echo "Error: make is required but not found. Please install make."
+    exit 1
+fi
 
+# Clean previous build
+if [ -e "${PKG_ROOT}/build" ]; then
+    echo "Cleaning previous build directory..."
+    rm -rf "${PKG_ROOT}/build"
+fi
+
+# Create build directory
+echo "Creating build directory..."
+mkdir -p "${PKG_ROOT}/build"
+
+# Run cmake configuration
+echo "Running cmake configuration..."
+cd "${PKG_ROOT}/build"
+if ! cmake -Wno-dev ..; then
+    echo "Error: cmake configuration failed"
+    exit 1
+fi
+
+# Build the library
+echo "Building library..."
+if ! make; then
+    echo "Error: make build failed"
+    exit 1
+fi
+
+cd "${PKG_ROOT}"
+
+# Determine library name based on platform
 unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*|Darwin*) libname=movr.so;;
@@ -15,13 +51,20 @@ case "${unameOut}" in
     *)          echo "Unknown platform: ${unameOut}"; exit 1;;
 esac
 echo "Machine platform: ${unameOut}"
+echo "Expected library: ${libname}"
 
-# Check if library was built directly in src directory
+# Check if library was built in src directory
 if [ ! -e "${PKG_ROOT}/src/${libname}" ]; then
-echo "Error: Shared lib not built in src directory, exit" && exit 1
+    echo "Error: Shared library ${libname} not found in src directory"
+    exit 1
 fi
+
+echo "Successfully built ${libname} in src directory"
 
 # Clean up build directory to avoid GNU extensions in package
 if [ -e "${PKG_ROOT}/build" ]; then
-rm -rf "${PKG_ROOT}/build"
+    echo "Cleaning build directory..."
+    rm -rf "${PKG_ROOT}/build"
 fi
+
+echo "=== Build completed successfully ==="

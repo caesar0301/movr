@@ -41,9 +41,20 @@ set(movr_SRCS
 )
 set(SOURCES ${movr_SRCS})
 
-# find external libraries
+# find external libraries with better error handling
+message(STATUS "Finding R...")
 find_package(R REQUIRED)
+if(NOT R_FOUND)
+    message(FATAL_ERROR "R not found. Please ensure R is installed and R_HOME is set.")
+endif()
+message(STATUS "R found: ${R_HOME}")
+
+message(STATUS "Finding GLIB...")
 find_package(GLIB REQUIRED)
+if(NOT GLIB_FOUND)
+    message(FATAL_ERROR "GLIB not found. Please install glib2 development libraries.")
+endif()
+message(STATUS "GLIB found: ${GLIB_INCLUDE_DIRS}")
 
 # add external libraries
 set(LIBS ${LIBS} ${R_LIBRARIES})
@@ -54,6 +65,10 @@ include_directories (
     ${R_INCLUDE_DIR}
     ${GLIB_INCLUDE_DIRS}
 )
+
+message(STATUS "R include dir: ${R_INCLUDE_DIR}")
+message(STATUS "GLIB include dirs: ${GLIB_INCLUDE_DIRS}")
+message(STATUS "Libraries: ${LIBS}")
 
 # generate a shared library
 add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
@@ -67,19 +82,24 @@ if(APPLE)
         SUFFIX ".so"
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
+    message(STATUS "Building for macOS")
 elseif(UNIX)
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         PREFIX ""
         SUFFIX ".so"
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
+    message(STATUS "Building for Linux")
 elseif(WIN32)
     set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
         PREFIX ""
         SUFFIX ".dll"
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
+    message(STATUS "Building for Windows")
 endif()
+
+message(STATUS "Library will be built to: ${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # install library to custom location
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)

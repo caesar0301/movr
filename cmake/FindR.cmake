@@ -75,3 +75,10 @@ set(R_LIBRARIES ${R_LIBRARY_BASE} ${R_LIBRARY_BLAS} ${R_LIBRARY_LAPACK} ${R_LIBR
 if(R_LIBRARY_READLINE)
   set(R_LIBRARIES ${R_LIBRARIES} ${R_LIBRARY_READLINE})
 endif()
+
+# Set R_FOUND if all required components are found
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(R
+    REQUIRED_VARS R_HOME R_INCLUDE_DIR R_LIBRARY_BASE
+    VERSION_VAR R_VERSION
+)

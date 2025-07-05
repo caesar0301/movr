@@ -9,9 +9,6 @@
 #' @examples
 #' heatmap.levels(rnorm(100), nlevels=10)
 heatmap.levels <- function(z, nlevels=10) {
-  if (!requireNamespace("classInt", quietly = TRUE)) {
-    stop("Package 'classInt' is required for this function. Please install it with: install.packages('classInt')")
-  }
   # Generate color breaks
   brks <- classInt::classIntervals(z, nlevels, style='equal')
   brks$brks

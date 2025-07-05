@@ -249,15 +249,9 @@ Rcolors <- function(huesort=TRUE) {
 #' @return A SpatialPolygonsDataFrame object
 #' @export
 voronoi2polygons <- function(x, poly) {
-  if (!requireNamespace("deldir", quietly = TRUE)) {
-    stop("Package 'deldir' is required for this function.")
-  }
   if (.hasSlot(x, 'coords')) {
     crds <- x@coords  
   } else crds <- x
-  if (!requireNamespace("sp", quietly = TRUE)) {
-    stop("Package 'sp' is required for this function.")
-  }
   bb = sp::bbox(poly)
   rw = as.numeric(t(sp::bbox(poly)))
   z <- deldir::deldir(crds[,1], crds[,2],rw=rw)
@@ -292,10 +286,7 @@ voronoi2polygons <- function(x, poly) {
 minor.ticks.axis <- function(ax, n, lab=TRUE, tick.ratio=0.5, mn, mx,...){
   lims <- par("usr")
   if(ax %in% c(1,3)) lims <- lims[1:2] else lims[3:4]
-  
-  if (!requireNamespace("squash", quietly = TRUE)) {
-    stop("Package 'squash' is required for this function.")
-  }
+
   major.ticks <- squash::prettyInt(lims)
   if(missing(mn)) mn <- min(major.ticks)
   if(missing(mx)) mx <- max(major.ticks)

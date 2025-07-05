@@ -43,10 +43,10 @@ users <- subset(movement, id \%in\% c(23, 20))
 users <- dplyr::mutate(users, time = time/86400 - min(time/86400))
 users <- dplyr::filter(users, time <= 30)
 \dontrun{
-plot_traj3d(users$lon, users$lat, users$time,
- group_by=users$id, col=c('royalblue', 'orangered'))
-
-invisible(readline(prompt="Press [enter] to continue"))
-traj3d.close()
-}
+if(require(OpenStreetMap) && require(rgl)){
+  plot_traj3d(users$lon, users$lat, users$time,
+   group_by=users$id, col=c('royalblue', 'orangered'))
+  invisible(readline(prompt="Press [enter] to continue"))
+  traj3d.close()
+}}
 }

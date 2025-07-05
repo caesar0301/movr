@@ -36,7 +36,7 @@ lat2 <- max(u1$lat) + 0.005
 lon1 <- min(u1$lon) - 0.005
 lon2 <- max(u1$lon) + 0.005
 \dontrun{
-if(require(OpenStreetMap)){
+if(require(OpenStreetMap) && require(rgl)){
  library(rgl)
  rgl.clear()
  rgl.clear("lights")
