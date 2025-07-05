@@ -32,6 +32,10 @@ plot_traj3d(
 \description{
 Visualize trajectories using RGL 3D.
 }
+\note{
+This function requires the \pkg{rgl} package to be installed.
+You can install it with \code{install.packages("rgl")}.
+}
 \examples{
 data(movement)
 

@@ -10,6 +10,10 @@ traj3d.close()
 Close the current RGL 3D device. This is a convenience function
 that checks if the rgl package is available before closing.
 }
+\note{
+This function requires the \pkg{rgl} package to be installed.
+You can install it with \code{install.packages("rgl")}.
+}
 \examples{
 \dontrun{
 # After creating a 3D plot with plot_traj3d

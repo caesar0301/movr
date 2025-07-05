@@ -7,6 +7,9 @@
 #' a whole trajectory. This function implements these measures, which are also referred
 #' to as the DYNAMIC quality for mobility data.
 #' 
+#' @importFrom dplyr group_by summarise left_join
+#' @importFrom magrittr %>%
+#' 
 #' @param stcoords The spatiotemporal coordinates, see \code{\link{stcoords}}
 #' @param type the selection of distance calculation function: 'lonlat' -> great circle distance
 #'  of long/lat pair, 'xy' -> euclidean distance.

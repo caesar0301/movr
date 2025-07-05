@@ -31,12 +31,12 @@ Imports:
     grDevices,
     stats,
     classInt,
-    OpenStreetMap,
-    rgl
+    OpenStreetMap
 Suggests:
-    testthat
+    testthat,
+    rgl
 LazyData: yes
-License: Apache-2.0 + file LICENSE
+License: Apache-2.0
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2
 

@@ -33,3 +33,7 @@ voronoi3d(
 \description{
 3D voronoi canvas for RGL
 }
+\note{
+This function requires the \pkg{rgl} package to be installed.
+You can install it with \code{install.packages("rgl")}.
+}

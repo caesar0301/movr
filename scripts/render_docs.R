@@ -15,11 +15,6 @@ if (!requireNamespace("roxygen2", quietly = TRUE)) {
 
 cat("1. Cleaning previous documentation...\n")
 # Clean previous documentation
-if (file.exists("NAMESPACE")) {
-  file.rename("NAMESPACE", "NAMESPACE.backup")
-  cat("   - Backed up existing NAMESPACE to NAMESPACE.backup\n")
-}
-
 if (dir.exists("man")) {
   unlink("man", recursive = TRUE)
   cat("   - Removed existing man/ directory\n")
@@ -66,7 +61,7 @@ if (export_count == 0) {
 # Check for specific packages that should be imported
 required_packages <- c("dplyr", "tidyr", "igraph", "magrittr")
 for (pkg in required_packages) {
-  if (!any(grepl(paste0("importFrom\\(\"", pkg), namespace_content))) {
+  if (!any(grepl(paste0("importFrom\\(", pkg, ","), namespace_content))) {
     cat("   - NOTE: No explicit imports from '", pkg, "'. Consider adding @importFrom annotations.\n", sep = "")
   }
 }
@@ -103,7 +98,6 @@ if (!is.null(check_result) && length(check_result) > 0 && !is.null(attr(check_re
 cat("7. Documentation generation complete!\n")
 cat("   - NAMESPACE file: NAMESPACE\n")
 cat("   - Documentation files: man/\n")
-cat("   - Backup file: NAMESPACE.backup\n")
 cat("   - Built package: ", basename(build_result), "\n")
 
 cat("\n=== Next Steps ===\n")

@@ -4,6 +4,10 @@
 #' Successive records at the same location are merged into a single session
 #' (with interval less than `gap`) recording the starting and ending times.
 #' 
+#' @importFrom dplyr left_join group_by do summarise mutate
+#' @importFrom tidyr separate
+#' @importFrom magrittr %>%
+#' 
 #' @param x,y,t see parameters of \code{\link{stcoords}}
 #' @param gap the time tolerance (sec) to combine two continuous observations
 #' @param unite.sep a separator to combine x and y coordinators into one column,

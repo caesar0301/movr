@@ -2,6 +2,9 @@
 #' 
 #' Normalize a given vector.
 #' 
+#' @importFrom dplyr group_by mutate select summarise
+#' @importFrom magrittr %>%
+#' 
 #' @param x A vector to be normalized.
 #' @seealso \code{\link{standardize_st}}
 #' @export

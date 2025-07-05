@@ -5,6 +5,9 @@
 #' values into the same row. The output can be exploited to calculate spatial correlations.
 #' Note that only Euclidean distance is supported merely for this time.
 #' 
+#' @importFrom dplyr mutate group_by summarise filter select
+#' @importFrom magrittr %>%
+#' 
 #' @param x,y the coordinates of given random field
 #' @param z the observation value for each point (x,y)
 #' @return the data frame of c('r', 'z1', 'z2')

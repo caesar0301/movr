@@ -48,6 +48,21 @@ jobs:
         run: |
           brew install cmake glib mesa
 
+      - name: Setup Java (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-11-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
+          java -version
+
+      - name: Setup Java (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install openjdk@11
+          echo "JAVA_HOME=/opt/homebrew/opt/openjdk@11" >> $GITHUB_ENV
+          java -version
+
       - name: Install R package dependencies
         run: |
           R -e "install.packages(c('remotes', 'rcmdcheck'))"

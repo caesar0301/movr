@@ -22,6 +22,10 @@ This method add a 3D map surface to the RGL plot. The backend map service is
 supported by OpenStreetMap package. All parameters except for h are
 consistent with the 'openmap' function in OSM.
 }
+\note{
+This function requires the \pkg{rgl} package to be installed.
+You can install it with \code{install.packages("rgl")}.
+}
 \examples{
 data(movement)
 

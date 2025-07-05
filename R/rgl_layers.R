@@ -4,6 +4,11 @@
 #' supported by OpenStreetMap package. All parameters except for h are
 #' consistent with the 'openmap' function in OSM.
 #' 
+#' @note This function requires the \pkg{rgl} package to be installed.
+#' You can install it with \code{install.packages("rgl")}.
+#' 
+#' @importFrom dplyr distinct
+#' 
 #' @param lowerLeft the lower left lat and long
 #' @param upperRight the upper right lat and long
 #' @param h the horizontal plane to locate the map surface
@@ -73,6 +78,11 @@ map3d <- function(lowerLeft, upperRight, h=0, type='bing', ...) {
 }
 
 #' 3D voronoi canvas for RGL
+#' 
+#' @note This function requires the \pkg{rgl} package to be installed.
+#' You can install it with \code{install.packages("rgl")}.
+#' 
+#' @importFrom dplyr distinct
 #' 
 #' @param x,y Coordinates of points
 #' @param group_by Grouping variable for points

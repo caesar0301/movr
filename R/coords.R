@@ -1,5 +1,8 @@
 #' Convert degrees to radians.
 #' @param deg A number or vector of degrees.
+#' 
+#' @importFrom tidyr unite
+#' @importFrom magrittr %>%
 #' @seealso \code{\link{rad2deg}}
 #' @export
 deg2rad <- function(deg) { deg * pi / 180 }
