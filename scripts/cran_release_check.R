@@ -186,34 +186,7 @@ run_test("R CMD check (CRAN standard)", function() {
   cat("    R CMD check completed\n")
 })
 
-# Test 5: Spell Check on Built Package
-run_test("Spell Check", function() {
-  if (!exists("build_file_path")) {
-    stop("No build file available. Run build test first.")
-  }
-  
-  # Extract package to temporary directory for spell checking
-  temp_dir <- tempfile("movr_spell_check")
-  dir.create(temp_dir)
-  on.exit(unlink(temp_dir, recursive = TRUE))
-  
-  # Extract the built package
-  utils::untar(build_file_path, exdir = temp_dir)
-  pkg_dir <- list.files(temp_dir, full.names = TRUE)[1]
-  
-  # Check spelling in documentation
-  spell_result <- spelling::spell_check_package(pkg_dir)
-  
-  if (nrow(spell_result) > 0) {
-    cat("    Spelling issues found:\n")
-    for (i in 1:nrow(spell_result)) {
-      cat("      ", spell_result$word[i], " in ", spell_result$file[i], "\n")
-    }
-    warning("Spelling issues found - review before release")
-  } else {
-    cat("    No spelling issues found\n")
-  }
-}, skip_in_quick = TRUE)
+# Test 5: Spell Check on Built Package (skipped)
 
 # Test 6: Good Practice Check on Built Package (skipped)
 

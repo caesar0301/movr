@@ -20,7 +20,7 @@
 _builds/
 _install/
 inst/doc/
-docs/
+docs/build
 movr-manual.pdf
 
 # Compiled objects and binaries
