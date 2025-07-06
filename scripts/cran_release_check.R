@@ -17,7 +17,7 @@ if (quick_mode) {
 cat("Starting comprehensive pre-release validation...\n\n")
 
 # Load required packages
-required_packages <- c("devtools", "roxygen2", "spelling", "goodpractice", "rcmdcheck", "rhub")
+required_packages <- c("devtools", "roxygen2", "spelling", "rcmdcheck", "rhub")
 missing_packages <- required_packages[!sapply(required_packages, requireNamespace, quietly = TRUE)]
 
 if (length(missing_packages) > 0) {

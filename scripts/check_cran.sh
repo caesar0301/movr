@@ -41,7 +41,7 @@ check_r() {
 install_required_packages() {
     print_status "Checking required R packages..."
     
-    required_packages=("devtools" "roxygen2" "spelling" "goodpractice" "rcmdcheck" "rhub")
+    required_packages=("devtools" "roxygen2" "spelling" "rcmdcheck" "rhub")
     missing_packages=()
     
     for pkg in "${required_packages[@]}"; do
@@ -76,8 +76,6 @@ show_usage() {
     echo "  -i, --install       Install required packages and exit"
     echo "  -q, --quick         Run quick check (skip some tests)"
     echo "  -v, --verbose       Run with verbose output"
-    echo "  --no-spell          Skip spell checking"
-    echo "  --no-goodpractice   Skip good practice checks"
     echo ""
     echo "Examples:"
     echo "  $0                  # Run full CRAN release check"
@@ -103,8 +101,6 @@ run_full_check() {
 QUICK_MODE=false
 VERBOSE=false
 INSTALL_ONLY=false
-SKIP_SPELL=false
-SKIP_GOODPRACTICE=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -122,14 +118,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         -v|--verbose)
             VERBOSE=true
-            shift
-            ;;
-        --no-spell)
-            SKIP_SPELL=true
-            shift
-            ;;
-        --no-goodpractice)
-            SKIP_GOODPRACTICE=true
             shift
             ;;
         *)

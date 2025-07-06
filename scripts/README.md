@@ -78,7 +78,6 @@ The scripts automatically manage these dependencies:
 - `devtools` - Package development tools
 - `roxygen2` - Documentation generation
 - `spelling` - Spell checking
-- `goodpractice` - Code quality assessment
 - `rcmdcheck` - R CMD check wrapper
 
 ### System Requirements

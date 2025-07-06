@@ -74,7 +74,7 @@ jobs:
         run: |
           R -e "install.packages(c('remotes', 'rcmdcheck'))"
           R -e "remotes::install_deps(dependencies = TRUE)"
-          R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'goodpractice'))"
+          R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'rhub'))"
 
       - name: Install rgl and OpenStreetMap (macOS)
         if: runner.os == 'macOS'
