@@ -29,90 +29,55 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup virtual display (Linux)
-        if: runner.os == 'Linux'
+      - name: Setup environment and install dependencies
         run: |
-          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          echo "export DISPLAY=:99" >> $GITHUB_ENV
-
-      - name: Install system dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake build-essential libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev xvfb
-
-      - name: Install system dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install cmake glib mesa
-          # Ensure GLib headers are available
-          brew install pkg-config
-          # Set up pkg-config path for GLib
-          echo "PKG_CONFIG_PATH=$(brew --prefix glib)/lib/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
-
-      - name: Setup Java (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
-          echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
-          java -version
-
-      - name: Setup Java (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install openjdk@11
-          if [ -d "/usr/local/opt/openjdk@11/" ]; then
-            echo "JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
-            echo "export JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
+          # Setup virtual display (Linux)
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+            echo "export DISPLAY=:99" >> $GITHUB_ENV
+            
+            # Install system dependencies
+            sudo apt-get update
+            sudo apt-get install -y cmake build-essential libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev xvfb pkg-config openjdk-11-jdk
+            echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
+            echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
           else
-            echo "Warning: Could not find Java installation"
+            # macOS dependencies
+            brew install cmake glib mesa pkg-config openjdk@11
+            echo "PKG_CONFIG_PATH=$(brew --prefix glib)/lib/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
+            if [ -d "/usr/local/opt/openjdk@11/" ]; then
+              echo "JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
+            fi
           fi
+          
+          # Verify Java installation
           java -version
 
-      - name: Install R package dependencies
+      - name: Install R packages
         run: |
           R -e "install.packages(c('remotes', 'rcmdcheck'))"
           R -e "remotes::install_deps(dependencies = TRUE)"
           R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'rhub'))"
+          
+          # Install platform-specific packages
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            R -e "tryCatch(install.packages('rgl', type = 'source'), error = function(e) install.packages('rgl'))"
+            R -e "install.packages('OpenStreetMap')"
+            R -e "library(rgl)"
+          fi
 
-      - name: Install rgl and OpenStreetMap (macOS)
-        if: runner.os == 'macOS'
+      - name: Build and check package
         run: |
-          # Install rgl with proper Java support
-          # First try to install from source, fallback to binary if needed
-          R -e "tryCatch(install.packages('rgl', type = 'source'), error = function(e) install.packages('rgl'))"
-          R -e "install.packages('OpenStreetMap')"
-          # Verify rgl installation
-          R -e "library(rgl)"
-
-      - name: Build package
-        run: |
-          # Verify pkg-config can find GLib
-          pkg-config --cflags glib-2.0
-          pkg-config --libs glib-2.0
           R -e "devtools::build()"
-
-      - name: Run CRAN release check
-        run: |
           Rscript scripts/cran_release_check.R
 
-      - name: Upload check results (on failure)
-        if: failure()
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: cran-check-results-${{ matrix.os }}-${{ matrix.r }}
           path: |
+            *.tar.gz
+            *.zip
+            build/
             check.log
-            final_check.log
-            *.tar.gz
-            *.zip
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-${{ matrix.os }}-${{ matrix.r }}
-          path: |
-            *.tar.gz
-            *.zip
-            build/ 
+            final_check.log 
