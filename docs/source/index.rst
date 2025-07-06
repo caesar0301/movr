@@ -29,13 +29,7 @@ movr: Human Mobility Analysis in R
 Installation
 -----------
 
-From CRAN (Recommended):
-
-.. code-block:: r
-
-   install.packages("movr")
-
-From GitHub (Development Version):
+From GitHub:
 
 .. code-block:: r
 

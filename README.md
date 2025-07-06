@@ -31,12 +31,7 @@
 
 ## 📦 Installation
 
-### From CRAN (Recommended)
-```r
-install.packages("movr")
-```
-
-### From GitHub (Development Version)
+### From GitHub
 ```r
 # Install devtools if you haven't already
 if (!requireNamespace("devtools", quietly = TRUE)) {

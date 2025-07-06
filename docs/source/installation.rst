@@ -23,17 +23,8 @@ Operating System Support
 Installation Methods
 -------------------
 
-From CRAN (Recommended)
-~~~~~~~~~~~~~~~~~~~~~~
-
-The easiest way to install `movr` is from CRAN:
-
-.. code-block:: r
-
-   install.packages("movr")
-
-From GitHub (Development Version)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+From GitHub
+~~~~~~~~~~~
 
 To install the latest development version from GitHub:
 
