@@ -38,7 +38,7 @@ jobs:
             
             # Install system dependencies
             sudo apt-get update
-            sudo apt-get install -y cmake build-essential libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev xvfb pkg-config openjdk-11-jdk
+            sudo apt-get install -y cmake build-essential libblas-dev liblapack-dev libglpk40 libglpk-dev libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev xvfb pkg-config openjdk-11-jdk
             echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
             echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
           else
