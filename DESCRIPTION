@@ -1,6 +1,6 @@
 Package: movr
 Type: Package
-Version: 0.3.2
+Version: 0.3.3
 Title: Analyzing and Visualizing Human Mobility Data
 Description: A set of functions and utilities to analyze and visualize 
   spatio-temporal mobility data.
