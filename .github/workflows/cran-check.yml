@@ -34,7 +34,8 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v2
 
-      - name: Setup environment and install dependencies
+      - name: Setup environment and install dependencies (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
           # Setup virtual display (Linux)
           if [ "$RUNNER_OS" = "Linux" ]; then
@@ -53,20 +54,27 @@ jobs:
             if [ -d "/usr/local/opt/openjdk@11/" ]; then
               echo "JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
             fi
-          elif [ "$RUNNER_OS" = "Windows" ]; then
-            # Windows dependencies
-            # Install cmake, glib, and other dependencies via vcpkg or chocolatey
-            choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-            choco install pkgconfiglite
-            choco install openjdk11
-            echo "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-11.0.16.101-hotspot" >> $GITHUB_ENV
-            echo "PKG_CONFIG_PATH=C:\\tools\\pkgconfiglite\\lib\\pkgconfig" >> $GITHUB_ENV
           fi
           
           # Verify Java installation
           java -version
 
-      - name: Install R packages
+      - name: Setup environment and install dependencies (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # Windows dependencies using PowerShell
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+          choco install pkgconfiglite -y
+          choco install openjdk11 -y
+          echo "JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-11.0.16.101-hotspot" >> $env:GITHUB_ENV
+          echo "PKG_CONFIG_PATH=C:\tools\pkgconfiglite\lib\pkgconfig" >> $env:GITHUB_ENV
+          
+          # Verify Java installation
+          java -version
+        shell: pwsh
+
+      - name: Install R packages (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
           R -e "install.packages(c('remotes', 'rcmdcheck'))"
           R -e "remotes::install_deps(dependencies = TRUE)"
@@ -77,22 +85,31 @@ jobs:
             R -e "tryCatch(install.packages('rgl', type = 'source'), error = function(e) install.packages('rgl'))"
             R -e "install.packages('OpenStreetMap')"
             R -e "library(rgl)"
-          elif [ "$RUNNER_OS" = "Windows" ]; then
-            R -e "install.packages('rgl', type = 'binary')"
-            R -e "install.packages('OpenStreetMap')"
           fi
 
-      - name: Build and check package
+      - name: Install R packages (Windows)
+        if: runner.os == 'Windows'
         run: |
-          if [ "$RUNNER_OS" = "Windows" ]; then
-            # Windows-specific build (uses configure.win)
-            R -e "devtools::build()"
-            Rscript scripts/cran_release_check.R
-          else
-            # Linux and macOS build
-            R -e "devtools::build()"
-            Rscript scripts/cran_release_check.R
-          fi
+          R -e "install.packages(c('remotes', 'rcmdcheck'))"
+          R -e "remotes::install_deps(dependencies = TRUE)"
+          R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'rhub'))"
+          R -e "install.packages('rgl', type = 'binary')"
+          R -e "install.packages('OpenStreetMap')"
+        shell: pwsh
+
+      - name: Build and check package (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: |
+          R -e "devtools::build()"
+          Rscript scripts/cran_release_check.R
+
+      - name: Build and check package (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # Windows-specific build (uses configure.win)
+          R -e "devtools::build()"
+          Rscript scripts/cran_release_check.R
+        shell: pwsh
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
