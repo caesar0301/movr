@@ -230,7 +230,7 @@ If you use `movr` in your research, please cite:
 ## 🐛 Bug Reports & Support
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/caesar0301/movr/issues)
-- **Documentation**: [Package documentation](https://caesar0301.github.io/movr/)
+- **Documentation**: [Package documentation](https://movr.readthedocs.io/en/latest)
 
 ## 📄 License
 
