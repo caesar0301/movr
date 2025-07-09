@@ -13,12 +13,12 @@ System Requirements
 Operating System Support
 -----------------------
 
-**`movr` only supports Linux and macOS systems.**
+**`movr` supports Linux, macOS, and Windows systems.**
 
 * ✅ **Linux**: Ubuntu, Debian, and other Linux distributions
 * ✅ **macOS**: All macOS versions (tested on recent releases)
-* ❌ **Windows**: Not supported natively
-* 🔄 **Windows via WSL**: Supported through Windows Subsystem for Linux
+* ✅ **Windows**: Native Windows support (Windows 10/11)
+* 🔄 **Windows via WSL**: Also supported through Windows Subsystem for Linux
 
 Installation Methods
 -------------------
@@ -84,10 +84,18 @@ Install system dependencies using Homebrew:
 
    brew install cmake glib
 
+Windows
+~~~~~~~
+
+Windows builds are now natively supported! The required dependencies are automatically installed during package installation. If you encounter issues, you can manually install:
+
+* **Rtools**: Download from `CRAN <https://cran.r-project.org/bin/windows/Rtools/>`_ 
+* **Optional**: For advanced builds, install `MSYS2 <https://www.msys2.org/>`_ for additional Unix-like tools
+
 Windows (via WSL)
 ~~~~~~~~~~~~~~~~~
 
-If you're on Windows, we recommend using Windows Subsystem for Linux (WSL):
+Alternatively, you can use Windows Subsystem for Linux (WSL):
 
 1. Install WSL with Ubuntu from Microsoft Store
 2. Follow the Ubuntu/Debian installation instructions above
@@ -108,7 +116,7 @@ Common Issues
    Ensure R is installed and R_HOME is set correctly.
 
 **Build errors on Windows**
-   `movr` does not support native Windows. Use WSL instead.
+   Windows builds are supported natively. Ensure Rtools is installed. If issues persist, try using WSL as an alternative.
 
 **Permission errors**
    Make sure you have write permissions to the R library directory.

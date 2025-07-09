@@ -72,14 +72,14 @@ Features
 Operating System Support
 -----------------------
 
-**`movr` only supports Linux and macOS systems.**
+**`movr` supports Linux, macOS, and Windows systems.**
 
 * ✅ **Linux**: Ubuntu, Debian, and other Linux distributions
 * ✅ **macOS**: All macOS versions (tested on recent releases)
-* ❌ **Windows**: Not supported natively
-* 🔄 **Windows via WSL**: Supported through Windows Subsystem for Linux
+* ✅ **Windows**: Native Windows support (Windows 10/11)
+* 🔄 **Windows via WSL**: Also supported through Windows Subsystem for Linux
 
-**Note**: We have tested the package on Ubuntu and macOS systems. For Windows users, we recommend using `Windows Subsystem for Linux (WSL) <https://docs.microsoft.com/en-us/windows/wsl/>`_ with Ubuntu.
+**Note**: We have tested the package on Ubuntu, macOS, and Windows systems. Windows builds require system dependencies that are automatically handled during installation.
 
 Contents:
 
