@@ -66,11 +66,26 @@ jobs:
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
           choco install pkgconfiglite -y
           choco install openjdk11 -y
-          echo "JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-11.0.16.101-hotspot" >> $env:GITHUB_ENV
-          echo "PKG_CONFIG_PATH=C:\tools\pkgconfiglite\lib\pkgconfig" >> $env:GITHUB_ENV
           
-          # Verify Java installation
+          # Install MSYS2 for GLib and other Unix tools
+          choco install msys2 -y
+          
+          # Add MSYS2 to PATH
+          echo "C:\tools\msys64\usr\bin" >> $env:GITHUB_PATH
+          echo "C:\tools\msys64\mingw64\bin" >> $env:GITHUB_PATH
+          
+          # Install GLib via MSYS2
+          C:\tools\msys64\usr\bin\bash.exe -lc "pacman -S --noconfirm mingw-w64-x86_64-glib2 mingw-w64-x86_64-pkg-config mingw-w64-x86_64-cmake mingw-w64-x86_64-gcc"
+          
+          # Set environment variables
+          echo "JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-11.0.16.101-hotspot" >> $env:GITHUB_ENV
+          echo "PKG_CONFIG_PATH=C:\tools\msys64\mingw64\lib\pkgconfig" >> $env:GITHUB_ENV
+          echo "PATH=C:\tools\msys64\mingw64\bin;C:\tools\msys64\usr\bin;$env:PATH" >> $env:GITHUB_ENV
+          
+          # Verify installations
           java -version
+          pkg-config --version
+          pkg-config --modversion glib-2.0
         shell: pwsh
 
       - name: Install R packages (Linux/macOS)
