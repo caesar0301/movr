@@ -1,2 +1,35 @@
-# Do nothing but Pass CRAN check
-all:
+# Windows-specific build configuration for movr package
+
+# Compiler flags for Windows
+PKG_CPPFLAGS = -I. -DWIN32_LEAN_AND_MEAN
+
+# Try to find GLib via pkg-config first, fallback to common paths
+PKG_CONFIG_EXISTS = $(shell pkg-config --exists glib-2.0 && echo yes)
+
+ifeq ($(PKG_CONFIG_EXISTS), yes)
+    # Use pkg-config if available
+    PKG_CPPFLAGS += $(shell pkg-config --cflags glib-2.0)
+    PKG_LIBS = $(shell pkg-config --libs glib-2.0)
+else
+    # Fallback for common GLib installation paths on Windows
+    # Users may need to install GLib for Windows (e.g., via MSYS2, vcpkg, or pre-built binaries)
+    PKG_CPPFLAGS += -I$(GLIB_INCLUDE_PATH) -I$(GLIB_INCLUDE_PATH)/glib-2.0 -I$(GLIB_LIB_PATH)/glib-2.0/include
+    PKG_LIBS = -L$(GLIB_LIB_PATH) -lglib-2.0
+endif
+
+# Ensure compatibility with different Windows compilers
+ifeq ($(CC), gcc)
+    # MinGW/GCC specific flags
+    PKG_CPPFLAGS += -std=c99
+    PKG_LIBS += -lws2_32
+else
+    # MSVC specific flags
+    PKG_CPPFLAGS += /TC
+endif
+
+# Default target
+all: $(SHLIB)
+
+# Clean target
+clean:
+	$(RM) *.o *.dll
