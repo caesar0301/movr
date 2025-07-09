@@ -27,6 +27,9 @@ else
     PKG_CPPFLAGS += /TC
 endif
 
+# Ensure the shared library is named movr.dll (not flowmap.dll)
+# This is handled by R CMD SHLIB -o movr.dll or during package installation
+
 # Default target
 all: $(SHLIB)
 
