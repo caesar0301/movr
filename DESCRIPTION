@@ -3,7 +3,7 @@ Type: Package
 Version: 0.3.3
 Title: Analyzing and Visualizing Human Mobility Data
 Description: A set of functions and utilities to analyze and visualize 
-  spatio-temporal mobility data.
+  spatiotemporal mobility data.
 Authors@R: c(
     person("Xiaming", "Chen", 
            email = "chenxm35@gmail.com",
@@ -37,7 +37,7 @@ Suggests:
     rgl
 LazyData: yes
 NeedsCompilation: yes
-License: MIT + file LICENSE
+License: MIT
 License_is_FOSS: true
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2

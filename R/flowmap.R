@@ -154,7 +154,7 @@ flowmap2 <- function(uid, loc, stime, etime, gap=86400) {
 #' @param weight.log Whether using log-scale weight for line color.
 #' @param gc.breaks The number of intermediate points (excluding two ends) to draw a great circle path.
 #' @param col.pal A color vector used by \code{colorRampPalette}; must be a valid argument to \code{col2rgb}.
-#'        Refer to \url{colorbrewer2.org} to derive more palettes.
+#'        Refer to \url{https://colorbrewer2.org} to derive more palettes.
 #' @param col.pal.bias The bias coefficient used by \code{colorRampPalette}. Higher values give more widely
 #'        spaced colors at the high end.
 #' @param col.pal.grad The number of color grades to differentiate distance.
