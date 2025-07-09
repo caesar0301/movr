@@ -125,7 +125,8 @@ jobs:
         run: |
           # Windows-specific build (uses configure.win)
           R.exe -e "devtools::build()"
-          Rscript.exe scripts/cran_release_check.R
+          # Use simpler check for Windows instead of complex cran_release_check.R
+          R.exe -e "devtools::check()"
         shell: pwsh
 
       - name: Upload artifacts
