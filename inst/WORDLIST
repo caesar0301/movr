@@ -69,3 +69,5 @@ CMD
 GLib
 natively
 WSL
+MSYS
+Rtools
