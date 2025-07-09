@@ -17,10 +17,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            r: 'release'
-          - os: macos-latest
-            r: 'release'
+          # Temporarily disabled for debugging Windows CI
+          # - os: ubuntu-latest
+          #   r: 'release'
+          # - os: macos-latest
+          #   r: 'release'
           - os: windows-latest
             r: 'release'
     steps:
