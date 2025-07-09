@@ -2,6 +2,18 @@
 #include <Rdefines.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
+
+// Windows compatibility
+#ifdef _WIN32
+#include <windows.h>
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
+#ifndef vsnprintf
+#define vsnprintf _vsnprintf
+#endif
+#endif
+
 #include <glib.h>
 
 #include "order.h"

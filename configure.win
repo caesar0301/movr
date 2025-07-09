@@ -1,22 +1,119 @@
 #!/bin/bash
-PKG_ROOT=`dirname $0`
+PKG_ROOT="$(cd "$(dirname "$0")"; pwd)"
 
-if [ -e ${PKG_ROOT}/build ]; then
-rm -rf ${PKG_ROOT}/build
+echo "=== movr Package Windows Build Configuration ==="
+echo "Package root: ${PKG_ROOT}"
+
+# Check if cmake is available
+if ! command -v cmake >/dev/null 2>&1; then
+    echo "Error: cmake is required but not found. Please install cmake."
+    echo "You can download cmake from: https://cmake.org/download/"
+    exit 1
 fi
-mkdir ${PKG_ROOT}/build
 
-cd ${PKG_ROOT}/build && cmake .. && make && cd -
+# Detect build environment
+if command -v gcc >/dev/null 2>&1; then
+    echo "Found GCC compiler (MinGW)"
+    BUILD_ENV="MinGW"
+elif command -v cl >/dev/null 2>&1; then
+    echo "Found MSVC compiler"
+    BUILD_ENV="MSVC"
+else
+    echo "Warning: No suitable compiler found. Trying default..."
+    BUILD_ENV="Default"
+fi
 
-unameOut="$(uname -s)"
+# Clean previous build
+if [ -e "${PKG_ROOT}/build" ]; then
+    echo "Cleaning previous build directory..."
+    rm -rf "${PKG_ROOT}/build"
+fi
+
+# Create build directory
+echo "Creating build directory..."
+mkdir -p "${PKG_ROOT}/build"
+
+# Run cmake configuration
+echo "Running cmake configuration for Windows..."
+cd "${PKG_ROOT}/build"
+
+# Configure based on available build environment
+if [ "$BUILD_ENV" = "MinGW" ]; then
+    echo "Configuring for MinGW..."
+    if ! cmake -G "MinGW Makefiles" -Wno-dev ..; then
+        echo "Error: cmake configuration failed for MinGW"
+        exit 1
+    fi
+    MAKE_CMD="mingw32-make"
+elif [ "$BUILD_ENV" = "MSVC" ]; then
+    echo "Configuring for MSVC..."
+    if ! cmake -Wno-dev ..; then
+        echo "Error: cmake configuration failed for MSVC"
+        exit 1
+    fi
+    MAKE_CMD="cmake --build . --config Release"
+else
+    echo "Trying default cmake configuration..."
+    if ! cmake -Wno-dev ..; then
+        echo "Error: cmake configuration failed"
+        exit 1
+    fi
+    MAKE_CMD="make"
+fi
+
+# Build the library
+echo "Building library with: ${MAKE_CMD}"
+if [ "$BUILD_ENV" = "MSVC" ]; then
+    if ! cmake --build . --config Release; then
+        echo "Error: MSVC build failed"
+        exit 1
+    fi
+else
+    if ! ${MAKE_CMD}; then
+        echo "Error: build failed"
+        exit 1
+    fi
+fi
+
+cd "${PKG_ROOT}"
+
+# Determine library name and check if built
+unameOut="$(uname -s 2>/dev/null || echo "Windows")"
 case "${unameOut}" in
-    Linux*)     libname=movr.so;;
-    Darwin*)    libname=movr.so;;
-    CYGWIN*|MINGW*) libname=movr.dll;;
-    *)          echo "Unknown platform: ${unameOut}"; exit 1;;
+    Linux*|Darwin*) libname=movr.so;;
+    CYGWIN*|MINGW*|MSYS*|Windows*) libname=movr.dll;;
+    *)          libname=movr.dll;;  # Default to dll for unknown Windows variants
 esac
-echo "Machine platform: ${unameOut}"
+echo "Platform: ${unameOut}"
+echo "Expected library: ${libname}"
 
-if [ ! -e ${PKG_ROOT}/libs/${libname} ]; then
-echo "Error: Shared lib not built, exit" && exit 1
+# Check if library was built in src directory
+if [ ! -e "${PKG_ROOT}/src/${libname}" ]; then
+    echo "Error: Shared library ${libname} not found in src directory"
+    echo "Build may have failed or library may be in a different location"
+    
+    # Try to find the library in build directory
+    if [ -e "${PKG_ROOT}/build/${libname}" ]; then
+        echo "Found library in build directory, copying to src..."
+        cp "${PKG_ROOT}/build/${libname}" "${PKG_ROOT}/src/"
+    elif [ -e "${PKG_ROOT}/build/Release/${libname}" ]; then
+        echo "Found library in build/Release directory, copying to src..."
+        cp "${PKG_ROOT}/build/Release/${libname}" "${PKG_ROOT}/src/"
+    elif [ -e "${PKG_ROOT}/build/Debug/${libname}" ]; then
+        echo "Found library in build/Debug directory, copying to src..."
+        cp "${PKG_ROOT}/build/Debug/${libname}" "${PKG_ROOT}/src/"
+    else
+        echo "Could not locate built library"
+        exit 1
+    fi
 fi
+
+echo "Successfully built ${libname} in src directory"
+
+# Clean up build directory to avoid issues with R package build
+if [ -e "${PKG_ROOT}/build" ]; then
+    echo "Cleaning build directory..."
+    rm -rf "${PKG_ROOT}/build"
+fi
+
+echo "=== Windows build completed successfully ==="

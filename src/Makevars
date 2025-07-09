@@ -13,3 +13,6 @@ else
     PKG_CPPFLAGS = $(shell pkg-config --cflags glib-2.0)
     PKG_LIBS = $(shell pkg-config --libs glib-2.0)
 endif
+
+# Ensure the shared library is named movr.so (not flowmap.so)
+# This is handled by R CMD SHLIB -o movr.so or during package installation
