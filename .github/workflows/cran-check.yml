@@ -90,11 +90,13 @@ jobs:
       - name: Install R packages (Windows)
         if: runner.os == 'Windows'
         run: |
-          R -e "install.packages(c('remotes', 'rcmdcheck'))"
-          R -e "remotes::install_deps(dependencies = TRUE)"
-          R -e "remotes::install_cran(c('devtools', 'roxygen2', 'spelling', 'rhub'))"
-          R -e "install.packages('rgl', type = 'binary')"
-          R -e "install.packages('OpenStreetMap')"
+          R.exe -e "options(repos = 'https://cran.rstudio.com/')"
+          R.exe -e "install.packages(c('remotes', 'rcmdcheck'), type = 'binary')"
+          R.exe -e "remotes::install_deps(dependencies = TRUE)"
+          R.exe -e "install.packages(c('devtools', 'roxygen2', 'spelling'), type = 'binary')"
+          R.exe -e "tryCatch(install.packages('rhub', type = 'binary'), error = function(e) message('rhub install failed, continuing...'))"
+          R.exe -e "tryCatch(install.packages('rgl', type = 'binary'), error = function(e) message('rgl install failed, continuing...'))"
+          R.exe -e "tryCatch(install.packages('OpenStreetMap', type = 'binary'), error = function(e) message('OpenStreetMap install failed, continuing...'))"
         shell: pwsh
 
       - name: Build and check package (Linux/macOS)
@@ -107,8 +109,8 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           # Windows-specific build (uses configure.win)
-          R -e "devtools::build()"
-          Rscript scripts/cran_release_check.R
+          R.exe -e "devtools::build()"
+          Rscript.exe scripts/cran_release_check.R
         shell: pwsh
 
       - name: Upload artifacts
