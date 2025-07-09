@@ -21,6 +21,8 @@ jobs:
             r: 'release'
           - os: macos-latest
             r: 'release'
+          - os: windows-latest
+            r: 'release'
     steps:
       - uses: actions/checkout@v4
 
@@ -43,13 +45,21 @@ jobs:
             sudo apt-get install -y cmake build-essential libblas-dev liblapack-dev libglpk40 libglpk-dev libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev xvfb pkg-config openjdk-11-jdk
             echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
             echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
-          else
+          elif [ "$RUNNER_OS" = "macOS" ]; then
             # macOS dependencies
             brew install cmake glib mesa pkg-config openjdk@11
             echo "PKG_CONFIG_PATH=$(brew --prefix glib)/lib/pkgconfig:$PKG_CONFIG_PATH" >> $GITHUB_ENV
             if [ -d "/usr/local/opt/openjdk@11/" ]; then
               echo "JAVA_HOME=/usr/local/opt/openjdk@11/libexec/openjdk.jdk/Contents/Home" >> $GITHUB_ENV
             fi
+          elif [ "$RUNNER_OS" = "Windows" ]; then
+            # Windows dependencies
+            # Install cmake, glib, and other dependencies via vcpkg or chocolatey
+            choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+            choco install pkgconfiglite
+            choco install openjdk11
+            echo "JAVA_HOME=C:\\Program Files\\Eclipse Adoptium\\jdk-11.0.16.101-hotspot" >> $GITHUB_ENV
+            echo "PKG_CONFIG_PATH=C:\\tools\\pkgconfiglite\\lib\\pkgconfig" >> $GITHUB_ENV
           fi
           
           # Verify Java installation
@@ -66,12 +76,22 @@ jobs:
             R -e "tryCatch(install.packages('rgl', type = 'source'), error = function(e) install.packages('rgl'))"
             R -e "install.packages('OpenStreetMap')"
             R -e "library(rgl)"
+          elif [ "$RUNNER_OS" = "Windows" ]; then
+            R -e "install.packages('rgl', type = 'binary')"
+            R -e "install.packages('OpenStreetMap')"
           fi
 
       - name: Build and check package
         run: |
-          R -e "devtools::build()"
-          Rscript scripts/cran_release_check.R
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            # Windows-specific build (uses configure.win)
+            R -e "devtools::build()"
+            Rscript scripts/cran_release_check.R
+          else
+            # Linux and macOS build
+            R -e "devtools::build()"
+            Rscript scripts/cran_release_check.R
+          fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
