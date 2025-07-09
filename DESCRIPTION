@@ -37,7 +37,7 @@ Suggests:
     rgl
 LazyData: yes
 NeedsCompilation: yes
-License: MIT
+License: MIT + file LICENSE
 License_is_FOSS: true
 SystemRequirements: GNU CMake
 RoxygenNote: 7.3.2
