@@ -143,3 +143,4 @@ release.sh
 ^CMakeLists\.txt$
 ^configure$
 ^configure\.win$
+^.readthedocs.yml$
