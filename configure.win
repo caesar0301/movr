@@ -41,22 +41,84 @@ cd "${PKG_ROOT}/build"
 if [ "$BUILD_ENV" = "MinGW" ]; then
     echo "Configuring for MinGW..."
     if ! cmake -G "MinGW Makefiles" -Wno-dev ..; then
-        echo "Error: cmake configuration failed for MinGW"
-        exit 1
+        echo "Warning: cmake configuration failed for MinGW, trying fallback method..."
+        # Fallback: Skip CMake and use R package build system directly
+        cd "${PKG_ROOT}"
+        echo "Using R package build system directly instead of CMake..."
+        # Create a simple Makevars.win that doesn't require CMake
+        cat > src/Makevars.win.tmp << 'EOF'
+# Simple Windows build without CMake
+PKG_CPPFLAGS = -I. -DWIN32_LEAN_AND_MEAN -std=c99
+PKG_LIBS = -lws2_32
+
+# Try to use GLib via pkg-config if available
+PKG_CONFIG_EXISTS = $(shell pkg-config --exists glib-2.0 && echo yes)
+ifeq ($(PKG_CONFIG_EXISTS), yes)
+    PKG_CPPFLAGS += $(shell pkg-config --cflags glib-2.0)
+    PKG_LIBS += $(shell pkg-config --libs glib-2.0)
+endif
+
+all: $(SHLIB)
+clean:
+	$(RM) *.o *.dll
+EOF
+        mv src/Makevars.win.tmp src/Makevars.win
+        echo "Fallback configuration complete"
+        exit 0
     fi
     MAKE_CMD="mingw32-make"
 elif [ "$BUILD_ENV" = "MSVC" ]; then
     echo "Configuring for MSVC..."
     if ! cmake -Wno-dev ..; then
-        echo "Error: cmake configuration failed for MSVC"
-        exit 1
+        echo "Warning: cmake configuration failed for MSVC, trying fallback method..."
+        cd "${PKG_ROOT}"
+        echo "Using R package build system directly instead of CMake..."
+        cat > src/Makevars.win.tmp << 'EOF'
+# Simple Windows build without CMake
+PKG_CPPFLAGS = -I. -DWIN32_LEAN_AND_MEAN
+PKG_LIBS = -lws2_32
+
+# Try to use GLib via pkg-config if available
+PKG_CONFIG_EXISTS = $(shell pkg-config --exists glib-2.0 && echo yes)
+ifeq ($(PKG_CONFIG_EXISTS), yes)
+    PKG_CPPFLAGS += $(shell pkg-config --cflags glib-2.0)
+    PKG_LIBS += $(shell pkg-config --libs glib-2.0)
+endif
+
+all: $(SHLIB)
+clean:
+	$(RM) *.o *.dll
+EOF
+        mv src/Makevars.win.tmp src/Makevars.win
+        echo "Fallback configuration complete"
+        exit 0
     fi
     MAKE_CMD="cmake --build . --config Release"
 else
     echo "Trying default cmake configuration..."
     if ! cmake -Wno-dev ..; then
-        echo "Error: cmake configuration failed"
-        exit 1
+        echo "Warning: cmake configuration failed, trying fallback method..."
+        cd "${PKG_ROOT}"
+        echo "Using R package build system directly instead of CMake..."
+        cat > src/Makevars.win.tmp << 'EOF'
+# Simple Windows build without CMake
+PKG_CPPFLAGS = -I. -DWIN32_LEAN_AND_MEAN -std=c99
+PKG_LIBS = -lws2_32
+
+# Try to use GLib via pkg-config if available
+PKG_CONFIG_EXISTS = $(shell pkg-config --exists glib-2.0 && echo yes)
+ifeq ($(PKG_CONFIG_EXISTS), yes)
+    PKG_CPPFLAGS += $(shell pkg-config --cflags glib-2.0)
+    PKG_LIBS += $(shell pkg-config --libs glib-2.0)
+endif
+
+all: $(SHLIB)
+clean:
+	$(RM) *.o *.dll
+EOF
+        mv src/Makevars.win.tmp src/Makevars.win
+        echo "Fallback configuration complete"
+        exit 0
     fi
     MAKE_CMD="make"
 fi
