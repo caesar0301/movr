@@ -1,18 +1,7 @@
 # GLib include and library paths for Linux and macOS
 # Use pkg-config to get the correct paths for the current system
+# Note: Windows builds use src/Makevars.win instead
 
-# Check if we're on macOS or Linux
-UNAME_S := $(shell uname -s)
-
-ifeq ($(UNAME_S),Darwin)
-    # macOS paths
-    PKG_CPPFLAGS = -I/usr/local/include/glib-2.0 -I/usr/local/lib/glib-2.0/include -I/opt/homebrew/include/glib-2.0 -I/opt/homebrew/lib/glib-2.0/include
-    PKG_LIBS = -L/usr/local/lib -L/opt/homebrew/lib -lglib-2.0
-else
-    # Linux paths - use pkg-config to get the correct paths
-    PKG_CPPFLAGS = $(shell pkg-config --cflags glib-2.0)
-    PKG_LIBS = $(shell pkg-config --libs glib-2.0)
-endif
-
-# Ensure the shared library is named movr.so (not flowmap.so)
-# This is handled by R CMD SHLIB -o movr.so or during package installation
+# Use pkg-config if available (works on most Linux/macOS systems)
+PKG_CPPFLAGS = `pkg-config --cflags glib-2.0 2>/dev/null || echo "-I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/local/include/glib-2.0 -I/usr/local/lib/glib-2.0/include -I/opt/homebrew/include/glib-2.0 -I/opt/homebrew/lib/glib-2.0/include"`
+PKG_LIBS = `pkg-config --libs glib-2.0 2>/dev/null || echo "-lglib-2.0"`

@@ -11,14 +11,14 @@
 
 ## Operating System Support
 
-**`movr` only supports Linux and macOS systems.**
+**`movr` supports Linux, macOS, and Windows systems.**
 
 - ✅ **Linux**: Ubuntu, Debian, and other Linux distributions
 - ✅ **macOS**: All macOS versions (tested on recent releases)
-- ❌ **Windows**: Not supported natively
-- 🔄 **Windows via WSL**: Supported through Windows Subsystem for Linux
+- ✅ **Windows**: Native Windows support (Windows 10/11)
+- 🔄 **Windows via WSL**: Also supported through Windows Subsystem for Linux
 
-**Note**: We have tested the package on Ubuntu and macOS systems. For Windows users, we recommend using [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/) with Ubuntu.
+**Note**: We have tested the package on Ubuntu, macOS, and Windows systems. Windows builds require system dependencies that are automatically handled during installation.
 
 ## 🌟 Features
 
@@ -57,8 +57,14 @@ sudo apt-get install cmake build-essential libglib2.0-dev
 brew install cmake glib
 ```
 
+#### Windows
+Windows builds are now natively supported! The required dependencies are automatically installed during package installation. If you encounter issues, you can manually install:
+
+- **Rtools**: Download from [CRAN](https://cran.r-project.org/bin/windows/Rtools/) 
+- **Optional**: For advanced builds, install [MSYS2](https://www.msys2.org/) for additional Unix-like tools
+
 #### Windows (via WSL)
-If you're on Windows, we recommend using Windows Subsystem for Linux (WSL):
+Alternatively, you can use Windows Subsystem for Linux (WSL):
 1. Install WSL with Ubuntu from Microsoft Store
 2. Follow the Ubuntu/Debian installation instructions above
 
