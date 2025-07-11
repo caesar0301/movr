@@ -183,8 +183,3 @@ static const R_CallMethodDef callMethods[] = {
   {"_flow_stat", (DL_FUNC) &_flow_stat, 4},
   {NULL, NULL, 0}
 };
-
-void R_init_movr(DllInfo *info) {
-  R_registerRoutines(info, NULL, callMethods, NULL, NULL);
-  R_useDynamicSymbols(info, FALSE);
-}
