@@ -3,7 +3,7 @@
 #include <math.h>
 
 // [[export]]
-SEXP turbo_radius_of_gyration_c(SEXP latSEXP, SEXP lonSEXP, SEXP wSEXP) {
+SEXP _radius_of_gyration(SEXP latSEXP, SEXP lonSEXP, SEXP wSEXP) {
     int n = length(latSEXP);
     double *lat           = REAL(latSEXP);
     double *lon           = REAL(lonSEXP);

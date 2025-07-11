@@ -176,10 +176,3 @@ _flow_stat(SEXP loc, SEXP stime, SEXP etime, SEXP gap) {
   
   return out;
 }
-
-// Function registration
-static const R_CallMethodDef callMethods[] = {
-  {"_compress_mov", (DL_FUNC) &_compress_mov, 3},
-  {"_flow_stat", (DL_FUNC) &_flow_stat, 4},
-  {NULL, NULL, 0}
-};

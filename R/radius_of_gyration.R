@@ -91,5 +91,5 @@ turbo.radius.of.gyration <- function(lat, lon, w = rep(1, length(lat))) {
   if (!is.double(w)) {
     w <- as.double(w)
   }
-  .Call("turbo_radius_of_gyration_c", lat, lon, w, PACKAGE = "movr")
+  .Call("_radius_of_gyration", lat, lon, w, PACKAGE = "movr")
 }
